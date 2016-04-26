@@ -1,0 +1,15 @@
+.DS_Store
+/vendor
+/node_modules
+.env
+.env.ex
+.env.backup
+.env1
+.svn
+.idea
+.sublime-project
+.sublime-workspace
+/public/data/tmp
+public/info.php
+composer.phar
+composer.lock
