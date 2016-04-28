@@ -1,17 +1,10 @@
 @extends('app')
 @section('content')
 	<script>
-
-		$('.multipleInputDynamicWithInitialValue').fastselect();
-		$.ajax({
-			dataType: "json",
-			url: '/user_list',
-			data: data,
-			success: success
-		});
-	</script>
+ 		$('.multipleSelect').fastselect();
+ 	</script>
 	<style>
-		.fstElement { font-size: 1.2em; }
+		.fstElement { font-size: 0.8em; }
 		.fstToggleBtn { min-width: 16.5em; }
 
 		.submitBtn { display: none; }
@@ -56,15 +49,18 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Department Name</label>
 								<div class="col-md-6">
-									<select  name="user_depart_name">
+									<select  class="multipleSelect" multiple name="user_depart_name[]">
 										<?php $depart_list=\App\Department::get();
 										foreach($depart_list as $depart){?>
-										<option>
+										<option value="{{$depart->id}}">
 											{{$depart->name}}
 										</option>
 										<?php }
 										?>
 									</select>
+									<script>
+										$('.departSelect').fastselect();
+									</script>
 								</div>
 							</div>
 
@@ -72,18 +68,18 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Add Users</label>
 								<div class="col-md-6">
-									<input
-											type="text"
-											multiple
-											class="multipleInputDynamicWithInitialValue"
-  											data-url="{{ url('/user_list') }}"
-{{--											data-url="{{ asset('/js/data.json') }}"--}}
-
-											name="language"
-									/>
+									<select class="multipleSelect" multiple name="userids[]">
+									<?php $user_list=\App\User::get();
+										foreach($user_list as $user){?>
+										<option value="{{$user->id}}">
+											{{$user->first_name}}
+										</option>
+										<?php }
+										?>
+									</select>
 									<script>
 
-										$('.multipleInputDynamicWithInitialValue').fastselect();
+										$('.multipleSelect').fastselect();
 
 									</script>
 								</div>
