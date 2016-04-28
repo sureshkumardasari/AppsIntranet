@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Department;
+use App\ProjectDepartment;
 use App\ProjectUser;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -25,30 +26,33 @@ class ProjectController extends Controller {
 		return view('project');
 	}
 	public function projectSubmit(){
- 		$project_list=Input::All();
-//		dd($project_list);
+		$project_list=Input::All();
 		$user=[];
-		$user[]=$project_list['userids'];
-   		$depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
- 		$project = Project::create([
-			'name' => $project_list['pro_name'],
-			'description' => $project_list['pro_description'],
-			'department_id' => $depart_list['id'],
-		]);
-		$pro_list = Project::where('name', '=', $project_list['pro_name'])->first();
-		$lastInsertedId= $pro_list['id'];
- 		if($project){
-			foreach($user as $users){
-				print_r($users['']);
-//				$project_user=ProjectUser::create([
-//					'user_id' => $users,
-//					'project_id' =>$lastInsertedId,
-//				]);
+		$depart=[];
+		$depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
+		$project=new Project;
+		$project->name=$project_list['pro_name'];
+		$project->description=$project_list['pro_description'];
+//		$project->department_id=$depart_list['id'];
+		if($project->save()){
+			$depart=$project_list['user_depart_name'];
+			$user=$project_list['userids'];
+			$lastInsertedId= $project->id;
+			foreach($depart as $departs){
+				$project_depart=new ProjectDepartment();
+				$project_depart->project_id=$lastInsertedId;
+				$project_depart->depart_id=$departs;
+				$project_depart->save();
 			}
-			dd('exit');
-		}
+			foreach($user as $users){
 
- 		\Session::flash('success','Project successfully added.');
+				$project_user=new ProjectUser;
+				$project_user->user_id=$users;
+				$project_user->project_id=$lastInsertedId;
+				$project_user->save();
+			}
+		}
+		\Session::flash('success','Project successfully added.');
 		return Redirect::back();
 	}
 	public function userList(){
@@ -56,10 +60,8 @@ class ProjectController extends Controller {
 		$res=[];
 		foreach($user_list as $list){
 			$res[]=array("text"=>$list['first_name'],"value"=>$list['first_name']);
- 		}
-		$json = json_encode($res);
-		//dd($json);
-		exit($json);
+		}
+		exit(json_encode($res));
 	}
 
 }
