@@ -24,3 +24,10 @@ Route::post('department_submit',['as'=>'department_submit','uses'=>'DepartmentCo
 Route::get('project', 'ProjectController@index');
 Route::post('project_submit',['as'=>'project_submit','uses'=>'ProjectController@projectSubmit']);
 Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
+
+
+// for adding tasks to the candidate by admin.
+
+Route::get('addtask','TaskController@index');
+Route::post('addtask','TaskController@add');
+Route::post('projectlist/{id}',['as'=>'project_list','uses'=>'TaskController@projectList']);
