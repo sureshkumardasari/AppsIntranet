@@ -25,73 +25,97 @@ class ProjectController extends Controller {
 	public function index(){
 		return view('project');
 	}
-	public function projectSubmit(){
+	public function projectSubmit()
+	{
 
 		$postData = Input::all();
 		$messages = [
-				'name.required' => 'Enter name of the project',
-				'description.required' => 'You need a description',
-				'user_depart_name'=>'department name is required',
-				'userids'=>'userid is required'
+			'name.required' => 'Enter name of the project',
+			'description.required' => 'You need a description',
+			'user_depart_name' => 'department name is required',
+			'userids' => 'userid is required'
 
 		];
 		$rules = [
-				'name'=>'required|min:2|unique:projects',
-				'description'=>'required|min:10',
-				'user_depart_name'=>'required',
-				'userids'=>'required'
+			'name' => 'required|min:2|unique:projects',
+			'description' => 'required|min:10',
+			'user_depart_name' => 'required',
+			'userids' => 'required'
 
 		];
 		$validator = Validator::make($postData, $rules, $messages);
-		if ($validator->fails())
-		{
+		if ($validator->fails()) {
 			return Redirect('project')->withInput()->withErrors($validator);
-		}
-		else {
-			$inputa=Input::all();
+		} else {
+//			$inputa=Input::all();
+//
+//			$project = Project::create([
+//					'name' => $inputa['name'],
+//					'description' => $inputa['description'],
+//			]);
+			$project_list = Input::All();
+			$user = [];
+			$depart = [];
+			$depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
+			$project = new Project;
+			$project->name = $project_list['name'];
+			$project->description = $project_list['description'];
+			//		$project->department_id=$depart_list['id'];
+			if ($project->save()) {
+				$depart = $project_list['user_depart_name'];
+				$user = $project_list['userids'];
+				$lastInsertedId = $project->id;
+				foreach ($depart as $departs) {
+					$project_depart = new ProjectDepartment();
+					$project_depart->project_id = $lastInsertedId;
+					$project_depart->depart_id = $departs;
+					$project_depart->save();
+				}
+				foreach ($user as $users) {
 
-			$project = Project::create([
-					'name' => $inputa['name'],
-					'description' => $inputa['description'],
-			]);
+					$project_user = new ProjectUser;
+					$project_user->user_id = $users;
+					$project_user->project_id = $lastInsertedId;
+					$project_user->save();
+				}
 
 
-
-			return Redirect::route('project_view');
-		}
-		/*$project_list=Input::All();
-		$user=[];
-		$depart=[];
-		$depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
-		$project=new Project;
-		$project->name=$project_list['pro_name'];
-		$project->description=$project_list['pro_description'];
-//		$project->department_id=$depart_list['id'];
-		if($project->save()){
-			$depart=$project_list['user_depart_name'];
-			$user=$project_list['userids'];
-			$lastInsertedId= $project->id;
-			foreach($depart as $departs){
-				$project_depart=new ProjectDepartment();
-				$project_depart->project_id=$lastInsertedId;
-				$project_depart->depart_id=$departs;
-				$project_depart->save();
-			}
-			foreach($user as $users){
-
-				$project_user=new ProjectUser;
-				$project_user->user_id=$users;
-				$project_user->project_id=$lastInsertedId;
-				$project_user->save();
+				return Redirect::route('project_view');
 			}
 		}
-		\Session::flash('success','Project successfully added.');
-		return Redirect::back();*/
+	}
+            /*$project_list=Input::All();
+            $user=[];
+            $depart=[];
+            $depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
+            $project=new Project;
+            $project->name=$project_list['pro_name'];
+            $project->description=$project_list['pro_description'];
+    //		$project->department_id=$depart_list['id'];
+            if($project->save()){
+                $depart=$project_list['user_depart_name'];
+                $user=$project_list['userids'];
+                $lastInsertedId= $project->id;
+                foreach($depart as $departs){
+                    $project_depart=new ProjectDepartment();
+                    $project_depart->project_id=$lastInsertedId;
+                    $project_depart->depart_id=$departs;
+                    $project_depart->save();
+                }
+                foreach($user as $users){
+
+                    $project_user=new ProjectUser;
+                    $project_user->user_id=$users;
+                    $project_user->project_id=$lastInsertedId;
+                    $project_user->save();
+                }
+            }
+            \Session::flash('success','Project successfully added.');
+            return Redirect::back();*/
 
 		//Project::create($inputa);
 		// return redirect('project_view');
-	}
-	public function edit($id)
+ 	public function edit($id)
 	{
 		$projects=\DB::table('projects')->where('id',$id)->first();
 		return view('edit',compact('projects'));
