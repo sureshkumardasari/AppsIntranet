@@ -59,6 +59,9 @@
 					<li><a href="{{ url('/department') }}">Department</a></li>
 					<li><a href="{{ url('/project_view') }}">Project</a></li>
 					<li><a href="{{ url('/users') }}">Users</a></li>
+					<li><a href="{{ url('/modulecreation') }}">Module</a></li>
+					<li><a href="{{ url('/addtask') }}">Task</a></li>
+					<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
 
 				</ul>
 
