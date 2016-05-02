@@ -3,10 +3,12 @@
 use App\Department;
 use App\ProjectDepartment;
 use App\ProjectUser;
+use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
 use App\Project;
 use App\User;
+use Validator;
+use Redirect;
 class ProjectController extends Controller {
 
 	/*
@@ -20,13 +22,44 @@ class ProjectController extends Controller {
 	|
 	*/
 
-	public function index()
-	{
-
+	public function index(){
 		return view('project');
 	}
 	public function projectSubmit(){
-		$project_list=Input::All();
+
+		$postData = Input::all();
+		$messages = [
+				'name.required' => 'Enter name of the project',
+				'description.required' => 'You need a description',
+				'user_depart_name'=>'department name is required',
+				'userids'=>'userid is required'
+
+		];
+		$rules = [
+				'name'=>'required|min:2|unique:projects',
+				'description'=>'required|min:10',
+				'user_depart_name'=>'required',
+				'userids'=>'required'
+
+		];
+		$validator = Validator::make($postData, $rules, $messages);
+		if ($validator->fails())
+		{
+			return Redirect('project')->withInput()->withErrors($validator);
+		}
+		else {
+			$inputa=Input::all();
+
+			$project = Project::create([
+					'name' => $inputa['name'],
+					'description' => $inputa['description'],
+			]);
+
+
+
+			return Redirect::route('project_view');
+		}
+		/*$project_list=Input::All();
 		$user=[];
 		$depart=[];
 		$depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
@@ -53,7 +86,43 @@ class ProjectController extends Controller {
 			}
 		}
 		\Session::flash('success','Project successfully added.');
-		return Redirect::back();
+		return Redirect::back();*/
+
+		//Project::create($inputa);
+		// return redirect('project_view');
+	}
+	public function edit($id)
+	{
+		$projects=\DB::table('projects')->where('id',$id)->first();
+		return view('edit',compact('projects'));
+	}
+	public function update($id)
+	{
+
+		$projects = Project::find($id);
+		//Update Query
+		$post=Input::all();
+		$validator=Validator::make($post,[
+						'name'=>'required|min:2|unique:projects',
+						'description'=>'required|min:10']
+		);
+		if ($validator->fails()){
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		unset($projects['_token']);
+
+		$record = Project::where('id',$id)->update([
+				'name'=>$post['name'],
+				'description'=>$post['description'],
+		]);
+
+		//Redirecting to index() method of BookController class
+		return redirect('project_view');
+	}
+	public function destroy($id)
+	{
+		Project::find($id)->delete();
+		return redirect('project_view');
 	}
 	public function userList(){
 		$user_list=User::get();
@@ -62,6 +131,11 @@ class ProjectController extends Controller {
 			$res[]=array("text"=>$list['first_name'],"value"=>$list['first_name']);
 		}
 		exit(json_encode($res));
+	}
+	public function show()
+	{
+		$projects=Project::get();
+		return view('project_view',compact('projects'));
 	}
 
 }

@@ -24,6 +24,7 @@
 								<ul>
 									@foreach ($errors->all() as $error)
 										<li>{{ $error }}</li>
+										{{--<li>{{ $error->first('description','<li>:message</li>') }}</li>--}}
 									@endforeach
 								</ul>
 							</div>
@@ -35,14 +36,14 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Project Name</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="pro_name" value="{{ old('pro_name') }}">
+									<input type="text" class="form-control" name="name" value="{{ old('pro_name') }}">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-md-4 control-label">Project Description</label>
 								<div class="col-md-6">
-									<textarea class="form-control" name="pro_description" value="{{ old('pro_description') }}"></textarea>
+									<textarea class="form-control" name="description" value="{{ old('pro_description') }}"></textarea>
 								</div>
 							</div>
 

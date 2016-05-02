@@ -7,7 +7,8 @@
 	<title>TRACKING SYSTEM</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -56,7 +57,9 @@
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					<li><a href="{{ url('/department') }}">Department</a></li>
-					<li><a href="{{ url('/project') }}">Project</a></li>
+					<li><a href="{{ url('/project_view') }}">Project</a></li>
+					<li><a href="{{ url('/users') }}">Users</a></li>
+
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -81,5 +84,15 @@
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#dept_tbl').DataTable();
+			$('#users').DataTable();
+			$('#userview').DataTable();
+		});
+	</script>
 </body>
 </html>
