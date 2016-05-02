@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration {
+class ChangeColumnTitleTaskTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,9 @@ class CreateTasksTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('tasks', function(Blueprint $table)
+		Schema::table('tasks', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->integer('projects_users_id');
- 			$table->date('date');
-			$table->timestamps();
+ 			$table->string('task_title')->change();
 		});
 	}
 
@@ -28,7 +25,10 @@ class CreateTasksTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tasks');
+		Schema::table('tasks', function(Blueprint $table)
+		{
+			//
+		});
 	}
 
 }
