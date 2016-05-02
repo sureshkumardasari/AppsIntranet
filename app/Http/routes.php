@@ -19,11 +19,6 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
-Route::get('department', 'DepartmentController@index');
-Route::post('department_submit',['as'=>'department_submit','uses'=>'DepartmentController@departmentSubmit']);
-Route::get('project', 'ProjectController@index');
-Route::post('project_submit',['as'=>'project_submit','uses'=>'ProjectController@projectSubmit']);
-Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
 
 
 // for adding tasks to the candidate by admin.
@@ -31,3 +26,31 @@ Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList'])
 Route::get('addtask','TaskController@index');
 Route::post('addtask','TaskController@add');
 Route::post('projectlist/{id}',['as'=>'project_list','uses'=>'TaskController@projectList']);
+
+
+/*..... Department Routs  ....*/
+Route::get('department', 'DepartmentController@display');
+Route::post('department_submit',['as'=>'department_submit','uses'=>'DepartmentController@departmentSubmit']);
+Route::get('department_create','DepartmentController@index');
+Route::post('department_update/{id}','DepartmentController@update');
+Route::get('department/{id}','DepartmentController@destroy');
+Route::get('department/{id}/edit','DepartmentController@edit');
+
+/*..... Project Routs  ....*/
+Route::get('project', 'ProjectController@index');
+Route::post('project_submit',['as'=>'project_submit','uses'=>'ProjectController@projectSubmit']);
+Route::get('edit/{id}','ProjectController@edit');
+Route::post('update/{id}','ProjectController@update');
+Route::get('delete/{id}','ProjectController@destroy');
+Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
+Route::get('project_view',['as'=>'project_view','uses'=>'ProjectController@show']);
+
+/*...... User Routs ......*/
+Route::get('users', 'UserController@show');
+Route::get('users/edit/{id}','UserController@edit');
+Route::get('users/delete/{id}','UserController@destroy');
+Route::post('users/update/{id}','UserController@update');
+Route::get('users/profile/{id}','UserController@profile');
+Route::post('create','UserController@create');
+
+

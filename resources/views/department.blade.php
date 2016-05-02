@@ -24,7 +24,8 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Department Name</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="depart_name" value="{{ old('username') }}">
+									<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+
 								</div>
 							</div>
 
@@ -32,6 +33,7 @@
 								<label class="col-md-4 control-label">Description</label>
 								<div class="col-md-6">
 									<textarea class="form-control" name="depart_description" value="{{ old('description') }}"></textarea>
+
 								</div>
 							</div>
 
@@ -52,3 +54,4 @@
 		</div>
 	</div>
 @endsection
+.
