@@ -137,6 +137,7 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 			'Barryvdh\Debugbar\ServiceProvider',
 			'Barryvdh\Elfinder\ElfinderServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -194,6 +195,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+		'Entrust'   => 'Zizaco\Entrust\EntrustFacade'
 
 	],
 

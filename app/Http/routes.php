@@ -14,6 +14,8 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
+Route::get('homes', 'WelcomeController@userLogin');
+Route::post('login_check',['as'=>'login_check','uses'=>'HomeController@userLoginCheck']);
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -75,4 +77,43 @@ Route::post('tasklist/{project_id}/{module_id}','TaskController@taskList');
 Route::post('timesheetsubmit','TimeSheetController@add');
 Route::get('timesheet_display','TimeSheetController@display_timesheet');
 Route::post('gettimesheetfilterdata','TimeSheetController@filter');
+/*Roles*/
+Route::get('home_project_lead', 'WelcomeController@projectLead');
+Route::get('home_project_manager', 'WelcomeController@projectManager');
+Route::post('user_profile',['as'=>'user_profile','uses'=>'HomeController@userProfile']);
+Route::get('user_profile',['as'=>'user_profile','uses'=>'HomeController@userDetails']);
+
+
+// home page
+Route::get('validate', array('before' => 'auth', function()
+{
+ 	if(Entrust::hasRole('User')) {
+		return View::make('home_user');
+	}
+	else if(Entrust::hasRole('Admin')) {
+		return View::make('home_admin');
+	}
+	else if(Entrust::hasRole('Project Lead')) {
+		return View::make('home_project_lead');
+	}
+	else if(Entrust::hasRole('Project Manager')) {
+		return View::make('home_project_manager');
+	}
+	else {
+		Auth::logout();
+		return Redirect::to('/homes')
+			->with('errors', 'You don\'t have access!');
+	}
+
+	return App::abort(403);
+}));
+
+// logout route
+Route::get('logout', array('before' => 'auth', function()
+{
+	dd('logout');
+	Auth::logout();
+	return Redirect::to('/')
+		->with('flash_notice', 'You are successfully logged out.');
+}));
 

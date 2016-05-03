@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\RoleUser;
+use App\Department;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -39,16 +41,24 @@ class UserController extends Controller {
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
-		$user = User::create([
+		$depart_list = Department::where('name', '=', $post['user_depart_name'])->first();
+ 		$user = User::create([
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-				'department_id'=>$post['user_depart_name'],
-			/* 'user_depart_name'=>$post['department_id'],*/
-				'password'=>$post['password'],
+				'department_id'=>$depart_list['id'],
+				'role_id'=>$post['roles'],
+				'department_id'=>$depart_list['id'],
+ 				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
 		]);
-		\Session::flash('success','User successfully added.');
+ 		$roles=new RoleUser;
+		$last_id=$user->id;
+		$roles->user_id=$last_id;
+		$roles->role_id=$post['roles'];
+		$roles->timestamps = false;
+		$roles->save();
+ 		\Session::flash('success','User successfully added.');
 		return Redirect::to('users');
 
 	}

@@ -20,7 +20,7 @@ class WelcomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('guest');
+//		$this->middleware('guest');
 	}
 
 	/**
@@ -30,7 +30,17 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('welcome');
+ 		return view('Welcome');
 	}
+	public function projectLead()
+	{
+		return view('home_project_lead');
+	}
+	public function projectManager()
+	{
+		return view('home_project_manager');
+	}public function userLogin(){
+	return view('homes');
+}
 
 }
