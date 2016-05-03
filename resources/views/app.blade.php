@@ -54,7 +54,33 @@
  			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
+ 				<?php
+					if(Entrust::hasRole('Admin')) {
+					?>
+					<ul class="nav navbar-nav">
+						<li><a href="{{ url('/') }}">Home</a></li>
+						<li><a href="{{ url('/department') }}">Department</a></li>
+						<li><a href="{{ url('/project_view') }}">Project</a></li>
+						<li><a href="{{ url('/users') }}">Users</a></li>
+						<li><a href="{{ url('/modulecreation') }}">Module</a></li>
+						<li><a href="{{ url('/addtask') }}">Task</a></li>
+						<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+					</ul>
+					<?php }?>
+					<?php
+					if(Entrust::hasRole('User')) {
+					?>
+					<ul class="nav navbar-nav">
+						<li><a href="{{ url('/') }}">Home</a></li>
+ 						<li><a href="{{ url('/modulecreation') }}">Module</a></li>
+						<li><a href="{{ url('/addtask') }}">Task</a></li>
+						<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+					</ul>
+					<?php }?>
+					<?php
+					if(Entrust::hasRole('Project Lead')) {
+					?>
+					<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					<li><a href="{{ url('/department') }}">Department</a></li>
 					<li><a href="{{ url('/project_view') }}">Project</a></li>
@@ -62,12 +88,25 @@
 					<li><a href="{{ url('/modulecreation') }}">Module</a></li>
 					<li><a href="{{ url('/addtask') }}">Task</a></li>
 					<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+					</ul>
+					<?php }?>
+					<?php
+					if(Entrust::hasRole('Project Manager')) {
+					?>
+					<ul class="nav navbar-nav">
+					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ url('/department') }}">Department</a></li>
+					<li><a href="{{ url('/project_view') }}">Project</a></li>
+					<li><a href="{{ url('/users') }}">Users</a></li>
+					<li><a href="{{ url('/modulecreation') }}">Module</a></li>
+					<li><a href="{{ url('/addtask') }}">Task</a></li>
+					<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+					</ul>
+					<?php }?>
 
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
+    				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}">Login</a></li>
+						<li><a href="{{ url('/homes') }}">Login</a></li>
 						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
 						<li class="dropdown">

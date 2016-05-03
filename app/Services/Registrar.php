@@ -4,6 +4,7 @@ use App\Department;
 use App\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use App\RoleUser;
 
 class Registrar implements RegistrarContract {
 
@@ -32,16 +33,25 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-  		$depart_name=$data['user_depart_name'];
-		$depart_list = Department::where('name', '=', $data['user_depart_name'])->first();
-   		return User::create([
+  		$depart_id=$data['user_depart_name'];
+		dd($depart_id);
+ 		$roles_id=$data['roles'];
+   		$user=User::create([
 			'username' => $data['username'],
-			'department_id' => $depart_list['id'],
+			'department_id' => $depart_id,
+			'role_id' => $data['roles'],
 			'email' => $data['email'],
  			'first_name' => $data['first_name'],
  			'last_name' => $data['last_name'],
 			'password' => bcrypt($data['password']),
  		]);
+		$roles=new RoleUser;
+		$last_id=$user->id;
+ 		$roles->user_id=$last_id;
+		$roles->role_id=$roles_id;
+		$roles->timestamps = false;
+		$roles->save();
+		return $user;
 	}
 
 }

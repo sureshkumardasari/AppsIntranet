@@ -8,7 +8,8 @@
 		"laravel/framework": "5.0.*",
 		"doctrine/dbal": "~2.3",
 		"barryvdh/laravel-debugbar": "^2.0",
-		"barryvdh/laravel-elfinder": "^0.3.4"
+		"barryvdh/laravel-elfinder": "^0.3.4",
+		"zizaco/entrust": "dev-laravel-5"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

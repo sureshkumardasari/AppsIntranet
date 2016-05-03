@@ -64,6 +64,21 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-md-4 control-label">Roles</label>
+							<div class="col-md-6">
+								<select  name="roles">
+									<?php $roles_list=\App\Role::get();
+									foreach($roles_list as $roles){?>
+									<option value="{{$roles->id}}">
+										{{$roles->name}}
+									</option>
+									<?php }
+									?>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
 							<label class="col-md-4 control-label">Department Name</label>
 							<div class="col-md-6">
 								<select  name="user_depart_name">

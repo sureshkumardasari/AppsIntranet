@@ -4,6 +4,7 @@ use App\User;
 use form;
 use Input;
 use Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller {
 
@@ -23,10 +24,10 @@ class HomeController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
+//	public function __construct()
+//	{
+//		$this->middleware('auth');
+//	}
 
 	/**
 	 * Show the application dashboard to the user.
@@ -100,5 +101,18 @@ class HomeController extends Controller {
 		$users=App::get();
 		return view('Usersview',compact('users'));
 	}
+	public function userLoginCheck(){
+  	$auth = Auth::attempt(
+		[
+			'username'  => strtolower(Input::get('username')),
+			'password'  => Input::get('password')
+		]
+	);
+ 	if ($auth) {
+ 		return Redirect::to('validate');
+	} else {
+		return "NOT REGISTER USER" ;
+	}
+}
 
 }
