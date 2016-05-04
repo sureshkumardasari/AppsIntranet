@@ -1,80 +1,109 @@
 @extends('app')
 
 @section('content')
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
-					<div class="panel-heading">Home</div>
-
+					<div class="panel-heading">Register</div>
 					<div class="panel-body">
+						@if (count($errors) > 0)
+							<div class="alert alert-danger">
+								<strong>Whoops!</strong> There were some problems with your input.<br><br>
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+						@endif
 
-					</div>
-					{{-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                         <ul class="nav navbar-nav">
-                             <li><a href="{{ url('/userslist') }}">Users List</a></li>
-                             <li><a href="{{ url('/department') }}">Department List</a></li>
-                             <li><a href="{{ url('/project') }}">Project List</a></li>
-                         </ul>
-        </div>--}}
-					<div class="row">
-						<div class="col-lg-12">
+						<form class="form-horizontal" role="form" method="POST" action="{{ url('/create') }}">
+							<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-							<div class="row">
-								<div class="col-lg-6">
-									<h2>List of Users </h2>
-								</div>
-								<div class="col-lg-6">
-									<a class="btn btn-success pull-right" name="new user" href="{{ url('') }}">Add New User</a>
+							<div class="form-group">
+								<label class="col-md-4 control-label">User Name</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="username" value="{{ old('username') }}">
 								</div>
 							</div>
 
-							<div class="table-responsive">
-								<table class="table table-bordered table-hover table-striped">
-									<thead>
-									<tr>
-										<th>UserName</th>
-										<th>Email</th>
-										<th>Project Name</th>
-										<th>Department</th>
-										<th>Status</th>
-										<th>Created At</th>
-										<th>Actions</th>
-									</tr>
-									</thead>
-									<tbody>
-									@if($users)
-										@foreach($users as $user)
-											<tr>
-												<td>{{ $user->username }}</td>
-												<td>{{ $user->email }}</td>
-												<td>{{ $user->department_id }}</td>
-												<td>{{ $user->department_id }}</td>
-												<td>{{ $user->status == 'A'?'Active':'Inactive' }}</td>
-												<td>{{ $user->created_at }}</td>
-												<td><a href="{{ url('/users/edit/'.$user->id) }}" >Edit</a>
-													&nbsp;&nbsp;|&nbsp;&nbsp;
-													<a href="{{ url('home/delete/'.$user->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>
-													&nbsp;&nbsp;|&nbsp;&nbsp;
-													<a href="{{ url('/users/profile/'.$user->id) }}" >Profile</a>
-												</td>
-											</tr>
-										@endforeach
-									@else
-										<tr>
-											<td colspan="4">No Records Found !</td>
-										</tr>
-									@endif
-									</tbody>
-								</table>
+							<div class="form-group">
+								<label class="col-md-4 control-label">First Name</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="first_name" value="{{ old('first_name') }}">
+								</div>
 							</div>
-						</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Last Name</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">E-Mail Address</label>
+								<div class="col-md-6">
+									<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Password</label>
+								<div class="col-md-6">
+									<input type="password" class="form-control" name="password">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Confirm Password</label>
+								<div class="col-md-6">
+									<input type="password" class="form-control" name="password_confirmation">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Roles</label>
+								<div class="col-md-6">
+									<select  name="roles">
+										<?php $roles_list=\App\Role::get();
+										foreach($roles_list as $roles){?>
+										<option value="{{$roles->id}}">
+											{{$roles->name}}
+										</option>
+										<?php }
+										?>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Department Name</label>
+								<div class="col-md-6">
+									<select  name="user_depart_name">
+										<?php $depart_list=\App\Department::get();
+										foreach($depart_list as $depart){?>
+										<option>
+											{{$depart->name}}
+										</option>
+										<?php }
+										?>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-md-6 col-md-offset-4">
+									<button type="submit" class="btn btn-primary">
+										Register
+									</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div>
-		@yield('content')
 	</div>
 @endsection
