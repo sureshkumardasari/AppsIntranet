@@ -109,6 +109,7 @@ class UserController extends Controller {
 		$users=User::find($id);
 		$post=Input::all();
         $validator=Validator::make($post,[
+                'username' => 'required|max:255|unique:users',
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 ]
@@ -122,7 +123,8 @@ class UserController extends Controller {
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
- 				'password'=>bcrypt($post['password']),
+			/* 'user_depart_name'=>$post['department_id'],*/
+				'password'=>$post['password'],
 				'email'=>$post['email'],
 
 		]);
@@ -137,10 +139,26 @@ class UserController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		$user=User::find($id);
+		/*$user=User::find($id);
 		$user->delete($id);
 
-		return Redirect::to ('users');
-	}
+		return Redirect::to ('users');*/
+		$user_department = User::select('department_id')->where('id', $id)->first();
+		//return $users;
+        $user_dependency=Department::find($user_department->department_id);
+       // dd($user_dependency);
+		if ($user_dependency == null) {
+			User::find($id)->delete();
+			\Session::flash('flash_message', 'Deleted.');
+			return redirect('users');
 
+		} else {
+			\Session::flash('flash_message_failed', 'Cannot Delete this user.');
+			return Redirect::back();
+
+		}
+	}
+	public function exportcsv()
+	{
+	}
 }

@@ -32,8 +32,8 @@ class ProjectController extends Controller {
 		$messages = [
 			'name.required' => 'Enter name of the project',
 			'description.required' => 'You need a description',
-			'user_depart_name' => 'department name is required',
-			'userids' => 'userid is required'
+			'user_depart_name.required' => 'Department name is required',
+			'userids.required' => 'Userfield is required'
 
 		];
 		$rules = [
@@ -114,8 +114,20 @@ class ProjectController extends Controller {
 	}
 	public function destroy($id)
 	{
-		Project::find($id)->delete();
-		return redirect('project_view');
+			/*Project::find($id)->delete();
+		return redirect('project_view');*/
+		$users = ProjectUser::where('project_id', $id)->count();
+		//return $users;
+		if ($users == 0) {
+			Project::find($id)->delete();
+			\Session::flash('flash_message', 'Deleted.');
+			return redirect('project_view');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this Project.');
+			return Redirect::back();
+
+		}
 	}
 	public function userList(){
 		$user_list=User::get();

@@ -1,7 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Department;
-
+use App\User;
+use App\Projectdepartment;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -48,8 +49,25 @@ class DepartmentController extends Controller {
 
 	public function destroy($id)
 	{
-		Department::find($id)->delete();
-		return Redirect::to('department');
+		/*Department::find($id)->delete();
+		return Redirect::to('department');*/
+		 $user_department = User::where('department_id', $id)->count();
+		
+			$project = ProjectDepartment::where('depart_id', $id)->count();
+         //return $users;
+			
+        if ($user_department == null && $project == null) { 
+        	
+            Department::find($id)->delete();
+            \Session::flash('message', 'Deleted!');
+            return redirect('department');
+
+        } else {
+        	
+            \Session::flash('alert-class', 'Cannot Delete this Department');
+            // \Session::flash('flash_message', 'Cannot delete this user.');
+            return Redirect::back();
+        }
 	}
 
 	public function edit($id)
