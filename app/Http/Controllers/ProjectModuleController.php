@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Project;
 use Validator;
+use Session;
 use App\ProjectModules;
 
 class ProjectModuleController extends Controller {
 
-	//
+    //
 
     public function index(){
         $projects=Project::select('id','name')->get();
@@ -23,14 +24,60 @@ class ProjectModuleController extends Controller {
     public function add(Request $request){
         $data=$request->except('_token');
         //return $data;
-        $rules=['project_id'=>'required','name'=>'required','description'=>'required'];
+/*        $rules=['project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required'];
         $messages=['project_id.required'=>'please provide the name','name.required'=>'kuhkjnkh'];
-        $validator=Validator::make($data,$rules,$messages);
-        if($validator->fails()){
-            return Redirect::back()->withInput();
+        $validator=Validator::make($data,$rules,$messages);*/
+        $validator=Validator::make($data,[
+                'project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required']
+        );
+        if ($validator->fails()){
+            return Redirect::back()->withInput()->withErrors($validator);
         }
+        /*if($validator->fails())
+        {
+            Session::flash('fail','please provide all the fileds');
+            return Redirect::back()->withInput();
+        }*/
         else ProjectModules::create($data);
-        return Redirect::back()->with('success','Module Created Successfully');
+        return Redirect::to('module')->with('success','Module Created Successfully');
+    }
+
+    public  function display(){
+        $module=projectModules::get();
+        return view('project_modules.modulesdisplay',compact('module'));
+
+    }
+    public function destroy($id)
+    {
+        projectModules::find($id)->delete();
+        return Redirect::to('module');
+    }
+
+    public function edit($id)
+    {
+        $module=projectModules::find($id);
+        return view('project_modules.module_edit',compact('module'));
+    }
+
+    public function update($id)
+    {
+        $module=projectModules::find($id);
+        $post=Input::all();
+        $validator=Validator::make($post,[
+                'description'=>'required|min:5']
+        );
+        if ($validator->fails()){
+            return Redirect::back()->withInput()->withErrors($validator);
+        }
+        unset($post['_token']);
+        $record = projectModules::where('id',$id)->update([
+            'name'=>$post['name'],
+            'description'=>$post['description'],
+        ]);
+
+        return Redirect::to('module');
+
+
     }
 
 }

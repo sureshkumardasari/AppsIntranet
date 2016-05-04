@@ -84,37 +84,7 @@ class ProjectController extends Controller {
 			}
 		}
 	}
-            /*$project_list=Input::All();
-            $user=[];
-            $depart=[];
-            $depart_list = Department::where('name', '=', $project_list['user_depart_name'])->first();
-            $project=new Project;
-            $project->name=$project_list['pro_name'];
-            $project->description=$project_list['pro_description'];
-    //		$project->department_id=$depart_list['id'];
-            if($project->save()){
-                $depart=$project_list['user_depart_name'];
-                $user=$project_list['userids'];
-                $lastInsertedId= $project->id;
-                foreach($depart as $departs){
-                    $project_depart=new ProjectDepartment();
-                    $project_depart->project_id=$lastInsertedId;
-                    $project_depart->depart_id=$departs;
-                    $project_depart->save();
-                }
-                foreach($user as $users){
 
-                    $project_user=new ProjectUser;
-                    $project_user->user_id=$users;
-                    $project_user->project_id=$lastInsertedId;
-                    $project_user->save();
-                }
-            }
-            \Session::flash('success','Project successfully added.');
-            return Redirect::back();*/
-
-		//Project::create($inputa);
-		// return redirect('project_view');
  	public function edit($id)
 	{
 		$projects=\DB::table('projects')->where('id',$id)->first();
@@ -127,7 +97,6 @@ class ProjectController extends Controller {
 		//Update Query
 		$post=Input::all();
 		$validator=Validator::make($post,[
-						'name'=>'required|min:2|unique:projects',
 						'description'=>'required|min:10']
 		);
 		if ($validator->fails()){

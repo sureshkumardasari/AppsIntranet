@@ -109,7 +109,6 @@ class UserController extends Controller {
 		$users=User::find($id);
 		$post=Input::all();
         $validator=Validator::make($post,[
-                'username' => 'required|max:255|unique:users',
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 ]
@@ -123,8 +122,7 @@ class UserController extends Controller {
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-			/* 'user_depart_name'=>$post['department_id'],*/
-				'password'=>$post['password'],
+ 				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
 
 		]);

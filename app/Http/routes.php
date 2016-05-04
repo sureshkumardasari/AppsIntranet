@@ -55,22 +55,29 @@ Route::post('users/update/{id}','UserController@update');
 Route::get('users/profile/{id}','UserController@profile');
 Route::post('create','UserController@create');
 
-/*.......my routes..*/
 
 // for adding tasks to the candidate by admin.
-
+Route::get('task','TaskController@display');
 Route::get('addtask','TaskController@index');
 Route::post('addtask','TaskController@add');
 Route::post('projectlist/{id}',['as'=>'project_list','uses'=>'TaskController@projectList']);
 Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modulelist']);
+Route::post('taskupdate/{id}','TaskController@update');
+Route::get('task/{id}','TaskController@destroy');
+Route::get('task/{id}/edit','TaskController@edit');
 
 /*for getting the timesheet of the user...*/
 
 Route::get('timesheet','TimesheetController@index');
 
-//module creation
+//module Routes
+Route::get('module', 'ProjectModuleController@display');
 Route::get('modulecreation','ProjectModuleController@index');
 Route::post('addmodule',['as'=>'addmodule','uses'=>'ProjectModuleController@add']);
+Route::post('module/{id}','ProjectModuleController@update');
+Route::get('module/{id}','ProjectModuleController@destroy');
+Route::get('module/{id}/edit','ProjectModuleController@edit');
+
 //getting task list based on project and module
 
 Route::post('tasklist/{project_id}/{module_id}','TaskController@taskList');

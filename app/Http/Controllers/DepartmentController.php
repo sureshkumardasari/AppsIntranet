@@ -63,7 +63,6 @@ class DepartmentController extends Controller {
 		$department=Department::find($id);
 		$post=Input::all();
 		$validator=Validator::make($post,[
-						'name'=>'required|unique:departments|max:50',
 						'depart_description'=>'required|min:5']
 		);
 		if ($validator->fails()){
