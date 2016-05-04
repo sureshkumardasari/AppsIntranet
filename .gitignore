@@ -1,7 +1,6 @@
 .DS_Store
 /vendor
 /node_modules
-.env
 .env.ex
 .env.backup
 .env1
