@@ -36,6 +36,53 @@
 
 		.fstMultipleMode { display: block; }
 		.fstMultipleMode .fstControls { width: 100%; }
+		/* Dropdown Button */
+		.dropbtn {
+			background-color: #4CAF50;
+			color: white;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+		}
+
+		/* The container <div> - needed to position the dropdown content */
+		.dropdown {
+			position: relative;
+			display: inline-block;
+			z-index: 2;
+		}
+
+		/* Dropdown Content (Hidden by Default) */
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		}
+
+		/* Links inside the dropdown */
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		/* Change color of dropdown links on hover */
+		.dropdown-content a:hover {background-color: #f1f1f1}
+
+		/* Show the dropdown menu on hover */
+		.dropdown:hover .dropdown-content {
+			display: block;
+			margin-top:40px;
+		}
+
+		/* Change the background color of the dropdown button when the dropdown content is shown */
+		.dropdown:hover .dropbtn {
+			background-color: #3e8e41;
+		}
 
 	</style>
 
@@ -64,8 +111,16 @@
 						<li><a href="{{ url('/users') }}">Users</a></li>
 						<li><a href="{{ url('/module') }}">Module</a></li>
 						<li><a href="{{ url('/task') }}">Task</a></li>
-						<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
 					</ul>
+						<div class="dropdown">
+							<ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>
+							<div class="dropdown-content">
+								<a href="{{ url('/timesheet') }}">Add</a>
+								<a href="{{ url('/timesheet_display') }}">Display</a>
+							</div>
+							</ul>
+						</div>
+
 					<?php }?>
 					<?php
 					if(Entrust::hasRole('User')) {
@@ -74,34 +129,56 @@
 						<li><a href="{{ url('/') }}">Home</a></li>
  						<li><a href="{{ url('/modulecreation') }}">Module</a></li>
 						<li><a href="{{ url('/addtask') }}">Task</a></li>
-						<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+					</ul>
+						<div class="dropdown">
+							<ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>
+								<div class="dropdown-content">
+									<a href="{{ url('/timesheet') }}">Add</a>
+									<a href="{{ url('/timesheet_display') }}">Display</a>
+								</div>
+							</ul>
+						</div>
 					</ul>
 					<?php }?>
 					<?php
 					if(Entrust::hasRole('Project Lead')) {
 					?>
 					<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
-					<li><a href="{{ url('/department') }}">Department</a></li>
-					<li><a href="{{ url('/project_view') }}">Project</a></li>
-					<li><a href="{{ url('/users') }}">Users</a></li>
-					<li><a href="{{ url('/modulecreation') }}">Module</a></li>
-					<li><a href="{{ url('/addtask') }}">Task</a></li>
-					<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+						<li><a href="{{ url('/') }}">Home</a></li>
+						<li><a href="{{ url('/department') }}">Department</a></li>
+						<li><a href="{{ url('/project_view') }}">Project</a></li>
+						<li><a href="{{ url('/users') }}">Users</a></li>
+						<li><a href="{{ url('/module') }}">Module</a></li>
+						<li><a href="{{ url('/task') }}">Task</a></li>
 					</ul>
+					<div class="dropdown">
+						<ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>
+							<div class="dropdown-content">
+								<a href="{{ url('/timesheet') }}">Add</a>
+								<a href="{{ url('/timesheet_display') }}">Display</a>
+							</div>
+						</ul>
+					</div>
 					<?php }?>
 					<?php
 					if(Entrust::hasRole('Project Manager')) {
 					?>
 					<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
-					<li><a href="{{ url('/department') }}">Department</a></li>
-					<li><a href="{{ url('/project_view') }}">Project</a></li>
-					<li><a href="{{ url('/users') }}">Users</a></li>
-					<li><a href="{{ url('/modulecreation') }}">Module</a></li>
-					<li><a href="{{ url('/addtask') }}">Task</a></li>
-					<li><a href="{{ url('/timesheet') }}">Timesheet</a></li>
+						<li><a href="{{ url('/') }}">Home</a></li>
+						<li><a href="{{ url('/department') }}">Department</a></li>
+						<li><a href="{{ url('/project_view') }}">Project</a></li>
+						<li><a href="{{ url('/users') }}">Users</a></li>
+						<li><a href="{{ url('/module') }}">Module</a></li>
+						<li><a href="{{ url('/task') }}">Task</a></li>
 					</ul>
+					<div class="dropdown">
+						<ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>
+							<div class="dropdown-content">
+								<a href="{{ url('/timesheet') }}">Add</a>
+								<a href="{{ url('/timesheet_display') }}">Display</a>
+							</div>
+						</ul>
+					</div>
 					<?php }?>
 
     				<ul class="nav navbar-nav navbar-right">
