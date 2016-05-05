@@ -6,6 +6,7 @@ use App\ProjectUser;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Input;
 use App\Project;
+use Excel;
 use App\User;
 use Validator;
 use Redirect;
@@ -141,6 +142,16 @@ class ProjectController extends Controller {
 	{
 		$projects=Project::get();
 		return view('project_view',compact('projects'));
+	}
+	public function downloadExcel($type)
+	{
+		$data = Project::get()->toArray();
+		return Excel::create('Projectlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 
 }

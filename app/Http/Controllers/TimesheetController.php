@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Tasks;
 use App\User;
+use Excel;
 use App\Project;
 use Illuminate\Support\Facades\Input;
 use App\TimeSheet;
@@ -76,5 +77,15 @@ if($validator->fails()){
         }
 
 
+    }
+    public function downloadExcel($type)
+    {
+        $data = Timesheet::get()->toArray();
+        return Excel::create('userlist', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 }

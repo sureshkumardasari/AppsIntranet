@@ -2,6 +2,7 @@
 
 use App\Department;
 use App\User;
+use Excel;
 use App\Projectdepartment;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -100,5 +101,15 @@ class DepartmentController extends Controller {
 		unset($post['_method']);
 		$record = Department::where('id', $id)->update($post);
 		return Redirect::to('department_display');*/
+	}
+	public function downloadExcel($type)
+	{
+		$data = Department::get()->toArray();
+		return Excel::create('Departmentlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 }

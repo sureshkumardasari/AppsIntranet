@@ -11,6 +11,9 @@ use App\User;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Item;
+use DB;
+use Excel;
 class UserController extends Controller {
 
 	/**
@@ -158,7 +161,14 @@ class UserController extends Controller {
 
 		}
 	}
-	public function exportcsv()
+	public function downloadExcel($type)
 	{
+		$data = User::get()->toArray();
+		return Excel::create('userlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 }

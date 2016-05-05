@@ -11,6 +11,7 @@ use App\ProjectDepartment;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use App\Tasks;
+use Excel;
 use Validator;
 use Session;
 use App\Project;
@@ -113,10 +114,21 @@ class TaskController extends Controller {
 	 * @return Response
 	 */
 	public function destroy($id)
-	{
+	{    
+		$project =ProjectUser::where('project_id',$id)->count();
+		$projectuser =ProjectUser::where('user_id',$id)->count();
+		if($project == null && $projectuser == null)
+		{
 		Tasks::find($id)->delete();
+		 \Session::flash('message', 'Deleted!');
+		}
+		else
+		{
+			\Session::flash('alert-class', 'Cannot Delete this Task');
 		return Redirect::to('task');
+		}
 	}
+
 	public function projectList($id){
 		$a=	ProjectUser::join('projects','projects_users.project_id','=','projects.id')
 				->where('projects_users.user_id','=',$id)
@@ -124,6 +136,7 @@ class TaskController extends Controller {
 				->get();
 		return $a;
 	}
+
 	public function moduleList($id){
 		$a=projectModules::where('project_id',$id)->select('id','name')->get();
 		return $a;
@@ -134,6 +147,7 @@ class TaskController extends Controller {
 		$task_list=Tasks::select('id','task_title')->where('project_id',$projectid)->where('module_id',$moduleid)->get();
 		return $task_list;
 	}
+
 	public function add(){
 		$data=Input::All();
 
@@ -160,6 +174,16 @@ class TaskController extends Controller {
 	{
 		$tasks=Tasks::get();
 		return view('task_display',compact('tasks'));
+	}
+	public function downloadExcel($type)
+	{
+		$data = Tasks::get()->toArray();
+		return Excel::create('tasklist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 
 }

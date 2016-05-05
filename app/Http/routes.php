@@ -37,6 +37,7 @@ Route::get('department_create','DepartmentController@index');
 Route::post('department_update/{id}','DepartmentController@update');
 Route::get('department/{id}','DepartmentController@destroy');
 Route::get('department/{id}/edit','DepartmentController@edit');
+Route::get('downloadExcelfordepartments/{type}', 'DepartmentController@downloadExcel');
 
 /*..... Project Routs  ....*/
 Route::get('project', 'ProjectController@index');
@@ -46,6 +47,7 @@ Route::post('update/{id}','ProjectController@update');
 Route::get('delete/{id}','ProjectController@destroy');
 Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
 Route::get('project_view',['as'=>'project_view','uses'=>'ProjectController@show']);
+Route::get('downloadExcelforprojects/{type}', 'ProjectController@downloadExcel');
 
 /*...... User Routs ......*/
 Route::get('users', 'UserController@show');
@@ -54,6 +56,7 @@ Route::get('users/delete/{id}','UserController@destroy');
 Route::post('users/update/{id}','UserController@update');
 Route::get('users/profile/{id}','UserController@profile');
 Route::post('create','UserController@create');
+Route::get('downloadExcelforusers/{type}', 'UserController@downloadExcel');
 
 
 // for adding tasks to the candidate by admin.
@@ -65,10 +68,12 @@ Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modul
 Route::post('taskupdate/{id}','TaskController@update');
 Route::get('task/{id}','TaskController@destroy');
 Route::get('task/{id}/edit','TaskController@edit');
+Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 
 /*for getting the timesheet of the user...*/
 
 Route::get('timesheet','TimesheetController@index');
+
 
 //module Routes
 Route::get('module', 'ProjectModuleController@display');
@@ -77,6 +82,8 @@ Route::post('addmodule',['as'=>'addmodule','uses'=>'ProjectModuleController@add'
 Route::post('module/{id}','ProjectModuleController@update');
 Route::get('module/{id}','ProjectModuleController@destroy');
 Route::get('module/{id}/edit','ProjectModuleController@edit');
+Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@downloadExcel');
+
 
 //getting task list based on project and module
 

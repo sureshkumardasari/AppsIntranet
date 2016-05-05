@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Project;
+use App\Item;
+use DB;
+use Excel;
+use App\ProjectUser;
 use Validator;
 use Session;
 use App\ProjectModules;
@@ -48,9 +52,17 @@ class ProjectModuleController extends Controller {
 
     }
     public function destroy($id)
-    {
+    {   
+        $project = ProjectUser::where('project_id',$id)->count();
+        if($project == null){
         projectModules::find($id)->delete();
+         \Session::flash('message', 'Deleted!');
+        }
+        else
+        {
+            \Session::flash('alert-class', 'Cannot Delete this Module');
         return Redirect::to('module');
+        }
     }
 
     public function edit($id)
@@ -78,6 +90,16 @@ class ProjectModuleController extends Controller {
         return Redirect::to('module');
 
 
+    }
+    public function downloadExcel($type)
+    {
+        $data = projectModules::get()->toArray();
+        return Excel::create('ProjectModules', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 
 }

@@ -72,7 +72,8 @@
 
 
                 </div>
-                <div> <a class="btn btn-primary pull-left" name="new user" href="{{ url('users/exportcsv') }}">Export CSV</a></div>
+                <!-- <div> <a class="btn btn-primary pull-left" name="export user" href="{{ url('users/exportcsv') }}">Export CSV</a></div> -->
+                <a href="{{ URL::to('downloadExcelforusers/csv') }}"><button class="btn btn-info">Download CSV</button></a>
             </div>
         </div>
     </div>
