@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App;
 use App\User;
+use App\UserDepartments;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -41,16 +42,20 @@ class UserController extends Controller {
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
-		$depart_list = Department::where('name', '=', $post['user_depart_name'])->first();
- 		$user = User::create([
+//		$depart_list = Department::where('name', '=', $post['user_depart_name'])->first();
+   		$ids=implode(',',$post['user_depart_name']);
+		$user = User::create([
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-				'department_id'=>$depart_list['id'],
+				'department_id'=>$ids,
 				'role_id'=>$post['roles'],
-				'department_id'=>$depart_list['id'],
- 				'password'=>bcrypt($post['password']),
+  				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
+				'status'=>'active',
+				'gender'=> input::get('gender'),
+				'date_of_birth'=>$post['dob'],
+				'joining_date'=>$post['jod'],
 		]);
  		$roles=new RoleUser;
 		$last_id=$user->id;
@@ -58,9 +63,19 @@ class UserController extends Controller {
 		$roles->role_id=$post['roles'];
 		$roles->timestamps = false;
 		$roles->save();
- 		\Session::flash('success','User successfully added.');
-		return Redirect::to('users');
-
+		if ($user) {
+			$depart = $post['user_depart_name'];
+			$user_id = $user['id']; //$depart_list['userids'];
+			//$lastInsertedId = $user->id;
+			foreach ($depart as $departs) {
+				$users_depart = new UserDepartments();
+				$users_depart->user_id = $user_id;
+				$users_depart->depart_id = $departs;
+				$users_depart->save();
+			}
+			\Session::flash('success', 'User successfully added.');
+			return Redirect::to('users');
+		}
 	}
 
 	/**
@@ -126,6 +141,9 @@ class UserController extends Controller {
 			/* 'user_depart_name'=>$post['department_id'],*/
 				'password'=>$post['password'],
 				'email'=>$post['email'],
+				'gender'=>$post['gender'],
+				'date_of_birth'=>$post['dob'],
+				'joining_date'=>$post['jod'],
 
 		]);
 		return Redirect::to('users');
