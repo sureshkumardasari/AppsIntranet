@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">module title:</label>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="name" type="text">
+                                    <input class="form-control" name="name" type="text" value="{{ old('name') }}">
                                     <span class="text-danger">{{ $errors->first('name') }}</span>
 
                                 </div>
@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">module description:</label>
                                 <div class=" col-md-6">
-                                    <textarea class="form-control" name="description"></textarea>
+                                    <textarea class="form-control" name="description">{{ old('description') }}</textarea>
                                     <span class="text-danger">{{ $errors->first('description') }}</span>
 
                                 </div>

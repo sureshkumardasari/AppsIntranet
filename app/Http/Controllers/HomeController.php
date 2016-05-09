@@ -109,7 +109,7 @@ class HomeController extends Controller {
 		]
 	);
  	if ($auth) {
- 		return Redirect::to('validate');
+ 		return Redirect::to('completedtask');
 	} else {
 		return "NOT REGISTER USER" ;
 	}
