@@ -9,6 +9,7 @@ use App\Project;
 use Validator;
 use Session;
 use App\ProjectModules;
+use Excel;
 
 class ProjectModuleController extends Controller {
 
@@ -70,6 +71,17 @@ class ProjectModuleController extends Controller {
         return Redirect::to('module');
 
 
+    }
+
+    public function downloadExcel($type)
+    {
+        $data = projectModules::select('name','description')->get()->toArray();
+        return Excel::create('ProjectModules', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 
 }

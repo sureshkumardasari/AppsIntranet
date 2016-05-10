@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App;
+use Excel;
 use App\User;
 use App\UserDepartments;
 use Illuminate\Support\Facades\Input;
@@ -99,6 +100,7 @@ class UserController extends Controller {
 	public function show()
 	{
 		$users=User::join('roles','roles.id','=','users.role_id')
+			->whereNotIn('users.id',['1','2','3','4'])
 			//->join('departments','departments.id','=','users.department_id')
 			->select('users.id as user_id','users.username as username','users.email','users.status as user_status','roles.display_name as role_name')
 			->get();
@@ -223,7 +225,16 @@ class UserController extends Controller {
 
 		}
 	}
-	public function exportcsv()
+	
+
+	public function downloadExcel($type)
 	{
+		$data = User::get()->toArray();
+		return Excel::create('userslist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 }

@@ -65,7 +65,7 @@
                         </form>
 
                     </div>
-
+<a href="{{ URL::to('downloadExcelfortask/csv') }}"><button class="btn btn-info">Download CSV</button></a>
                 </div>
             </div>
         </div>

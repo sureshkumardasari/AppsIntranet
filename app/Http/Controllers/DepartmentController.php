@@ -6,6 +6,7 @@ use App\Projectdepartment;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Excel;
 class DepartmentController extends Controller {
 
 	/*
@@ -100,5 +101,16 @@ class DepartmentController extends Controller {
 		unset($post['_method']);
 		$record = Department::where('id', $id)->update($post);
 		return Redirect::to('department_display');*/
+	}
+
+	public function downloadExcel($type)
+	{
+		$data = Department::select('name','description','created_at','updated_at')->get()->toArray();
+		return Excel::create('departmentlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 }

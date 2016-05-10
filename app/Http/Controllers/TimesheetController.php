@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 use App\TimeSheet;
 use Validator;
 use Redirect;
+use Excel;
 
 class TimesheetController extends Controller {
 
@@ -122,5 +123,21 @@ class TimesheetController extends Controller {
         return Redirect::route('timesheet_display');
 
 }
+
+public function downloadExcel($type)
+    {
+        $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
+            ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+            ->join('tasks','tasks.id','=','time_sheets.task_id')
+            ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+            ->get()->toArray();
+       // $data = TimeSheet::get()->toArray();
+        return Excel::create('timesheettlist', function($excel) use ($timesheet) {
+            $excel->sheet('mySheet', function($sheet) use ($timesheet)
+            {
+                $sheet->fromArray($timesheet);
+            });
+        })->download($type);
+    }
 
 }

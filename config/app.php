@@ -138,6 +138,8 @@ return [
 			'Barryvdh\Debugbar\ServiceProvider',
 			'Barryvdh\Elfinder\ElfinderServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
+
 
 		/*
 		 * Application Service Providers...
@@ -195,7 +197,8 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-		'Entrust'   => 'Zizaco\Entrust\EntrustFacade'
+		'Entrust'   => 'Zizaco\Entrust\EntrustFacade',
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel'
 
 	],
 

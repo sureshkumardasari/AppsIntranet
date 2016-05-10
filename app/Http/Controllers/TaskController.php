@@ -16,6 +16,7 @@ use Validator;
 use Session;
 use App\Project;
 use Auth;
+use Excel;
 
 
 
@@ -183,6 +184,17 @@ class TaskController extends Controller {
 
 		return view('Dashboard',compact('tasks','user_data_task'));
 
+	}
+
+	public function downloadExcel($type)
+	{
+		$data = Tasks::select('task_title','task_description')->get()->toArray();
+		return Excel::create('tasktlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 
 }

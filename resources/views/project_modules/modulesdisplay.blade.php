@@ -65,9 +65,11 @@
                         </form>
 
                     </div>
+                    <a href="{{ URL::to('downloadExcelforprojectmodule/csv') }}"><button class="btn btn-info">Download CSV</button></a>
 
                 </div>
             </div>
+
         </div>
     </div>
 @endsection

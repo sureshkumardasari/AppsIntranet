@@ -10,6 +10,7 @@ use App\User;
 use Validator;
 use Redirect;
 use App\UserDepartments;
+use Excel;
 class ProjectController extends Controller
 {
 
@@ -217,5 +218,16 @@ class ProjectController extends Controller
 			return null;
 		}
 		return $lead_users;
+	}
+
+	public function downloadExcel($type)
+	{
+		$data = Project::select('name','description')->get()->toArray();
+		return Excel::create('projecttlist', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download($type);
 	}
 }
