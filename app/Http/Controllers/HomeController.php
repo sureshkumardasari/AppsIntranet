@@ -109,10 +109,23 @@ class HomeController extends Controller {
 		]
 	);
  	if ($auth) {
- 		return Redirect::to('validate');
+ 		return Redirect::to('completedtask');
 	} else {
 		return "NOT REGISTER USER" ;
 	}
-}
-
+	}
+ public function status($id)
+ {
+ 	$users=User::find($id);
+ 	 $oldstatus=$users->status;
+  	 if ($oldstatus == '1') {
+ 		 $status_state = 0;
+	 } else {
+ 		 $status_state = 1;
+	 }
+	 $record=User::find($id);
+	 $record->status=$status_state;
+	 $record->save();
+	 return Redirect::to('users');
+ }
 }

@@ -23,21 +23,13 @@ class ProjectModuleController extends Controller {
     // adding new module to the project.
     public function add(Request $request){
         $data=$request->except('_token');
-        //return $data;
-/*        $rules=['project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required'];
-        $messages=['project_id.required'=>'please provide the name','name.required'=>'kuhkjnkh'];
-        $validator=Validator::make($data,$rules,$messages);*/
         $validator=Validator::make($data,[
-                'project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required']
+                'project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required|min:5']
         );
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
-        /*if($validator->fails())
-        {
-            Session::flash('fail','please provide all the fileds');
-            return Redirect::back()->withInput();
-        }*/
+
         else ProjectModules::create($data);
         return Redirect::to('module')->with('success','Module Created Successfully');
     }

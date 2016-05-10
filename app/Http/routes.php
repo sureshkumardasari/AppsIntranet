@@ -45,6 +45,7 @@ Route::get('edit/{id}','ProjectController@edit');
 Route::post('update/{id}','ProjectController@update');
 Route::get('delete/{id}','ProjectController@destroy');
 Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
+Route::post('userlist_project/{id}',['as'=>'userlist_project','uses'=>'ProjectController@userListProject']);
 Route::get('project_view',['as'=>'project_view','uses'=>'ProjectController@show']);
 
 /*...... User Routs ......*/
@@ -126,3 +127,6 @@ Route::get('logout', array('before' => 'auth', function()
 		->with('flash_notice', 'You are successfully logged out.');
 }));
 
+Route::post('task/{id}','TaskController@task');
+Route::get('completedtask','TaskController@completedtask');
+Route::get('status/{id}','HomeController@status');

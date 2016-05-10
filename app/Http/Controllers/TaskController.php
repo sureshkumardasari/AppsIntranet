@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\projectModules;
+use App\TimeSheet;
 use Illuminate\Http\Request;
 use App\User;
 use App\ProjectUser;
@@ -14,6 +15,7 @@ use App\Tasks;
 use Validator;
 use Session;
 use App\Project;
+use Auth;
 
 
 
@@ -160,6 +162,27 @@ class TaskController extends Controller {
 	{
 		$tasks=Tasks::get();
 		return view('task_display',compact('tasks'));
+	}
+
+	public function completedtask()
+	{
+		return view('dashboard_taskdisplay');
+	}
+	public function task($id)
+	{
+		$users=Auth::user();
+		$z=$users->id;
+		$tasks=TimeSheet::where('status','=',$id)->get();
+		$c=array();
+		foreach($tasks as $task)
+			array_push($c,$task->task_id);
+		$user_data_task=TimeSheet::join('tasks','time_sheets.task_id','=','tasks.id')
+				->wherein('time_sheets.task_id',$c)
+				->where('tasks.user_id','=',$z)
+				->select('task_title','task_description')->get();
+
+		return view('Dashboard',compact('tasks','user_data_task'));
+
 	}
 
 }

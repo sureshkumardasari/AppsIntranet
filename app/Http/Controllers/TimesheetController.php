@@ -30,11 +30,14 @@ class TimesheetController extends Controller {
     }
     public function add(){
         $data= Input::except('_token');
-        $validator=Validator::make($data,['project_id'=>'required','module_id'=>'required','task_id'=>'required','comment'=>'required','status'=>'required','hours'=>'required','minutes'=>'required']);
-        if($validator->fails()){
-//    return "failed";
-            return Redirect::back()->with('error','Please Enter Fields');
+
+
+        $validator=Validator::make($data,[
+            'project_id'=>'required','module_id'=>'required','task_id'=>'required','comment'=>'required','status'=>'required','hours'=>'required','minutes'=>'required']);
+        if ($validator->fails()){
+            return Redirect::back()->withInput()->withErrors($validator);
         }
+
         TimeSheet::create($data);
         return Redirect::back()->with('success','Timesheet Created Successfully');
     }
@@ -106,9 +109,13 @@ class TimesheetController extends Controller {
 
     //update  task timesheet
     public function update(){
-        $validator=Validator::make(Input::except('_token'),['status'=>'required','hours'=>'required','minutes'=>'required','comment'=>'required']);
-        if($validator->fails()){
-            return Redirect::back()->withInput()->with('error','please provide the data');
+        $data= Input::except('_token');
+
+
+        $validator=Validator::make($data,[
+            'comment'=>'required','status'=>'required','hours'=>'required','minutes'=>'required']);
+        if ($validator->fails()){
+            return Redirect::back()->withInput()->withErrors($validator);
         }
         TimeSheet::where('id',Input::get('timesheet_id'))
             ->update(['comment'=>Input::get('comment'),'status'=>Input::get('status'),'hours'=>Input::get('hours'),'minutes'=>Input::get('minutes')]);

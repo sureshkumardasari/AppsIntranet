@@ -1,8 +1,8 @@
 @extends('app')
 @section('content')
 	<script>
- 		$('.multipleSelect').fastselect();
- 	</script>
+		$('.multipleSelect').fastselect();
+	</script>
 	<style>
 		.fstElement { font-size: 0.8em; }
 		.fstToggleBtn { min-width: 16.5em; }
@@ -24,33 +24,32 @@
 								<ul>
 									@foreach ($errors->all() as $error)
 										<li>{{ $error }}</li>
-										{{--<li>{{ $error->first('description','<li>:message</li>') }}</li>--}}
 									@endforeach
 								</ul>
 							</div>
 						@endif
 
 						<form class="form-horizontal" role="form" method="POST" action="{{ url('/project_submit') }}">
-							<input type="hidden" name="_token" value="{{ csrf_token() }}">
+							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
 							<div class="form-group">
 								<label class="col-md-4 control-label">Project Name</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="name" value="{{ old('pro_name') }}">
+									<input type="text" class="form-control" name="name" value="{{ old('name') }}">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-md-4 control-label">Project Description</label>
 								<div class="col-md-6">
-									<textarea class="form-control" name="description" value="{{ old('pro_description') }}"></textarea>
+									<textarea class="form-control" name="description" value="">{{ old('description') }}</textarea>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-md-4 control-label">Department Name</label>
 								<div class="col-md-6">
-									<select  class="multipleSelect" multiple name="user_depart_name[]">
+									<select  id="depart" class="departSelect" multiple onchange="change_depart()" name="user_depart_name[]">
 										<?php $depart_list=\App\Department::get();
 										foreach($depart_list as $depart){?>
 										<option value="{{$depart->id}}">
@@ -60,34 +59,49 @@
 										?>
 									</select>
 									<script>
-										$('.departSelect').fastselect();
+										$('#depart').fastselect();
+									</script>
+								</div>
+							</div>
+							<div class="form-group" >
+								<label class="col-md-4 control-label">Add Project Lead</label>
+								<div class="col-md-6" id="projectleads">
+									<select class="leadSelect form-control" multiple name="lead[]" id="lead">
+
+
+									</select>
+									<script>
+									//	$('.leadSelect').multiselect();
 									</script>
 								</div>
 							</div>
 
+							<div class="form-group">
+								<label class="col-md-4 control-label">Add Project Manager</label>
+								<div class="col-md-6">
+									<select class="managerSelect form-control" multiple name="manager[]" id="manager">
+
+
+									</select>
+									<script>
+										//$('.managerSelect').fastselect();
+									</script>
+								</div>
+							</div>
 
 							<div class="form-group">
 								<label class="col-md-4 control-label">Add Users</label>
 								<div class="col-md-6">
-									<select class="multipleSelect" multiple name="userids[]">
-									<?php $user_list=\App\User::get();
-										foreach($user_list as $user){?>
-										<option value="{{$user->id}}">
-											{{$user->first_name}}
-										</option>
-										<?php }
-										?>
+									<select class="userSelect form-control" multiple name="user[]" id="user">
+
 									</select>
 									<script>
-
-										$('.multipleSelect').fastselect();
-
+										//$('.userSelect').fastselect();
 									</script>
 								</div>
 							</div>
 
-
- 							<div class="form-group">
+							<div class="form-group">
 
 							</div>
 							<div class="form-group">
@@ -108,4 +122,54 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var count=0;
+
+
+		function change_depart(){
+			//	alert($('#depart').val());
+			var csrf=$('Input#csrf_token').val();
+			//var lead=$('#lead');
+			$.ajax(
+					{
+
+						headers: {"X-CSRF-Token": csrf},
+						url:'userlist_project/'+$('#depart').val(),
+						type:'post',
+						success:function(response){
+							var a = response.length;
+							//alert(a);
+							var i=0;
+							if(a!=0){
+								$('#lead').empty();
+								$('#user').empty();
+								$('#manager').empty();
+								for(i=0;i<a;i++) {
+									if (response[i].role_id == 2) {
+										var o = new Option( response[i].first_name , response[i].id);
+										$('#user').append(o);
+									}
+									else if (response[i].role_id == 3) {
+										var o = new Option( response[i].first_name , response[i].id);
+										$('#lead').append(o);
+									}
+									else if (response[i].role_id == 4) {
+										var o = new Option(response[i].first_name, response[i].id);
+										$('#manager').append(o);
+									}
+								}
+							}
+							else{
+								$('#lead').empty();
+								$('#user').empty();
+								$('#manager').empty();
+							}
+
+
+
+						}
+					}
+			)
+		}
+	</script>
 @endsection
