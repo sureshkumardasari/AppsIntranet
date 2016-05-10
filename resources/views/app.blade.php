@@ -24,7 +24,10 @@
 
 
 	<link href="{{ asset('/js/fastselect.min.css') }}" rel="stylesheet">
-  	<script src="{{ asset('/js/fastselect.standalone.js') }}"></script>
+	<script src="{{ asset('/js/fastselect.standalone.js') }}"></script>
+	<link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
+
+	<script type="text/javascript" src="{{asset('js/bootstrap-multiselect.js')}}"></script>
 
 
 	<style>
@@ -50,7 +53,6 @@
 		.dropdown {
 			position: relative;
 			display: inline-block;
-			z-index: 2;
 		}
 
 		/* Dropdown Content (Hidden by Default) */
@@ -115,7 +117,7 @@
 						<li><a href="{{ url('/module') }}">Module</a></li>
 						<li><a href="{{ url('/task') }}">Task</a></li>
 					</ul>
-						<div class="dropdown">
+						<div class="dropdown" style="z-index: 1">
 							<ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>
 							<div class="dropdown-content">
 								<a href="{{ url('/timesheet') }}">Add</a>

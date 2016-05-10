@@ -39,7 +39,8 @@ class WelcomeController extends Controller {
 	public function projectManager()
 	{
 		return view('home_project_manager');
-	}public function userLogin(){
+	}
+	public function userLogin(){
 	return view('homes');
 }
 

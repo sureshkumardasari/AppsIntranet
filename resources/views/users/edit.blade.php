@@ -62,10 +62,38 @@
                                 </div>
                             </div>
 
+                            <div>
+                                <label class="col-md-4 control-label">Gender</label>
+                                <div class="col-md-6">
+                                    <input type="radio" name="gender"
+                                    <?php if (isset($users->gender) && $users->gender=="male") echo "checked='checked'";?>
+                                            value="male">Male
+                                    <input type="radio" name="gender"
+                                           <?php if (isset($users->gender) && $users->gender=="female") echo "checked='checked'";?>
+                                           value="female">Female
+                                </div>
+                            </div>
+                            <br><br>
+                            <div>
+                                <label class="col-md-4 control-label">Date of Birth</label>
+                                <div class="col-md-6">
+                                    <input type="date" name="dob" class="dobpicker" value="{{ $users->date_of_birth}}">
+                                </div>
+                                <br><br>
+                            </div>
+                            <div>
+                                <br>
+                                <label class="col-md-4 control-label">Joining Date</label>
+                                <div class="col-md-6">
+                                    <input type="date" name="jod" class="jodpicker" value="{{ $users->joining_date }}">
+                                </div>
+                                <br><br>
+                            </div>
+                            <br>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Roles</label>
                                 <div class="col-md-6">
-                                    <select  name="roles">
+                                    <select  name="roles" id="roles">
                                         <?php $roles_list=\App\Role::get();
                                         foreach($roles_list as $roles){?>
                                         <option value="{{$roles->id}}">
@@ -76,22 +104,23 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Department Name</label>
                                 <div class="col-md-6">
-                                    <select  name="user_depart_name">
+                                    <select id="departments" class="departSelect" multiple name="user_depart_name[]">
                                         <?php $depart_list=\App\Department::get();
                                         foreach($depart_list as $depart){?>
-                                        <option>
+                                        <option  value="{{$depart->id}}">
                                             {{$depart->name}}
                                         </option>
                                         <?php }
                                         ?>
                                     </select>
+                                    <script>
+                                        $('.departSelect').multiselect();
+                                    </script>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-default">Update</button>
@@ -105,4 +134,29 @@
             </div>
         </div>
     </div>
-@endsection
+    <?php
+$list=Array();
+            foreach($userdeparts as $userdepart){
+                array_push($list,$userdepart->depart_id);
+            }
+    ?>
+    <script>
+        $('#roles').val({{$users->role_id}});
+        $('#departments').val(<?php echo "[";
+                foreach($list as $li)
+                    echo $li.",";
+                echo "0]"?>);
+
+        $("#departments").multiselect("refresh");
+       // $("#departments").selectmenu('refresh');
+        $( ".departSelect" ).on( "click", function() {
+            alert('l');
+        });
+        $("#departments").addClass('fstActive');
+
+        $("#departments").removeClass('fstNoneSelected');
+        $(".dobpicker").datepicker({ dateFormat: 'yy-mm-dd' });
+        $(".jodpicker").datepicker({ dateFormat: 'yy-mm-dd' });
+
+    </script>
+ @endsection

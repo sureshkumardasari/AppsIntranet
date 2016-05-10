@@ -14,8 +14,6 @@
     <tbody>
     @if(!$user_data_task->isEmpty())
         @foreach($user_data_task as $a)
-            <?php  echo($a); ?>
-
             <tr>
                 <td> {{$a->task_title}} </td>
                 <td> {{$a->task_description}}</td>

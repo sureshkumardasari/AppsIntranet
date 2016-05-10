@@ -37,18 +37,20 @@ class UserController extends Controller {
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|confirmed|min:6']
+                'password' => 'required|confirmed|min:6',
+				'user_depart_name'=>'required'
+			]
         );
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
 //		$depart_list = Department::where('name', '=', $post['user_depart_name'])->first();
-   		$ids=implode(',',$post['user_depart_name']);
+
 		$user = User::create([
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-				'department_id'=>$ids,
+				//'department_id'=>$ids,
 				'role_id'=>$post['roles'],
   				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
@@ -96,9 +98,33 @@ class UserController extends Controller {
 	 */
 	public function show()
 	{
-		$user=User::whereNotIn('id',array(1,2,3,4))->get();
+		$users=User::join('roles','roles.id','=','users.role_id')
+			//->join('departments','departments.id','=','users.department_id')
+			->select('users.id as user_id','users.username as username','users.email','users.status as user_status','roles.display_name as role_name')
+			->get();
+		//dd($userr);
+		////$departments=Departments::join('user_departments','user_departments.depart_id','=','departments.id')
+		//->where('user_departments.user_id',)
+		//->get();
+		// departments------
+		$departments=array();
+		foreach($users as $user){
+			array_push($departments,App\Department::join('user_departments','user_departments.depart_id','=','departments.id')->where('user_departments.user_id',$user->user_id)
+				->select('departments.id as depart_id','departments.name as depart_name')
+				->get());
+		}
+		//dd($departments);
+		//--------
+		$projects=array();
+		foreach($users as $user){
+		array_push($projects,App\Project::join('projects_users','projects.id','=','projects_users.project_id')->where('projects_users.user_id',$user->user_id)
+			->select('projects.id as project_id','projects.name as project_name')
+			->get());
+		}
+		//dd($projects);
+		//$user=User::get();
 
-		return view('users/Usersview',compact('user'));
+		return view('users/Usersview',compact('users','departments','projects'));
 	}
 
 	/**
@@ -110,7 +136,10 @@ class UserController extends Controller {
 	public function edit($id)
 	{
 		$users=User::find($id);
-		return view('users.edit',compact('users'));
+		$userdeparts=UserDepartments::select('depart_id')->where('user_id','=',$users->id)->get();
+		//dd($userdeparts);
+		return view('users.edit',compact('users','userdeparts'));
+
 	}
 
 	/**
@@ -126,26 +155,44 @@ class UserController extends Controller {
         $validator=Validator::make($post,[
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
+				'user_depart_name' =>'required',
+				'password' =>'required',
+				'password_confirmation'=>'required'
                 ]
         );
-        if ($validator->fails()){
-            return Redirect::back()->withInput()->withErrors($validator);
-        }
 
 		unset($post['_token']);
 		$record = User::where('id',$id)->update([
-				'username'=>$post['username'],
+				//'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
 			/* 'user_depart_name'=>$post['department_id'],*/
 				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
-
+			'role_id'=>$post['roles'],
 				'gender'=>$post['gender'],
 				'date_of_birth'=>$post['dob'],
 				'joining_date'=>$post['jod'],
 
 		]);
+		if(isset($post['user_depart_name'])){
+		if($record){
+			$user_departments=$post['user_depart_name'];
+			//dd($user_departments);
+			UserDepartments::where('user_id',$id)->delete();
+			foreach($user_departments as $user_depart){
+				UserDepartments::create([
+				'user_id'=>$id,
+				'depart_id'=>$user_depart
+			]);
+			}
+
+			//foreach(  )
+		}
+		}
+		else{
+			UserDepartments::where('user_id',$id)->delete();
+		}
 		return Redirect::to('users');
 	}
 
