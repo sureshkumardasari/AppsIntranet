@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">User:</label>
                                 <div class="col-md-6">
-                                    <select  class="form-control user" name="user_id">
+                                    <select  class="form-control user" name="user_id" >
                                         <option disabled selected hidden>select</option>
                                         @foreach($users as $user)
                                             <option value={{$user->id}}>{{$user->username}}</option>

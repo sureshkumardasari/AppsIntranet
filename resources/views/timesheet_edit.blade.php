@@ -32,7 +32,9 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Comments:</label>
                                 <div class="col-md-4">
-                                    <textarea name="comment" class='form-control'>{{$data->comment}}</textarea>
+                                    <textarea name="comment" class='form-control' name="comment">{{$data->comment}}</textarea>
+                                    <span class="text-danger">{{ $errors->first('comment') }}</span>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -45,6 +47,7 @@
                                         <option value="2">Started</option>
                                         <option value="3">Need Clarification</option>
                                     </select>
+                                    <span class="text-danger">{{ $errors->first('status') }}</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -53,18 +56,26 @@
                                     <ul style="list-style: none" >
                                         <li style="display: inline">
                                             <input type="number" class='form-control' name="hours" max="12" min="0" size="2" placeholder="Enter Hours" value="{{$data->hours}}">
+                                            <span class="text-danger">{{ $errors->first('hours') }}</span>
                                         </li>
                                         <li style="display: inline">
                                             <input  type="number"  class='form-control' name="minutes" min="0" max="60" placeholder="Enter Minutes" value="{{$data->minutes}}">
+                                            <span class="text-danger">{{ $errors->first('minutes') }}</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <div class="col-md-2 col-md-offset-4">
-                                    <button type="submit" class="form-control btn btn-primary">update</button>
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Update
+                                    </button>
+                                    <button type="reset" class="btn btn-default">Reset</button>
+                                    <a class="btn btn-default" href="{{  url('timesheet_display') }}">Cancel</a>
                                 </div>
                             </div>
+
                         </form>
                         @if(Session::has('success'))
                             <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('success') }}</p>
