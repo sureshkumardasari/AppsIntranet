@@ -131,3 +131,6 @@ Route::get('logout', array('before' => 'auth', function()
 Route::post('task/{id}','TaskController@task');
 Route::get('completedtask','TaskController@completedtask');
 Route::get('status/{id}','HomeController@status');
+Route::get('profile','HomeController@profile_view');
+Route::post('profileupdate/{id}','HomeController@profile_update');
+

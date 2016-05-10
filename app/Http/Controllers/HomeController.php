@@ -5,6 +5,7 @@ use form;
 use Input;
 use Redirect;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class HomeController extends Controller {
 
@@ -128,4 +129,33 @@ class HomeController extends Controller {
 	 $record->save();
 	 return Redirect::to('users');
  }
+	public function profile_view()
+	{
+		$users=Auth::user();
+		$id=$users->id;
+		return view('ProfileView',compact('users'));
+	}
+	public function profile_update($id)
+	{
+		$users=User::find($id);
+		$post=Input::all();
+		$validator=Validator::make($post,[
+						'first_name'=>'required',
+						'last_name'=>'required'
+				]
+		);
+		if ($validator->fails()){
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		unset($post['_token']);
+		$record = User::where('id',$id)->update([
+				'username'=>$post['username'],
+				'first_name'=>$post['first_name'],
+				'last_name'=>$post['last_name'],
+				'password'=>$post['password'],
+				'email'=>$post['email'],
+
+		]);
+		return Redirect::back()->with('success','updated successfully');
+	}
 }
