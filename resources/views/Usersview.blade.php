@@ -2,14 +2,13 @@
 
 
 @section('content')
+
     <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <a class="btn btn-success pull-right" name="new user" href="{{ url('auth/register') }}">Create New User</a>
-                    <div class="panel-heading">Users List
-
-                    </div>
+                    <div class="panel-heading">Users List</div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
@@ -95,7 +94,7 @@
                         </form>
 
                     </div>
-                     <div>
+                    <div>
 
                         @if(Session::has('flash_message'))
                             <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>

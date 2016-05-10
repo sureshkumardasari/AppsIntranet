@@ -86,6 +86,7 @@ Route::post('timesheetsubmit','TimeSheetController@add');
 Route::get('timesheet_display',['as'=>'timesheet_display','uses'=>'TimeSheetController@display_timesheet']);
 Route::post('gettimesheetfilterdata','TimeSheetController@filter');
 Route::get('timesheet_edit/{timesheet_id}','TimeSheetController@edit');
+Route::post('timesheet_display','TimeSheetController@display_timesheet');
 Route::post('timesheet_update','TimeSheetController@update');
 /*Roles*/
 Route::get('home_project_lead', 'WelcomeController@projectLead');

@@ -21,7 +21,7 @@
                         <form class="form-horizontal" role="form" method="post" action="{{  url('update/'.$projects->id) }}">
         {{--{!! Form::DB($departments, array('route' => array('crud.departments.update', $departments->id), 'method' => 'PUT')) !!}--}}
 
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Project Name</label>
@@ -36,6 +36,67 @@
                                     <textarea class="form-control" name="description" value="">{{ $projects->description }}</textarea>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Department Name</label>
+                                <div class="col-md-6">
+                                    <select  id="depart" class="departSelect" multiple onchange="change_depart()" name="user_depart_name[]">
+                                        <?php $depart_list=\App\Department::get();
+                                        foreach($depart_list as $depart){?>
+                                        <option value="{{$depart->id}}">
+                                            {{$depart->name}}
+                                        </option>
+                                        <?php }
+                                        ?>
+                                    </select>
+                                    <script>
+                                        $('#depart').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-md-4 control-label">Add Project Lead</label>
+                                <div class="col-md-6" id="projectleads">
+                                    <select class="leadSelect form-control" multiple name="lead[]" id="lead">
+                                        @foreach($project_leads as $project_lead)
+                                            <option value="{{$project_lead->id}}" selected>{{$project_lead->first_name}}</option>
+                                            @endforeach
+                                    </select>
+                                    <script>
+                                        //	$('.leadSelect').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Add Project Manager</label>
+                                <div class="col-md-6">
+                                    <select class="managerSelect form-control" multiple name="manager[]" id="manager">
+                                        @foreach($project_managers as $project_manager)
+                                            <option value="{{$project_manager->id}}" selected >{{$project_manager->first_name}}</option>
+                                        @endforeach
+
+                                    </select>
+                                    <script>
+                                      //  $('.managerSelect').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Add Users</label>
+                                <div class="col-md-6">
+                                    <select class="userSelect form-control" multiple name="user[]" id="user">
+                                        @foreach($project_users as $project_user)
+                                            <option value="{{$project_user->id}}" selected>{{$project_user->first_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <script>
+                                       // $('.userSelect').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+
 
 
 
@@ -58,4 +119,68 @@
             </div>
         </div>
     </div>
+    <?php
+    $list=Array();
+    foreach($departments as $department){
+        array_push($list,$department->depart_id);
+    }
+    ?>
+    <script>
+        //var count=0;
+
+        $('#depart').val(<?php echo "[";
+                foreach($list as $li)
+                    echo $li.",";
+                echo "0]"?>);
+            $('#depart').multiselect("refresh");
+
+
+
+        function change_depart(){
+            //	alert($('#depart').val());
+            var csrf=$('Input#_token').val();
+            //var lead=$('#lead');
+            var url="{{url('userlist_project')}}";
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:url+'/'+$('#depart').val(),
+                        type:'post',
+                        success:function(response){
+                            var a = response.length;
+                            //alert(a);
+                            var i=0;
+                            if(a!=0){
+                                $('#lead').empty();
+                                $('#user').empty();
+                                $('#manager').empty();
+                                for(i=0;i<a;i++) {
+                                    if (response[i].role_id == 2) {
+                                        var o = new Option( response[i].first_name , response[i].id);
+                                        $('#user').append(o);
+                                    }
+                                    else if (response[i].role_id == 3) {
+                                        var o = new Option( response[i].first_name , response[i].id);
+                                        $('#lead').append(o);
+                                    }
+                                    else if (response[i].role_id == 4) {
+                                        var o = new Option(response[i].first_name, response[i].id);
+                                        $('#manager').append(o);
+                                    }
+                                }
+                            }
+                            else{
+                                $('#lead').empty();
+                                $('#user').empty();
+                                $('#manager').empty();
+                            }
+
+
+
+                        }
+                    }
+            )
+        }
+    </script>
 @endsection
