@@ -33,13 +33,17 @@ class ProjectController extends Controller {
 			'name.required' => 'Enter name of the project',
 			'description.required' => 'You need a description',
 			'user_depart_name.required' => 'Department name is required',
-			'userids.required' => 'Userfield is required'
+			'userids.required' => 'User field is required',
+			'manager.required' => 'Manager field is required',
+			'lead.required' => 'lead Field is required'
 
 		];
 		$rules = [
 			'name' => 'required|min:2|unique:projects',
 			'description' => 'required|min:10',
 			'user_depart_name' => 'required',
+			'lead' => 'required',
+			'manager' => 'required',
 			'userids' => 'required'
 
 		];

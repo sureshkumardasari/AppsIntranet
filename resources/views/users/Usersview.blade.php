@@ -38,7 +38,22 @@
                                             <tr>
                                                 <td>{{ $users->username }}</td>
                                                 <td>{{ $users->email }}</td>
-                                                <td>{{ $users->status == 'A'?'Active':'Inactive' }}</td>
+                                                <td> <?php
+                                                    if(($users->status)=='0')
+                                                    {
+                                                    ?>
+                                                    <a href="{{ url('/status/'.$users->id) }}"
+                                                       class="act" onclick="return confirm('Activate <?php echo $users->username?>');"> Deactivate </a>
+                                                    <?php
+                                                    }
+                                                    if(($users->status)=='1')
+                                                    {
+                                                    ?>
+                                                    <a href="{{ url('/status/'.$users->id) }}"
+                                                       class="deact" onclick="return confirm('De-activate <?php echo $users->username?>');"> Activate</a>
+                                                    <?php
+                                                    }
+                                                    ?></td>
                                                  <td><a href="{{ url('/users/edit/'.$users->id) }}" >Edit</a>
                                                     &nbsp;&nbsp;|&nbsp;&nbsp;
                                                     <a href="{{ url('users/delete/'.$users->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>
