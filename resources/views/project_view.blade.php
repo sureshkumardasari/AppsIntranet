@@ -73,6 +73,7 @@
                     </div>
 
                 </div>
+                <a href="{{ URL::to('downloadExcelforproject/csv') }}"><button class="btn btn-info">Download CSV</button></a>
             </div>
         </div>
     </div>

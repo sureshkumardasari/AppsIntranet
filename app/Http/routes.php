@@ -134,3 +134,16 @@ Route::get('status/{id}','HomeController@status');
 Route::get('profile','HomeController@profile_view');
 Route::post('profileupdate/{id}','HomeController@profile_update');
 
+//Excel Routes....
+Route::get('downloadExcelfordepartment/{type}', 'DepartmentController@downloadExcel');
+
+Route::get('downloadExcelforproject/{type}', 'ProjectController@downloadExcel');
+
+Route::get('downloadExcelforusers/{type}', 'UserController@downloadExcel');
+
+Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@downloadExcel');
+
+Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
+
+Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
+Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');

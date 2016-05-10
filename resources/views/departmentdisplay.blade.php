@@ -77,6 +77,7 @@
                     </div>
 
                 </div>
+                <a href="{{ URL::to('downloadExcelfordepartment/csv') }}"><button class="btn btn-info">Download CSV</button></a>
             </div>
         </div>
     </div>
