@@ -6,10 +6,20 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Adding Module</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="post" action="{{url('addmodule')}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-md-4 control-label">project:</label>
+                                <label class="col-md-4 control-label">Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select name="project_id" class="form-control" >
                                         <option value="" selected disabled hidden>please select</option>
@@ -20,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">module title:</label>
+                                <label class="col-md-4 control-label">Module Title:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input class="form-control" name="name" type="text" value="{{ old('name') }}">
                                     <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -28,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">module description:</label>
+                                <label class="col-md-4 control-label">Module Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class=" col-md-6">
                                     <textarea class="form-control" name="description">{{ old('description') }}</textarea>
                                     <span class="text-danger">{{ $errors->first('description') }}</span>

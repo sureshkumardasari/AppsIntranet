@@ -6,11 +6,21 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" >User Task Assignment</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="post" action="{{url('/addtask')}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Project:</label>
+                                <label class="col-md-4 control-label">Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  class="form-control project" name="project_id" onchange="refresh_module();">
                                         <option disabled selected hidden>select</option>
@@ -23,7 +33,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Module:</label>
+                                <label class="col-md-4 control-label">Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select class="form-control" name="module_id" id="moduleList"></select>
                                     <span class="text-danger">{{ $errors->first('module_id') }}</span>
@@ -33,7 +43,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Title:</label>
+                                <label class="col-md-4 control-label">Task Title:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="task_title" value="{{old('task_title')}}"/>
                                     <span class="text-danger">{{ $errors->first('task_title') }}</span>
@@ -42,7 +52,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Description:</label>
+                                <label class="col-md-4 control-label">Task Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="task_description" >{{old('task_description')}}</textarea>
                                     <span class="text-danger">{{ $errors->first('task_description') }}</span>
@@ -51,7 +61,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">User:</label>
+                                <label class="col-md-4 control-label">User:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  class="form-control user" name="user_id">
                                         <option disabled selected hidden>select</option>
@@ -66,7 +76,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Date:</label>
+                                <label class="col-md-4 control-label">Date:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-2">
                                     <input  class="form-control datepicker" name="date" value="{{old('date')}}" placeholder="select date">
                                     <span class="text-danger">{{ $errors->first('date') }}</span>

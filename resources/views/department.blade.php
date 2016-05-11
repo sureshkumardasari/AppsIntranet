@@ -22,7 +22,7 @@
 							<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 							<div class="form-group">
-								<label class="col-md-4 control-label">Department Name</label>
+								<label class="col-md-4 control-label">Department Name<span style="color: red" >&nbsp; <b>*</b></span></label>
 								<div class="col-md-6">
 									<input type="text" class="form-control" name="name" value="{{ old('name') }}">
 
@@ -30,7 +30,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-md-4 control-label">Description</label>
+								<label class="col-md-4 control-label">Description<span style="color: red" >&nbsp; <b>*</b></span></label>
 								<div class="col-md-6">
 									<textarea class="form-control" name="depart_description" value="">{{ old('depart_description') }}</textarea>
 

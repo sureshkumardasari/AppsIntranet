@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration {
 			$table->string('last_name');
 			$table->string('password', 60);
 			$table->date('creation_date');
-			$table->enum('status', ['active', 'inactive']);
+			$table->enum('status')->default(0);
 			$table->integer('department_id');
 			$table->rememberToken();
 			$table->timestamps();

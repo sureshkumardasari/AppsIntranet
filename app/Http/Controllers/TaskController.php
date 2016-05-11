@@ -190,18 +190,26 @@ class TaskController extends Controller {
 	}
 	public function task($id)
 	{
-		$users=Auth::user();
-		$z=$users->id;
-		$tasks=TimeSheet::where('status','=',$id)->get();
-		$c=array();
-		foreach($tasks as $task)
-			array_push($c,$task->task_id);
-		$user_data_task=TimeSheet::join('tasks','time_sheets.task_id','=','tasks.id')
-				->wherein('time_sheets.task_id',$c)
-				->where('tasks.user_id','=',$z)
-				->select('task_title','task_description')->get();
+		if($id==4)
+		{
+			$user_data_task=Tasks::get();
+			return view('Dashboard',compact('user_data_task'));
+		}
+		else
+		{
+			$users=Auth::user();
+			$z=$users->id;
+			$tasks=TimeSheet::where('status','=',$id)->get();
+			$c=array();
+			foreach($tasks as $task)
+				array_push($c,$task->task_id);
+			$user_data_task=TimeSheet::join('tasks','time_sheets.task_id','=','tasks.id')
+					->wherein('time_sheets.task_id',$c)
+					->where('tasks.user_id','=',$z)
+					->select('task_title','task_description')->get();
 
-		return view('Dashboard',compact('tasks','user_data_task'));
+			return view('Dashboard',compact('tasks','user_data_task'));
+		}
 
 	}
 
