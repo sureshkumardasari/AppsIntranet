@@ -36,8 +36,6 @@
                                 <label class="col-md-4 control-label">Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select class="form-control" name="module_id" id="moduleList"></select>
-                                    <span class="text-danger">{{ $errors->first('module_id') }}</span>
-
                                 </div>
 
                             </div>
@@ -46,8 +44,6 @@
                                 <label class="col-md-4 control-label">Task Title:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="task_title" value="{{old('task_title')}}"/>
-                                    <span class="text-danger">{{ $errors->first('task_title') }}</span>
-
                                 </div>
                             </div>
 
@@ -55,8 +51,6 @@
                                 <label class="col-md-4 control-label">Task Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="task_description" >{{old('task_description')}}</textarea>
-                                    <span class="text-danger">{{ $errors->first('task_description') }}</span>
-
                                 </div>
                             </div>
 
@@ -69,8 +63,6 @@
                                             <option value={{$user->id}}>{{$user->username}}</option>
                                         @endforeach
                                     </select>
-                                    <span class="text-danger">{{ $errors->first('user_id') }}</span>
-
                                 </div>
 
                             </div>
@@ -79,7 +71,6 @@
                                 <label class="col-md-4 control-label">Date:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-2">
                                     <input  class="form-control datepicker" name="date" value="{{old('date')}}" placeholder="select date">
-                                    <span class="text-danger">{{ $errors->first('date') }}</span>
                                 </div>
 
                             </div>

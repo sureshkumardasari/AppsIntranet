@@ -31,14 +31,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Project Description</label>
+                                <label class="col-md-4 control-label">Project Description<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="description" value="">{{ $projects->description }}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Department Name</label>
+                                <label class="col-md-4 control-label">Department Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  id="depart" class="departSelect" multiple onchange="change_depart()" name="user_depart_name[]">
                                         <?php $depart_list=\App\Department::get();

@@ -19,6 +19,7 @@
 
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('users/update',$users->id) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="id" value="{{ $users->id }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">User Name</label>
@@ -28,21 +29,21 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">First Name</label>
+                                <label class="col-md-4 control-label">First Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="first_name" value="{{ $users->first_name }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Last Name</label>
+                                <label class="col-md-4 control-label">Last Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="last_name" value="{{  $users->last_name }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">E-Mail Address</label>
+                                <label class="col-md-4 control-label">E-Mail Address<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="email" class="form-control" name="email" value="{{ $users->email }}">
                                 </div>
@@ -105,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Department Name</label>
+                                <label class="col-md-4 control-label">Department Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select id="departments" class="departSelect" multiple name="user_depart_name[]">
                                         <?php $depart_list=\App\Department::get();
@@ -123,7 +124,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-default">Update</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                     <button type="reset" class="btn btn-default">Reset</button>
                                     <a class="btn btn-default" href="{{  url('/users') }}">Cancel</a>
                                 </div>

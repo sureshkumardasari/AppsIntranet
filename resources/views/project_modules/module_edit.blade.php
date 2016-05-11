@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Module Description:</label>
+                                <label class="col-md-4 control-label">Module Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class=" col-md-6">
                                     <textarea class="form-control" name="description" value="">{{ $module-> description }}</textarea>
                                     <span class="text-danger">{{ $errors->first('description') }}</span>

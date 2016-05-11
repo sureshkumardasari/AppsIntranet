@@ -6,6 +6,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Edit TimeSheet</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <form class="form-horizontal" role="form" method="post" action="{{url('timesheet_update')}}">
                             <input type="hidden" name="timesheet_id" value="{{$data->id}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
@@ -18,7 +29,6 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Module:</label>
-
                                 <div class="col-md-4">
                                     <input type="text" name="module_id" id="moduleList"  class='col-md-6 form-control' value={{$module->name}} readonly>
                                 </div>
@@ -33,7 +43,6 @@
                                 <label class="col-md-4 control-label">Comments:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <textarea name="comment" class='form-control' name="comment">{{$data->comment}}</textarea>
-                                    <span class="text-danger">{{ $errors->first('comment') }}</span>
 
                                 </div>
                             </div>
@@ -47,7 +56,7 @@
                                         <option value="2">Started</option>
                                         <option value="3">Need Clarification</option>
                                     </select>
-                                    <span class="text-danger">{{ $errors->first('status') }}</span>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -56,11 +65,11 @@
                                     <ul style="list-style: none" >
                                         <li style="display: inline">
                                             <input type="number" class='form-control' name="hours" max="12" min="0" size="2" placeholder="Enter Hours" value="{{$data->hours}}">
-                                            <span class="text-danger">{{ $errors->first('hours') }}</span>
+
                                         </li>
                                         <li style="display: inline">
                                             <input  type="number"  class='form-control' name="minutes" min="0" max="60" placeholder="Enter Minutes" value="{{$data->minutes}}">
-                                            <span class="text-danger">{{ $errors->first('minutes') }}</span>
+
                                         </li>
                                     </ul>
                                 </div>

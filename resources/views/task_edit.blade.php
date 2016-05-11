@@ -6,6 +6,16 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" >Task Edit</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="post" action="{{url('taskupdate',$task->id)}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
@@ -14,20 +24,18 @@
                                 <label class="col-md-4 control-label">Task Title:</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="task_title" value="{{$task->task_title}}" readonly/>
-                                    <span class="text-danger">{{ $errors->first('task_title') }}</span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Description:</label>
+                                <label class="col-md-4 control-label">Task Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="task_description" >{{$task->task_description}}</textarea>
-                                    <span class="text-danger">{{ $errors->first('task_description') }}</span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">User:</label>
+                                <label class="col-md-4 control-label">User:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  class="form-control user" name="user_id" >
                                         <option disabled selected hidden>select</option>
@@ -35,7 +43,6 @@
                                             <option value={{$user->id}}>{{$user->username}}</option>
                                         @endforeach
                                     </select>
-                                    <span class="text-danger">{{ $errors->first('user_id') }}</span>
 
                                 </div>
 
