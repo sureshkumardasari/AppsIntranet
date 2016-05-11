@@ -98,7 +98,9 @@
                         </tbody>
                     </table>
                 </div>
+                @if(!$timesheet->isEmpty())
                 <a href="{{ URL::to('downloadExcelfortimesheet/csv') }}"><button class="btn btn-info">Download CSV</button></a>
+                @endif
             </div>
         </div>
     </div>

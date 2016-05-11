@@ -73,7 +73,9 @@
                     </div>
 
                 </div>
+                @if(!$tasks->isEmpty())
                 <a href="{{ URL::to('downloadExcelfortask/csv') }}"><button class="btn btn-info">Download CSV</button></a>
+                @endif
             </div>
         </div>
     </div>

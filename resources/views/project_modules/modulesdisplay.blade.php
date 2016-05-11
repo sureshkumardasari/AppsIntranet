@@ -74,7 +74,9 @@
                     
 
                 </div>
+                @if(!$module->isEmpty())
                 <a href="{{ URL::to('downloadExcelforprojectmodule/csv') }}"><button class="btn btn-info">Download CSV</button></a>
+                @endif
             </div>
 
         </div>

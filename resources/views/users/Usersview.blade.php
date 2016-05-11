@@ -121,7 +121,9 @@
 
 
                 </div>
+                @if(!$users->isEmpty())
                 <div> <a href="{{ URL::to('downloadExcelforusers/csv') }}"><button class="btn btn-info">Download CSV</button></a></div>
+                @endif
             </div>
         </div>
     </div>
