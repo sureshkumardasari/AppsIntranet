@@ -206,15 +206,12 @@ class UserController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		/*$user=User::find($id);
-		$user->delete($id);
-
-		return Redirect::to ('users');*/
-		$user_department = User::select('department_id')->where('id', $id)->first();
+		
+		$user_department = Department::select('id');
 		//return $users;
-        $user_dependency=Department::find($user_department->department_id);
+       /* $user_dependency=Department::find($user_department->department_id);*/
        // dd($user_dependency);
-		if ($user_dependency == null) {
+		if ($user_department == null) {
 			User::find($id)->delete();
 			\Session::flash('flash_message', 'Deleted.');
 			return redirect('users');

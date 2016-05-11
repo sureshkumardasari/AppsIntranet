@@ -10,6 +10,7 @@ use Validator;
 use Session;
 use App\ProjectModules;
 use Excel;
+use App\ProjectUser;
 
 class ProjectModuleController extends Controller {
 
@@ -42,8 +43,18 @@ class ProjectModuleController extends Controller {
     }
     public function destroy($id)
     {
+        /*$project = Project::where('id')->count();*/
+        $projects=Project::select('id')->count();
+        if($projects == null){
         projectModules::find($id)->delete();
-        return Redirect::to('module');
+         \Session::flash('message', 'Deleted!');
+         return Redirect::to('module');
+        }
+        else
+        {
+            \Session::flash('alert-class', 'Cannot Delete this Module');
+        return Redirect::back();
+        }
     }
 
     public function edit($id)
