@@ -155,54 +155,48 @@ class UserController extends Controller {
 		$users=User::find($id);
 		$post=Input::all();
 
+
 		$rules = [
-				'institution_id' =>'required|not_in:0',
-				'role_id' =>'required|not_in:0',
-				'name' => 'required|min:3|unique:users',
-				'email' => 'required|email|max:255|unique:users',
-				'enrollno' =>'required'];
+				'first_name' => 'required|max:255',
+				'last_name' => 'required|max:255',
+				'user_depart_name' =>'required',];
+		$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
 
-		if($post['id'] > 0)
+		if($post['password'] != NULL)
 		{
-			$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
-			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
+			$rules['password'] = 'confirmed|min:6';
+		}
 
-			if($post['password'] != NULL)
-			{
-				$rules['password'] = 'confirmed|min:6';
-			}
-		}
-		else
-		{
-			$rules['password'] = 'required|confirmed|min:6';
-		}
 
 		$validator = Validator::make($post, $rules);
 
-		$validator=Validator::make($post,[
+		/*$validator=Validator::make($post,[
 						'first_name' => 'required|max:255',
 						'last_name' => 'required|max:255',
 						'user_depart_name' =>'required',
 						'email'=>'required|unique:users',
 						]
-		);
+		);*/
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 		unset($post['_token']);
-		$record = User::where('id',$id)->update([
-				//'username'=>$post['username'],
-				'first_name'=>$post['first_name'],
-				'last_name'=>$post['last_name'],
-			/* 'user_depart_name'=>$post['department_id'],*/
-				'password'=>bcrypt($post['password']),
-				'email'=>$post['email'],
-			'role_id'=>$post['roles'],
-				'gender'=>$post['gender'],
-				'date_of_birth'=>$post['dob'],
-				'joining_date'=>$post['jod'],
 
-		]);
+		$update = [
+			'first_name'=>$post['first_name'],
+			'last_name'=>$post['last_name'],
+			'email'=>$post['email'],
+			'role_id'=>$post['roles'],
+			'gender'=>$post['gender'],
+			'date_of_birth'=>$post['dob'],
+			'joining_date'=>$post['jod']
+		];
+		if($post['password'] != "")
+		{
+			$update['password'] = bcrypt($post['password']);
+		}
+		$record = User::where('id',$id)->update($update);
+
 		if(isset($post['user_depart_name'])){
 		if($record){
 			$user_departments=$post['user_depart_name'];
@@ -215,7 +209,7 @@ class UserController extends Controller {
 			]);
 			}
 
-			//foreach(  )
+
 		}
 		}
 		else{

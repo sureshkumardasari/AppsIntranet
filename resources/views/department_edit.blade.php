@@ -30,7 +30,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Description</label>
+                                <label class="col-md-4 control-label">Description<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="depart_description" value="">{{ $department-> description }}</textarea>
                                 </div>

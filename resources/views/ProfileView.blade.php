@@ -28,7 +28,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">First Name</label>
+                                <label class="col-md-4 control-label">First Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="first_name" value="{{ $users->first_name }}">
                                     <span class="text-danger">{{ $errors->first('first_name') }}</span>
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Last Name</label>
+                                <label class="col-md-4 control-label">Last Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="last_name" value="{{  $users->last_name }}">
                                     <span class="text-danger">{{ $errors->first('last_name') }}</span>
@@ -46,21 +46,21 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">E-Mail Address</label>
+                                <label class="col-md-4 control-label">E-Mail Address<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="email" class="form-control" name="email" value="{{ $users->email }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Password</label>
+                                <label class="col-md-4 control-label">Password<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="password" class="form-control" value="{{ $users->password }}" name="password">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Confirm Password</label>
+                                <label class="col-md-4 control-label">Confirm Password<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="password" class="form-control" value="{{ $users->password }}" name="password_confirmation">
                                 </div>

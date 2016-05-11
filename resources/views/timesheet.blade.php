@@ -37,7 +37,6 @@
 
                                     <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='col-md-6 form-control' onchange="refresh_task();">
-                                        <span class="text-danger">{{ $errors->first('module_id') }}</span>
                                     </select>
                                 </div>
                             </div>
@@ -45,16 +44,12 @@
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                 <select name="task_id" class='form-control' id="taskList"></select>
-                                <span class="text-danger">{{ $errors->first('taskList') }}</span>
-
                             </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label" >Comments:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                     <textarea name="comment" class='form-control' name="comment">{{old('comment')}}</textarea>
-                                <span class="text-danger">{{ $errors->first('comment') }}</span>
-
                             </div>
                             </div>
                             <div class="form-group">
@@ -67,8 +62,6 @@
                                         <option value="2">Started</option>
                                         <option value="3">Need Clarification</option>
                                     </select>
-                                <span class="text-danger">{{ $errors->first('status') }}</span>
-
                             </div>
                             </div>
                             <div class="form-group">
@@ -77,13 +70,9 @@
                                     <ul style="list-style: none" >
                                         <li style="display: inline">
                                             <input type="number" class='form-control' name="hours" max="12" min="0" size="2" placeholder="Enter Hours">
-                                            <span class="text-danger">{{ $errors->first('hours') }}</span>
-
                                         </li>
                                         <li style="display: inline">
                                             <input  type="number"  class='form-control' name="minutes" min="0" max="60" placeholder="Enter Minutes">
-                                            <span class="text-danger">{{ $errors->first('minutes') }}</span>
-
                                         </li>
                                     </ul>
                                 </div>
