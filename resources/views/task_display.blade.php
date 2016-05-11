@@ -65,8 +65,19 @@
                         </form>
 
                     </div>
-<a href="{{ URL::to('downloadExcelfortask/csv') }}"><button class="btn btn-info">Download CSV</button></a>
+                    <div>
+                        @if(Session::has('message'))
+                            <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('message') !!}</em></div>
+                        @endif
+                    </div>
+                    <div>
+                        @if(Session::has('alert-class'))
+                            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('alert-class') !!}</em></div>
+                        @endif
+                    </div>
+
                 </div>
+                <a href="{{ URL::to('downloadExcelfortask/csv') }}"><button class="btn btn-info">Download CSV</button></a>
             </div>
         </div>
     </div>

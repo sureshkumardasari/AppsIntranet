@@ -117,8 +117,27 @@ class TaskController extends Controller {
 	 */
 	public function destroy($id)
 	{
+		/*Tasks::find($id)->delete();
+		return Redirect::to('task');*/
+		/*$user_department = User::where('id', $id)->count();*/
+		/*$project =ProjectUser::where('project_id',$id)->count();
+		dd($id);
+		$projectuser =ProjectUser::where('user_id',$id)->count();*/
+		$users=User::select('id')->count();
+		$projects=Project::select('id')->count();
+		if($projects == null && $users == null)
+		{
 		Tasks::find($id)->delete();
-		return Redirect::to('task');
+		 \Session::flash('message', 'Deleted!');
+		 return Redirect::to('task');
+		}
+		else
+		{
+			\Session::flash('alert-class', 'Cannot Delete this Task');
+		
+		return Redirect::back();
+
+		}
 	}
 	public function projectList($id){
 		$a=	ProjectUser::join('projects','projects_users.project_id','=','projects.id')

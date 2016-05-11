@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\User;
+use App\Department;
+
 use form;
 use Input;
 use Redirect;
@@ -99,7 +101,7 @@ class HomeController extends Controller {
 
 	public function show()
 	{
-		$users=App::get();
+		$users=User::get();
 		return view('Usersview',compact('users'));
 	}
 	public function userLoginCheck(){
