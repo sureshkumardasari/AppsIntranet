@@ -10,14 +10,14 @@
                             <input type="hidden" name="timesheet_id" value="{{$data->id}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-md-4 control-label">project:</label>
+                                <label class="col-md-4 control-label">Project:</label>
 
                                 <div class="col-md-4">
                                     <input type="text" name="project_id" class="project form-control" value={{$project->name}} readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">module:</label>
+                                <label class="col-md-4 control-label">Module:</label>
 
                                 <div class="col-md-4">
                                     <input type="text" name="module_id" id="moduleList"  class='col-md-6 form-control' value={{$module->name}} readonly>
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Comments:</label>
+                                <label class="col-md-4 control-label">Comments:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <textarea name="comment" class='form-control' name="comment">{{$data->comment}}</textarea>
                                     <span class="text-danger">{{ $errors->first('comment') }}</span>
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Status:</label>
+                                <label class="col-md-4 control-label">Status:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <select name="status" id="status" class='form-control'>
                                         <option selected disabled hidden>--please select status--</option>
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Time Spent:</label>
+                                <label class="col-md-4 control-label">Time Spent:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <ul style="list-style: none" >
                                         <li style="display: inline">

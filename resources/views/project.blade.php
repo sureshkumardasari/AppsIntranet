@@ -33,21 +33,22 @@
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
 							<div class="form-group">
-								<label class="col-md-4 control-label">Project Name</label>
+								<label class="col-md-4 control-label">Project Name<span style="color: red" >&nbsp; <b>*</b></span></label>
 								<div class="col-md-6">
 									<input type="text" class="form-control" name="name" value="{{ old('name') }}">
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-md-4 control-label">Project Description</label>
+								<label class="col-md-4 control-label">Project Description<span style="color: red" >&nbsp; <b>*</b></span></label>
 								<div class="col-md-6">
 									<textarea class="form-control" name="description" value="">{{ old('description') }}</textarea>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-md-4 control-label">Department Name</label>
+								<label class="col-md-4 control-label">Department Name<span style="color: red" >&nbsp; <b>*</b></span></label>
+
 								<div class="col-md-6">
 									<select  id="depart" class="departSelect" multiple onchange="change_depart()" name="user_depart_name[]">
 										<?php $depart_list=\App\Department::get();

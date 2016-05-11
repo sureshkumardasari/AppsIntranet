@@ -4,12 +4,22 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">timesheet</div>
+                    <div class="panel-heading">TimeSheet</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="post" action="timesheetsubmit">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-md-4 control-label">select project:</label>
+                                <label class="col-md-4 control-label">Select Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
 
                                     <div class="col-md-4">
                                     <select name="project_id" class="project form-control" onchange="refresh_module();">
@@ -23,7 +33,7 @@
                                     </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">select module:</label>
+                                <label class="col-md-4 control-label">Select Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
 
                                     <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='col-md-6 form-control' onchange="refresh_task();">
@@ -32,7 +42,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">select Task:</label>
+                                <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                 <select name="task_id" class='form-control' id="taskList"></select>
                                 <span class="text-danger">{{ $errors->first('taskList') }}</span>
@@ -40,7 +50,7 @@
                             </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label" >Comments:</label>
+                                <label class="col-md-4 control-label" >Comments:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                     <textarea name="comment" class='form-control' name="comment">{{old('comment')}}</textarea>
                                 <span class="text-danger">{{ $errors->first('comment') }}</span>
@@ -48,7 +58,7 @@
                             </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Status:</label>
+                                <label class="col-md-4 control-label">Status:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                     <select name="status" class='form-control'>
                                         <option selected disabled hidden>--please select status--</option>
@@ -62,7 +72,7 @@
                             </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Time Spent:</label>
+                                <label class="col-md-4 control-label">Time Spent:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <ul style="list-style: none" >
                                         <li style="display: inline">

@@ -10,7 +10,7 @@
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">module title:</label>
+                                <label class="col-md-4 control-label">Module Title:</label>
                                 <div class="col-md-6">
                                     <input class="form-control" name="name" type="text" value="{{ $module-> name }}" readonly>
                                     <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">module description:</label>
+                                <label class="col-md-4 control-label">Module Description:</label>
                                 <div class=" col-md-6">
                                     <textarea class="form-control" name="description" value="">{{ $module-> description }}</textarea>
                                     <span class="text-danger">{{ $errors->first('description') }}</span>

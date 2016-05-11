@@ -154,15 +154,41 @@ class UserController extends Controller {
 	{
 		$users=User::find($id);
 		$post=Input::all();
-        $validator=Validator::make($post,[
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-				'user_depart_name' =>'required',
-				'password' =>'required',
-				'password_confirmation'=>'required'
-                ]
-        );
 
+		$rules = [
+				'institution_id' =>'required|not_in:0',
+				'role_id' =>'required|not_in:0',
+				'name' => 'required|min:3|unique:users',
+				'email' => 'required|email|max:255|unique:users',
+				'enrollno' =>'required'];
+
+		if($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
+			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
+
+			if($post['password'] != NULL)
+			{
+				$rules['password'] = 'confirmed|min:6';
+			}
+		}
+		else
+		{
+			$rules['password'] = 'required|confirmed|min:6';
+		}
+
+		$validator = Validator::make($post, $rules);
+
+		$validator=Validator::make($post,[
+						'first_name' => 'required|max:255',
+						'last_name' => 'required|max:255',
+						'user_depart_name' =>'required',
+						'email'=>'required|unique:users',
+						]
+		);
+		if ($validator->fails()){
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
 		unset($post['_token']);
 		$record = User::where('id',$id)->update([
 				//'username'=>$post['username'],

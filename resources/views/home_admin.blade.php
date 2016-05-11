@@ -35,21 +35,21 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">User Name</label>
+                                <label class="col-md-4 control-label">User Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="username" value="<?php echo $row['username'];?>" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">First Name</label>
+                                <label class="col-md-4 control-label">First Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="first_name" value="<?php echo $row['first_name'];?>">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Last Name</label>
+                                <label class="col-md-4 control-label">Last Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="last_name" value="<?php echo $row['last_name'];?>">
                                 </div>
