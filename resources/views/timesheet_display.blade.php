@@ -171,6 +171,8 @@
                             $('#project').empty();
                             $('#moduleList').empty();
                             $('#task').empty();
+                            $('#from_date').val('');
+                            $('#to_date').val('');
                             var opt=new Option('--project filter--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#project').append(opt);
@@ -197,6 +199,8 @@
                             var a=response.length;
                             // alert(a);
                             $('#user').empty();
+                            $('#from_date').val('');
+                            $('#to_date').val('');
                             var opt=new Option('--user filter--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#user').append(opt);
@@ -221,6 +225,8 @@
                             // alert(a);
                             $('#moduleList').empty();
                             $('#task').empty();
+                            $('#from_date').val('');
+                            $('#to_date').val('');
                             var opt=new Option('--module filter--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
@@ -247,6 +253,8 @@
                             var a=response.length;
                             // alert(a);
                             $('#task').empty();
+                            $('#from_date').val('');
+                            $('#to_date').val('');
                             var opt=new Option('--task filter--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#task').append(opt);
