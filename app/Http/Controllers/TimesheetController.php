@@ -16,6 +16,7 @@ use Excel;
 use Response;
 use App\Department;
 use App\ProjectUser;
+use App\Client;
 
 class TimesheetController extends Controller {
 
@@ -221,20 +222,28 @@ if($data==null) {
         $filter_data['user']=$data->user;
         $filter_data['from_date']=$data->from_date;
         $filter_data['to_date']=$data->to_date;
-        if ($filter_data['department']==0){
+        $user_data=User::where('id',$filter_data['user'])->first();
+        if($filter_data['project']) {
+            $client_data = Project::where('id', $filter_data['project'])->select('client_id')->first();
+            $client_name = Client::where('id', $client_data->client_id)->first();
+           }
+
+         if ($filter_data['department']==0){
             $timesheet=$this->display_timesheet("downloadFullExcel");
         }
     else{
         $timesheet=$this->filter($filter_data);
-        }
+         }
 
 $task="";
 
         $i=0;
 
-        $report_data=Array();
-        $a=Array();
-        foreach($timesheet as $time){
+        $report_data = Array();
+        $a = Array();
+        $totalhoursspent = 0;
+        $totalminutesspent = 0;
+        foreach ($timesheet as $time) {
 
              if($task == $time->task_title){
 
@@ -254,6 +263,8 @@ $task="";
                     $a['hours_sunday']=$time->hours.":".$time->minutes;
                 $a['total_hours_spent'] +=$time->hours;
                 $a['total_minutes_spent'] +=$time->minutes;
+		 $totalhoursspent += $time->hours;
+                $totalminutesspent += $time->minutes;
                 if($a['total_minutes_spent'] >=60 ){
                     $a['total_hours_spent'] +=intval(( $a['total_minutes_spent']/60 ));
                     $a['total_minutes_spent']=($a['total_minutes_spent']%60);
@@ -292,14 +303,27 @@ $task="";
                     $a['hours_sunday']=$time->hours.":".$time->minutes;
                 $a['total_hours_spent']=$time->hours;
                 $a['total_minutes_spent']=$time->minutes;
+		$totalhoursspent += $time->hours;
+                $totalminutesspent += $time->minutes;
+			
             }
-            $task=$time->task_title;
+            $task = $time->task_title;
         }
+        array_push($report_data, $a);
+        if ($totalminutesspent >= 60){
 
-         return Excel::create('Report', function($excel) use ($report_data) {
-            $excel->sheet('Report', function($sheet) use ($report_data)
+        $totalhoursspent += intval($totalminutesspent/60);
+            $totalminutesspent = ($totalminutesspent % 60);
+            }
+          return Excel::create('Report', function($excel) use ($report_data,$totalhoursspent,$totalminutesspent,$user_data,$client_name) {
+            $excel->sheet('Report', function($sheet) use ($report_data,$totalhoursspent,$totalminutesspent,$user_data,$client_name)
             {
-                 $sheet->loadView('timesheet_report', array('report_data' => $report_data));
+                $sheet->loadView('timesheet_report', array('report_data' => $report_data,'totalhoursspent'=>$totalhoursspent,'totalminutesspent'=>$totalminutesspent,'user_data'=>$user_data,'client_name'=>$client_name));
+                $sheet->setStyle(array(
+                    'font' => array(
+                         'bold'      =>  true
+                    )
+                ));
             });
         })->download($type);
     }
