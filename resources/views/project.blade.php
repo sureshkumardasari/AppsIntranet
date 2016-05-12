@@ -64,6 +64,26 @@
 									</script>
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Client</label>
+
+								<div class="col-md-6">
+									<select  id="client" class="clientSelect"  name="client">
+										<?php $clients=\App\Client::get();
+										foreach($clients as $client){?>
+										<option value="{{$client->id}}">
+											{{$client->clientname}}
+										</option>
+										<?php }
+										?>
+									</select>
+									<script>
+										$('#client').fastselect();
+									</script>
+								</div>
+							</div>
+
 							<div class="form-group" >
 								<label class="col-md-4 control-label">Add Project Lead</label>
 								<div class="col-md-6" id="projectleads">

@@ -160,4 +160,4 @@ Route::get('clientcreate','ClientController@index');
 Route::get('clientview', 'ClientController@display');
 Route::get('client/{id}/edit','ClientController@edit');
 Route::get('delete/{id}','ClientController@destroy');
-Route::post('update/{id}','ClientController@update');
+Route::post('update_client/{id}','ClientController@update');

@@ -17,7 +17,7 @@
                             </div>
                         @endif
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('update',$client->id) }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('update_client',$client->id) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">

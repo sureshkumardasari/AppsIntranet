@@ -22,6 +22,6 @@ class Project extends Model implements AuthenticatableContract, CanResetPassword
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description','department_id'];
+	protected $fillable = ['name', 'description','department_id','client_id'];
 
 }

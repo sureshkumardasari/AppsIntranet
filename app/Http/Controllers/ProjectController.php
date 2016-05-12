@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Client;
 use App\Department;
 use App\ProjectDepartment;
 use App\ProjectUser;
@@ -53,6 +54,7 @@ class ProjectController extends Controller
 			$project = new Project;
 			$project->name = $project_list['name'];
 			$project->description = $project_list['description'];
+			$project->client_id=$project_list['client'];
 			$project->save();
 
 			if (isset($project_list['user_depart_name'])) {
@@ -94,6 +96,9 @@ class ProjectController extends Controller
 //
 		$departments=ProjectDepartment::where('project_id',$id)->select('depart_id')->get();
 
+
+			$client=Project::where('id',$id)->select('client_id')->first();
+//dd($client);
 		//for project leads.........
 
 		$project_leads=ProjectUser::join('users','projects_users.user_id','=','users.id')
@@ -112,12 +117,13 @@ class ProjectController extends Controller
 			->select('users.id','users.first_name')->where('projects_users.project_id',$id)
 			->where('users.role_id',2)->get();
 
-		return view('edit', compact('projects','departments','project_leads','project_managers','project_users'));
+		return view('edit', compact('projects','departments','project_leads','project_managers','project_users','client'));
 	}
 	public function update($id)
 	{
 
 		$projects = Project::find($id);
+		//dd("lkhj");
 		//Update Query
 		$post=Input::all();
 		$validator=Validator::make($post,[
@@ -131,6 +137,8 @@ class ProjectController extends Controller
 
 		$record = Project::where('id',$id)->update([
 				'description'=>$post['description'],
+			'client_id'=>$post['client']
+
 		]);
 
 		ProjectDepartment::where('project_id',$id)->delete();

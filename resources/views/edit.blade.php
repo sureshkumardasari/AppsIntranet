@@ -54,6 +54,28 @@
                                     </script>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Client</label>
+
+                                <div class="col-md-6">
+                                    <select  id="client" class="clientSelect"  name="client">
+                                        <option value="0">select client</option>
+                                        <?php $clients=\App\Client::get();
+                                        foreach($clients as $client_data){?>
+                                        <option value="{{$client_data->id}}">
+                                            {{$client_data->clientname}}
+                                        </option>
+                                        <?php }
+                                        ?>
+                                    </select>
+                                    <script>
+                                       // $('#client').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+
+
                             <div class="form-group" >
                                 <label class="col-md-4 control-label">Add Project Lead</label>
                                 <div class="col-md-6" id="projectleads">
@@ -124,6 +146,10 @@
     foreach($departments as $department){
         array_push($list,$department->depart_id);
     }
+
+
+
+
     ?>
     <script>
         //var count=0;
@@ -135,6 +161,8 @@
             $('#depart').multiselect("refresh");
 
 
+
+        $('#client').val({{$client->client_id}});
 
         function change_depart(){
             //	alert($('#depart').val());
