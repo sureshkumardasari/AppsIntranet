@@ -88,6 +88,9 @@ Route::post('gettimesheetfilterdata','TimeSheetController@filter');
 Route::get('timesheet_edit/{timesheet_id}','TimeSheetController@edit');
 Route::post('timesheet_display','TimeSheetController@display_timesheet');
 Route::post('timesheet_update','TimeSheetController@update');
+Route::get('UsersTimesheet','TimeSheetController@usertimesheet');
+Route::post('UsersTimesheet/{id}','TimeSheetController@projectlist');
+
 /*Roles*/
 Route::get('home_project_lead', 'WelcomeController@projectLead');
 Route::get('home_project_manager', 'WelcomeController@projectManager');
