@@ -46,21 +46,26 @@ class TimesheetController extends Controller {
         return Redirect::back()->with('success','Timesheet Created Successfully');
     }
 
-    public function display_timesheet(){
+    public function display_timesheet($data=null){
         $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
             ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
-            ->join('tasks','tasks.id','=','time_sheets.task_id')
-            ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
-            ->get();
-        //$project_list=Project::distinct('name')->get();
-        // return $project_list;
+            ->join('tasks','tasks.id','=','time_sheets.task_id');
+
+        if($data==null){
         $department_list=Department::distinct('name')->get();
         if (\Request::isMethod('post'))
         {
-            return $timesheet;
+            return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                ->get();
         }
-        else
-            return view('timesheet_display',compact('timesheet','department_list'));
+        else{
+            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                ->get();
+            return view('timesheet_display',compact('timesheet','department_list'));}
+        }
+        else return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+           ->orderBy('projects.id')->orderBy('tasks.task_title')
+            ->get();
     }
 
     public function filter($data=null){
@@ -122,7 +127,10 @@ if($data==null) {
                     $timesheet->where('tasks.created_at','>=', $from_date);
                 }
             }
-            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')->get();
+            if(isset($data['from_method'])){
+                $timesheet->orderBy('projects.id')->orderBy('tasks.task_title');
+            }
+            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')->get();
         }
         return $timesheet;
 //        if($data['module']==0){
@@ -178,7 +186,7 @@ if($data==null) {
 
     }
 //
-//public function downloadExcel($type)
+//public function downloadFullExcel($type)
 //    {
 //        $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
 //            ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
@@ -204,6 +212,8 @@ if($data==null) {
         $data=Input::all();
         $data=($data['data']);
         $data=json_decode($data);
+
+        $filter_data['from_method']="downloadExcel";
         $filter_data['department']=$data->department;
         $filter_data['project']=$data->project;
         $filter_data['module']=$data->module;
@@ -211,30 +221,86 @@ if($data==null) {
         $filter_data['user']=$data->user;
         $filter_data['from_date']=$data->from_date;
         $filter_data['to_date']=$data->to_date;
+        if ($filter_data['department']==0){
+            $timesheet=$this->display_timesheet("downloadFullExcel");
+        }
+    else{
         $timesheet=$this->filter($filter_data);
-        return Excel::create('Report', function($excel) use ($timesheet) {
-            $excel->sheet('Report', function($sheet) use ($timesheet)
+        }
+
+$task="";
+
+        $i=0;
+
+        $report_data=Array();
+        $a=Array();
+        foreach($timesheet as $time){
+
+             if($task == $time->task_title){
+
+                if(date('D',strtotime($time->created_at))=="Mon")
+                $a['hours_monday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Tue")
+                    $a['hours_tuesday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Wed")
+                    $a['hours_wednesday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Thu")
+                    $a['hours_thursday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Fri")
+                    $a['hours_friday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Sat")
+                    $a['hours_saturday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Sun")
+                    $a['hours_sunday']=$time->hours.":".$time->minutes;
+                $a['total_hours_spent'] +=$time->hours;
+                $a['total_minutes_spent'] +=$time->minutes;
+                if($a['total_minutes_spent'] >=60 ){
+                    $a['total_hours_spent'] +=intval(( $a['total_minutes_spent']/60 ));
+                    $a['total_minutes_spent']=($a['total_minutes_spent']%60);
+                }
+            }
+            else{
+                if($i!=0){
+                    array_push($report_data,$a);
+                }
+                $i++;
+                $a=Array();
+                $a['total_hours_spent']=0;
+                $a['total_minutes_spent']=0;
+                $a['hours_monday']=0;
+                $a['hours_tuesday']=0;
+                $a['hours_wednesday']=0;
+                $a['hours_thursday']=0;
+                $a['hours_friday']=0;
+                $a['hours_saturday']=0;
+                $a['hours_sunday']=0;
+                $a['project_name']=$time->project_name;
+                $a['task_title']=$time->task_title;
+                if(date('D',strtotime($time->created_at))=="Mon")
+                    $a['hours_monday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Tue")
+                    $a['hours_tuesday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Wed")
+                    $a['hours_wednesday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Thu")
+                    $a['hours_thursday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Fri")
+                    $a['hours_friday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Sat")
+                    $a['hours_saturday']=$time->hours.":".$time->minutes;
+                if(date('D',strtotime($time->created_at))=="Sun")
+                    $a['hours_sunday']=$time->hours.":".$time->minutes;
+                $a['total_hours_spent']=$time->hours;
+                $a['total_minutes_spent']=$time->minutes;
+            }
+            $task=$time->task_title;
+        }
+
+         return Excel::create('Report', function($excel) use ($report_data) {
+            $excel->sheet('Report', function($sheet) use ($report_data)
             {
-                $sheet->loadView('timesheet_report', array('timesheet' => $timesheet));
+                 $sheet->loadView('timesheet_report', array('report_data' => $report_data));
             });
         })->download($type);
-    }
-    public function usertimesheet()
-    {
-        $users=User::get();
-        return view('usertimesheet',compact('users'));
-    }
-    public function projectlist($id)
-    {
-        $project=ProjectUser::where('user_id','=',$id)
-            ->select('project_id')
-            ->get();
-        $id=array();
-        foreach($project as $proj)
-            array_push($id,$proj->project_id);
-
-        $projects=Project::wherein('id',$id)
-            ->select('name','id')->get();
-        return($projects);
     }
 }

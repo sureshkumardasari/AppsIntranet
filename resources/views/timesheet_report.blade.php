@@ -38,18 +38,19 @@
       </thead>
     <tbody>
 
-        @foreach($timesheet as $timesheets)
+        @foreach($report_data as $timesheets)
+
         <tr>
-        <td width="20px">{{$timesheets->project_name}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->hours}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
-        <td width="20px">{{$timesheets->task_title}}</td>
+        <td width="20px">{{$timesheets['project_name']}}</td>
+        <td width="20px">{{$timesheets['task_title']}}</td>
+        <td width="20px">{{$timesheets['hours_monday']}}</td>
+        <td width="20px">{{$timesheets['hours_tuesday']}}</td>
+        <td width="20px">{{$timesheets['hours_wednesday']}}</td>
+        <td width="20px">{{$timesheets['hours_thursday']}}</td>
+        <td width="20px">{{$timesheets['hours_friday']}}</td>
+        <td width="20px">{{$timesheets['hours_saturday']}}</td>
+        <td width="20px">{{$timesheets['hours_sunday']}}</td>
+        <td width="20px">{{$timesheets['total_hours_spent']}} : {{$timesheets['total_minutes_spent']}}</td>
         </tr>
         @endforeach
 
