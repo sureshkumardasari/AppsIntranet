@@ -356,7 +356,7 @@ users();
             );
         }
         function download_excel(){
-            var url="downloadExcelfortimesheet/csv";
+            var url="downloadExcelfortimesheet/xls";
             var csrf=$('Input#csrf_token').val();
             var department=$('#department').val();
             var project=$('#project').val();
@@ -365,9 +365,12 @@ users();
             var user=$('#user').val();
             var from_date=$('#from_date').val();
             var to_date=$('#to_date').val();
-            var data =new Array();
-             data.push({'department':department,'project':project,'module':module,'task':task,'user':user,'from_date':from_date,'to_date':to_date});
-            window.location =""+url+"?"+data;
+            //var object ={};
+            //var array_data=[];
+            object = {'department':department,'project':project,'module':module,'task':task,'user':user,'from_date':from_date,'to_date':to_date};
+            //array_data.push(object);
+            array_data=JSON.stringify(object);
+            window.location =""+url+"?data="+array_data;
 //            $.ajax(
 //                    {
 //                url:url,
