@@ -242,7 +242,28 @@ class UserController extends Controller {
 
 		}
 	}
-	
+
+	public function userlist($department_id=null,$project_id=null,$task_id=null){
+		$users="";
+		if($department_id){
+			if($project_id==null||$project_id==0){
+				$users=User::join('user_departments','user_departments.user_id','=','users.id')->where('user_departments.depart_id',$department_id)
+					->select('users.id','users.first_name')->groupBy('id')->get();
+			}
+			else
+			{
+				if($task_id==null||$task_id==0){
+					$users=User::join('projects_users','projects_users.user_id','=','users.id')->select('users.id','users.first_name')
+						->where('projects_users.project_id',$project_id)->groupBy('id')->get();
+				}
+				else{
+					$users=User::join('tasks','tasks.user_id','=','users.id')->select('users.id','users.first_name')
+						->where('tasks.id',$task_id)->groupBy('id')->get();
+				}
+			}
+		}
+		return $users;
+	}
 
 	public function downloadExcel($type)
 	{
