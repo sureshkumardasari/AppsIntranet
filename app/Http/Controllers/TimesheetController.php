@@ -15,6 +15,7 @@ use Redirect;
 use Excel;
 use Response;
 use App\Department;
+use App\ProjectUser;
 
 class TimesheetController extends Controller {
 
@@ -218,5 +219,22 @@ if($data==null) {
             });
         })->download($type);
     }
+    public function usertimesheet()
+    {
+        $users=User::get();
+        return view('usertimesheet',compact('users'));
+    }
+    public function projectlist($id)
+    {
+        $project=ProjectUser::where('user_id','=',$id)
+            ->select('project_id')
+            ->get();
+        $id=array();
+        foreach($project as $proj)
+            array_push($id,$proj->project_id);
 
+        $projects=Project::wherein('id',$id)
+            ->select('name','id')->get();
+        return($projects);
+    }
 }
