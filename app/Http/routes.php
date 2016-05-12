@@ -61,7 +61,7 @@ Route::post('create','UserController@create');
 Route::get('task','TaskController@display');
 Route::get('addtask','TaskController@index');
 Route::post('addtask','TaskController@add');
-Route::post('projectlist/{id}',['as'=>'project_list','uses'=>'TaskController@projectList']);
+Route::post('project_list/{id}',['as'=>'project_list','uses'=>'TaskController@project_List']);
 Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modulelist']);
 Route::post('taskupdate/{id}','TaskController@update');
 Route::get('task/{id}','TaskController@destroy');
@@ -131,6 +131,7 @@ Route::get('logout', array('before' => 'auth', function()
 Route::post('task/{id}','TaskController@task');
 Route::get('completedtask','TaskController@completedtask');
 Route::get('status/{id}','HomeController@status');
+Route::post('userlist/{department_id}/{project_id}/{task_id}','UserController@userlist');
 Route::get('profile','HomeController@profile_view');
 Route::post('profileupdate/{id}','HomeController@profile_update');
 
@@ -146,4 +147,4 @@ Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@down
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
-Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
+Route::get('downloadExcelfortimesheet/{type}/{data}','TimeSheetController@downloadExcel');

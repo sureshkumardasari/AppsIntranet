@@ -140,15 +140,15 @@ class TaskController extends Controller {
 		}
 	}
 	public function projectList($id){
-		$a=	ProjectUser::join('projects','projects_users.project_id','=','projects.id')
+		$projects=	ProjectUser::join('projects','projects_users.project_id','=','projects.id')
 				->where('projects_users.user_id','=',$id)
 				->select('projects.id','name')
 				->get();
-		return $a;
+		return $projects;
 	}
 	public function moduleList($id){
-		$a=projectModules::where('project_id',$id)->select('id','name')->get();
-		return $a;
+		$modules=projectModules::where('project_id',$id)->select('id','name')->get();
+		return $modules;
 	}
 
 	/*----------getting the list of the tasks that are assosciated with the specified project and the module-------*/
@@ -212,6 +212,15 @@ class TaskController extends Controller {
 		}
 
 	}
+	public function project_list($id=null){
+		$projects=	ProjectDepartment::join('projects','projects_depart.project_id','=','projects.id')
+			->where('projects_depart.depart_id','=',$id)
+			->select('projects.id','projects.name')
+			->get();
+		return $projects;
+
+	}
+
 
 	public function downloadExcel($type)
 	{

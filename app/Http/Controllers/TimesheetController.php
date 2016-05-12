@@ -13,6 +13,8 @@ use App\TimeSheet;
 use Validator;
 use Redirect;
 use Excel;
+use Response;
+use App\Department;
 
 class TimesheetController extends Controller {
 
@@ -49,41 +51,101 @@ class TimesheetController extends Controller {
             ->join('tasks','tasks.id','=','time_sheets.task_id')
             ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
             ->get();
-        $project_list=Project::distinct('name')->get();
+        //$project_list=Project::distinct('name')->get();
         // return $project_list;
+        $department_list=Department::distinct('name')->get();
         if (\Request::isMethod('post'))
         {
             return $timesheet;
         }
         else
-            return view('timesheet_display',compact('timesheet','project_list'));
+            return view('timesheet_display',compact('timesheet','department_list'));
     }
 
-    public function filter(){
-        $data=Input::all();
-        $project=$data['project'];
+    public function filter($data=null){
+if($data==null) {
+    $data = Input::all();
+}
+
+
+        //dd($data);
+        $department=$data['department'];
+        if(isset($data['project'])){
+        $project=$data['project'];}
+        else $project=0;
+        if(isset($data['module']))
         $module=$data['module'];
+        else $module=0;
+        if(isset($data['task']))
+        $task=$data['task'];
+        else $task=0;
+        if(isset($data['user']))
+        $user=$data['user'];
+        else $user=0;
+        if(isset($data['from_date']))
+        $from_date=$data['from_date'];
+        else $from_date=null;
+        if(isset($data['to_date']))
+        $to_date=$data['to_date'];
+        else $to_date=null;
         // return $data['project'];
-        if($data['module']==0){
-            //return "ljhkh";
+        $timesheet="";
+        if($department){
             $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
-                ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+                ->join('projects_depart','projects.id','=','projects_depart.project_id')
+                ->join('departments','departments.id','=','projects_depart.depart_id')
+                ->join('project_modules','project_modules.id','=','time_sheets.module_id')
                 ->join('tasks','tasks.id','=','time_sheets.task_id')
-                ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
-                ->where('projects.id',$project)
-                ->get();
-            return $timesheet;
+                ->join('users','users.id','=','tasks.user_id')->where('departments.id',$department);
+
+
+            if($project!=0 && $project!=null){
+                    $timesheet->where('projects.id',$project);
+            }
+
+            if($module!=0 &&$module!=null){
+                $timesheet->where('tasks.module_id',$module);
+            }
+            if($task!=0 && $task!=null){
+                $timesheet->where('tasks.id',$task);
+            }
+            if($user!=0 && $user!=null){
+                $timesheet->where('users.id',$user);
+            }
+            if($from_date!=null) {
+
+                if ($to_date != null) {
+$timesheet->whereBetween('tasks.created_at',[$from_date, $to_date]);
+                } else {
+
+                    $timesheet->where('tasks.created_at','>=', $from_date);
+                }
+            }
+            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')->get();
+
+
         }
-        elseif($module>0){
-            $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
-                ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
-                ->join('tasks','tasks.id','=','time_sheets.task_id')
-                ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
-                ->where('projects.id',$project)
-                ->where('project_modules.id',$module)
-                ->get();
-            return $timesheet;
-        }
+        return $timesheet;
+//        if($data['module']==0){
+//            //return "ljhkh";
+//            $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
+//                ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+//                ->join('tasks','tasks.id','=','time_sheets.task_id')
+//                ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+//                ->where('projects.id',$project)
+//                ->get();
+//            return $timesheet;
+//        }
+//        elseif($module>0){
+//            $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
+//                ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+//                ->join('tasks','tasks.id','=','time_sheets.task_id')
+//                ->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+//                ->where('projects.id',$project)
+//                ->where('project_modules.id',$module)
+//                ->get();
+//            return $timesheet;
+//        }
 
 
     }
@@ -123,21 +185,48 @@ class TimesheetController extends Controller {
         return Redirect::route('timesheet_display');
 
 }
-
-public function downloadExcel($type)
-    {
-        $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
-            ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
-            ->join('tasks','tasks.id','=','time_sheets.task_id')
-            ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
-            ->get()->toArray();
-       // $data = TimeSheet::get()->toArray();
-        return Excel::create('timesheettlist', function($excel) use ($timesheet) {
-            $excel->sheet('mySheet', function($sheet) use ($timesheet)
+//
+//public function downloadExcel($type)
+//    {
+//        $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
+//            ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+//            ->join('tasks','tasks.id','=','time_sheets.task_id')
+//            ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+//            ->get();
+//        return Excel::create('Report', function($excel) use ($timesheet) {
+//            $excel->sheet('Report', function($sheet) use ($timesheet)
+//            {
+//                $sheet->loadView('timesheet_report', array('timesheet' => $timesheet));
+////                $sheet->loadView('timesheet_report')->witharray('timesheet');
+////                $sheet->fromArray($timesheet);
+////                $sheet->cell('A1', function($cell) {
+////
+////                    $cell->setBackground('#000000');
+////
+////                });
+//            });
+//
+//        })->download($type);
+//    }
+    public function downloadExcel($type,$data=null){
+        dd($data['department']);
+        //$data//=Input::all();
+//        $response->header('Content-Type','application/excell');
+        $timesheet=$this->filter($data);
+         return Excel::create('Report', function($excel) use ($timesheet) {
+           $excel->sheet('Report', function($sheet) use ($timesheet)
             {
-                $sheet->fromArray($timesheet);
+                $sheet->loadView('timesheet_report', array('timesheet' => $timesheet));
+//                $sheet->loadView('timesheet_report')->witharray('timesheet');
+//                $sheet->fromArray($timesheet);
+//                $sheet->cell('A1', function($cell) {
+//
+//                    $cell->setBackground('#000000');
+//
+//                });
             });
-        })->download($type);
-    }
+
+        })->download($type) ->header('Content-Type', 'application/csv')->header('Content-Disposition','attachment');
+     }
 
 }
