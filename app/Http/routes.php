@@ -147,4 +147,4 @@ Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@down
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
-Route::get('downloadExcelfortimesheet/{type}/{data}','TimeSheetController@downloadExcel');
+Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
