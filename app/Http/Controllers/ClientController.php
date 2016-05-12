@@ -30,8 +30,8 @@ class ClientController extends Controller {
         $validator=Validator::make($post,[
                 'clientname' => 'required|max:255|unique:clients',
                 'email' => 'required|email|max:255|unique:clients',
-                'phone1'=>'required|size:10',
-                 'phone2'=>'required|size:10',
+                'phone1'=>'required|size:10|numeric',
+                 'phone2'=>'required|size:10|numeric',
 
                
 			]
@@ -104,8 +104,8 @@ class ClientController extends Controller {
 		$validator=Validator::make($post,[
 						'clientname' => 'required|max:255',
                 'email' => 'required|email|max:255',
-                'phone1'=>'required|size:10',
-                 'phone2'=>'required|size:10',
+                'phone1'=>'required|size:10|numeric',
+                 'phone2'=>'required|size:10|numeric',
 		]);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
