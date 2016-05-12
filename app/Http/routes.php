@@ -148,3 +148,13 @@ Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
+
+
+
+//Client Routes
+Route::post('client','ClientController@create');
+Route::get('clientcreate','ClientController@index');
+Route::get('clientview', 'ClientController@display');
+Route::get('client/{id}/edit','ClientController@edit');
+Route::get('delete/{id}','ClientController@destroy');
+Route::post('update/{id}','ClientController@update');
