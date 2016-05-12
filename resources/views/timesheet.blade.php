@@ -18,6 +18,8 @@
                         @endif
                         <form class="form-horizontal" role="form" method="post" action="timesheetsubmit">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+                            <?php $users=Auth::user();  $user_id=$users->id;?>
+                            <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Select Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
 
