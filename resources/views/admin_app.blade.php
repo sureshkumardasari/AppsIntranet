@@ -60,6 +60,7 @@
 				<li><a href="{{ url('/addtask') }}">Task</a></li>
   				<li><a href="{{ url('/timesheet') }}">TimeSheet</a></li>
 				<li><a href="{{ url('/timesheet_display') }}">TimeSheet Filters</a></li>
+				<li><a href="{{ url('/clientview') }}">Client</a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
