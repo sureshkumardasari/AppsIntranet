@@ -224,7 +224,7 @@ class TaskController extends Controller {
 
 	public function downloadExcel($type)
 	{
-		$data = Tasks::select('task_title','task_description')->get()->toArray();
+		$data = Tasks::select('Task_Title','Task_Description')->get()->toArray();
 		return Excel::create('tasktlist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {

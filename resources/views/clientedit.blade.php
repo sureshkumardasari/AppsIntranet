@@ -27,21 +27,21 @@
                                 </div>
                             </div>
                           <div class="form-group">
-                                <label class="col-md-4 control-label">E-Mail Address</label>
+                                <label class="col-md-4 control-label">E-Mail Address<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="email" class="form-control" name="email" value="{{ $client->email }}">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Phone1</label>
+                                <label class="col-md-4 control-label">Phone1<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="phone1" value="{{ $client->phone1 }}">
                                 </div>
                             </div>
 
                           <div class="form-group">
-                                <label class="col-md-4 control-label">Phone2</label>
+                                <label class="col-md-4 control-label">Phone2<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="phone2" value="{{ $client->phone2 }}">
                                 </div>
@@ -69,7 +69,7 @@
                             
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-default">Update</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                     <button type="reset" class="btn btn-default">Reset</button>
                                     <a class="btn btn-default" href="{{  url('/clientview') }}">Cancel</a>
                                 </div>

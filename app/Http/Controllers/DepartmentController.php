@@ -105,7 +105,7 @@ class DepartmentController extends Controller {
 
 	public function downloadExcel($type)
 	{
-		$data = Department::select('name','description','created_at','updated_at')->get()->toArray();
+		$data = Department::select('Name','Description','Created_At','Updated_At')->get()->toArray();
 		return Excel::create('departmentlist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {

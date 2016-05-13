@@ -22,7 +22,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="form-group">
-              <label class="col-md-4 control-label">Client Name</label>
+              <label class="col-md-4 control-label">Client Name<span style="color: red" >&nbsp; <b>*</b></span></label>
               <div class="col-md-6">
                 <input type="text" class="form-control" name="clientname" value="{{ old('clientname') }}">
               </div>
@@ -31,20 +31,20 @@
            
 
             <div class="form-group">
-              <label class="col-md-4 control-label">E-Mail Address</label>
+              <label class="col-md-4 control-label">E-Mail Address<span style="color: red" >&nbsp; <b>*</b></span></label>
               <div class="col-md-6">
                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
               </div>
             </div>
 
             <div class="form-group">
-              <label  class="col-md-4 control-label">Phone1</label>
+              <label  class="col-md-4 control-label">Phone1<span style="color: red" >&nbsp; <b>*</b></span></label>
               <div class="col-md-6">
                 <input  type="text" class="form-control" id="number1" name="phone1">
               </div>
             </div>
              <div class="form-group">
-              <label  class="col-md-4 control-label">Phone2</label>
+              <label  class="col-md-4 control-label">Phone2<span style="color: red" >&nbsp; <b>*</b></span></label>
               <div class="col-md-6">
                 <input  type="text" class="form-control" id="number2" name="phone2">
               </div>

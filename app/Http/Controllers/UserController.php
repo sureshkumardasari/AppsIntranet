@@ -267,7 +267,7 @@ class UserController extends Controller {
 
 	public function downloadExcel($type)
 	{
-		$data = User::get()->toArray();
+		$data = User::select('Id','UserName','Email','First_Name','Last_Name','Creation_Date','Status','Department_Id','Role_Id','Gender','Date_of_Birth','Joining_Date','Created_At','Updated_At')->get()->toArray();
 		return Excel::create('userslist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {

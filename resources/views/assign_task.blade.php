@@ -23,7 +23,7 @@
                                 <label class="col-md-4 control-label">Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  class="form-control project" name="project_id" onchange="refresh_module();">
-                                        <option disabled selected hidden>select</option>
+                                        <option disabled selected hidden>--Select Project--</option>
                                         @foreach($projects as $project_list)
                                             <option value={{$project_list->id}}>{{$project_list->name}}</option>
                                         @endforeach
@@ -35,7 +35,9 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="module_id" id="moduleList"></select>
+                                    <select class="form-control" name="module_id" id="moduleList">
+                                        <option disabled selected hidden>--Select Module--</option>
+                                    </select>
                                 </div>
 
                             </div>
@@ -58,7 +60,7 @@
                                 <label class="col-md-4 control-label">User:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select  class="form-control user" name="user_id">
-                                        <option disabled selected hidden>select</option>
+                                        <option disabled selected hidden>--Select User--</option>
                                         @foreach($users as $user)
                                             <option value={{$user->id}}>{{$user->username}}</option>
                                         @endforeach
@@ -102,6 +104,9 @@
                     success:function(response){
                          var a=response.length;
                          $('#moduleList').empty();
+                        var opt=new Option('--Select Module--','');
+                        //opt.addClass('selected','disabled','hidden');
+                        $('#moduleList').append(opt);
                          for(i=0;i<a;i++){
                             var opt=new Option(response[i].name,response[i].id);
                              $('#moduleList').append(opt);

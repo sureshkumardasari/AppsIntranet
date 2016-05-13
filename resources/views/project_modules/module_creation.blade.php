@@ -22,7 +22,7 @@
                                 <label class="col-md-4 control-label">Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <select name="project_id" class="form-control" >
-                                        <option value="" selected disabled hidden>please select</option>
+                                        <option value="" selected disabled hidden>--Select Project--</option>
                                         @foreach($projects as $project)
                                         <option value="{{$project->id}}">{{$project->name}}</option>
                                         @endforeach

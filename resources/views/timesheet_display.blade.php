@@ -17,7 +17,7 @@
                                 <label class="col-md-1 control-label">Department:</label>
                                 <div class="col-md-2">
                                     <select name="depart_id" class='form-control' id="department" onchange="refresh_projects_users();">
-                                        <option value="0" selected >--department filter--</option>
+                                        <option value="0" selected >-Select-</option>
                                         @foreach($department_list as $department)
                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
@@ -25,9 +25,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-1 control-label">project:</label>
+                                <label class="col-md-1 control-label">Project:</label>
                                 <div class="col-md-2">
                                     <select name="project_id" class='form-control' id="project" onchange="refresh_module();">
+                                        <option value="0" selected >-Select-</option>
                                         {{--<option value="0" selected >--project filter--</option>--}}
                                         {{--@foreach($project_list as $project)--}}
                                             {{--<option value="{{$project->id}}">{{$project->name}}</option>--}}
@@ -36,9 +37,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-1 control-label">module:</label>
+                                <label class="col-md-1 control-label">Module:</label>
                                 <div class="col-md-2">
                                     <select name="module_id" class='form-control' id="moduleList" onchange="refresh_task();">
+                                        <option value="0" selected >-Select-</option>
 
                                     </select>
                                 </div>
@@ -47,6 +49,7 @@
                                 <label class="col-md-1 control-label">Task:</label>
                                 <div class="col-md-2">
                                     <select name="task_id" class='form-control' id="task" onchange="users();">
+                                        <option value="0" selected >-Select-</option>
                                         {{--<option value="0" selected >--Task filter--</option>--}}
                                         {{--@foreach($project_list as $project)--}}
                                             {{--<option value="{{$project->id}}">{{$project->name}}</option>--}}
@@ -55,11 +58,14 @@
                                 </div>
                             </div>
                             </div>
+                        <br>
+                        <br>
                         <div class="form-group">
                             <div class="form-group">
                                 <label class="col-md-1 control-label">User:</label>
                                 <div class="col-md-2">
                                     <select name="user_id" class='form-control' id="user">
+                                        <option value="0" selected >-Select-</option>
                                         {{--<option value="0" selected >--User filter--</option>--}}
                                         {{--@foreach($project_list as $project)--}}
                                             {{--<option value="{{$project->id}}">{{$project->name}}</option>--}}
@@ -81,7 +87,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-1"></div>
-                                <button onclick="filter();">filter</button>
+                                <button onclick="filter();">Filter</button>
                             </div>
                         </div>
 
@@ -90,14 +96,14 @@
                     <table class="table" id="timesheet">
                         <thead>
                         <tr>
-                            <th>project name</th>
-                            <th>module name</th>
-                            <th>task title</th>
-                            <th>created at</th>
-                            <th>updated at</th>
-                            <th>hours spent</th>
-                            <th>status</th>
-                            <th>action</th>
+                            <th>Project Name</th>
+                            <th>Module Name</th>
+                            <th>Task Title</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Hours Spent</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
 
                         </thead>
@@ -173,7 +179,7 @@
                             $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
-                            var opt=new Option('--project filter--','0');
+                            var opt=new Option('-Select-','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#project').append(opt);
                             for(i=0;i<a;i++){
@@ -201,7 +207,7 @@
                             $('#user').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
-                            var opt=new Option('--user filter--','0');
+                            var opt=new Option('-Select-','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#user').append(opt);
                             for(i=0;i<a;i++){
@@ -227,7 +233,7 @@
                             $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
-                            var opt=new Option('--module filter--','0');
+                            var opt=new Option('-Select-','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){
@@ -255,7 +261,7 @@
                             $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
-                            var opt=new Option('--task filter--','0');
+                            var opt=new Option('-Select-','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#task').append(opt);
                             for(i=0;i<a;i++){

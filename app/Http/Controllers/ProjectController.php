@@ -230,7 +230,7 @@ class ProjectController extends Controller
 
 	public function downloadExcel($type)
 	{
-		$data = Project::select('name','description')->get()->toArray();
+		$data = Project::select('Name','Description')->get()->toArray();
 		return Excel::create('projecttlist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {

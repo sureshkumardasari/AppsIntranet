@@ -86,7 +86,7 @@ class ProjectModuleController extends Controller {
 
     public function downloadExcel($type)
     {
-        $data = projectModules::select('name','description')->get()->toArray();
+        $data = projectModules::select('Name','Description')->get()->toArray();
         return Excel::create('ProjectModules', function($excel) use ($data) {
             $excel->sheet('mySheet', function($sheet) use ($data)
             {
