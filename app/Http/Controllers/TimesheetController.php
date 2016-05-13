@@ -213,7 +213,6 @@ if($data==null) {
         $data=Input::all();
         $data=($data['data']);
         $data=json_decode($data);
-
         $filter_data['from_method']="downloadExcel";
         $filter_data['department']=$data->department;
         $filter_data['project']=$data->project;
@@ -222,11 +221,22 @@ if($data==null) {
         $filter_data['user']=$data->user;
         $filter_data['from_date']=$data->from_date;
         $filter_data['to_date']=$data->to_date;
+        if( $filter_data['user']){
         $user_data=User::where('id',$filter_data['user'])->first();
+        }
+        else {
+            $user_data=['first_name'=>"",'last_name'=>"",'email'=>""];
+        $user_data=json_decode(json_encode( $user_data));
+        }
+
         if($filter_data['project']) {
             $client_data = Project::where('id', $filter_data['project'])->select('client_id')->first();
             $client_name = Client::where('id', $client_data->client_id)->first();
            }
+        else  {
+            $client_name=['clientname'=>"",'email'=>"",'address'=>""];
+        $client_name=json_decode(json_encode( $client_name));
+        }
 
          if ($filter_data['department']==0){
             $timesheet=$this->display_timesheet("downloadFullExcel");
@@ -326,5 +336,23 @@ $task="";
                 ));
             });
         })->download($type);
+    }
+    public function usertimesheet()
+    {
+        $users=User::get();
+        return view('usertimesheet',compact('users'));
+    }
+    public function projectlist($id)
+    {
+        $project=ProjectUser::where('user_id','=',$id)
+            ->select('project_id')
+            ->get();
+        $id=array();
+        foreach($project as $proj)
+            array_push($id,$proj->project_id);
+
+        $projects=Project::wherein('id',$id)
+            ->select('name','id')->get();
+        return($projects);
     }
 }
