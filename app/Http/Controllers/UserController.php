@@ -33,15 +33,24 @@ class UserController extends Controller {
 	public function create()
 	{
 		$post=Input::All();
-        $validator=Validator::make($post,[
-                'username' => 'required|max:255|unique:users',
+		$messages = [
+			
+			  'username.required'=>'Please Give a User Name ',
+                'first_name.required'=>'Please Give a First Name ',
+                'last_name.required'=>'Please Give a Last Name ',
+                'email.required'=>'Please Give an Email ',
+                'password.required'=>'Please Give a Password ',
+				'user_depart_name.required'=>'Please choose Department ',
+		];
+		$rules = [ 
+				 'username' => 'required|max:255|unique:users',
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
 				'user_depart_name'=>'required'
-			]
-        );
+		];
+ 		$validator=Validator::make($post,$rules,$messages);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
@@ -154,7 +163,12 @@ class UserController extends Controller {
 	{
 		$users=User::find($id);
 		$post=Input::all();
-
+		$messages = [
+				'first_name.required'=>'Please Give a First Name ',
+                'last_name.required'=>'Please Give a Last Name ',
+                'email.required'=>'Please Give an Email ',
+   				'user_depart_name.required'=>'Please choose Department ',
+		];
 
 		$rules = [
 				'first_name' => 'required|max:255',
@@ -168,7 +182,7 @@ class UserController extends Controller {
 		}
 
 
-		$validator = Validator::make($post, $rules);
+		$validator = Validator::make($post, $rules,$messages);
 
 		/*$validator=Validator::make($post,[
 						'first_name' => 'required|max:255',

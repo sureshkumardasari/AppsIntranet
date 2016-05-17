@@ -25,9 +25,18 @@ class ProjectModuleController extends Controller {
     // adding new module to the project.
     public function add(Request $request){
         $data=$request->except('_token');
-        $validator=Validator::make($data,[
-                'project_id'=>'required','name'=>'required|unique:project_modules','description'=>'required|min:5']
-        );
+        $messages = [
+            'project_id.required'=>'Please choose a project',
+            'name.required' => 'Enter Name of the Module',
+            'description.required' => 'Please give a Description',
+        ];
+        $rules = [
+            'project_id'=>'required',
+                'name'=>'required|unique:project_modules',
+                'description'=>'required|min:5'
+            
+        ];
+        $validator=Validator::make($data,$rules,$messages);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
@@ -65,11 +74,11 @@ class ProjectModuleController extends Controller {
 
     public function update($id)
     {
-        $module=projectModules::find($id);
+       $module=projectModules::find($id);
         $post=Input::all();
-        $validator=Validator::make($post,[
-                'description'=>'required|min:5']
-        );
+        $message=['description.required'=>'Please give a description'];
+        $rule=['description'=>'required|min:5'];
+        $validator=Validator::make($post,$rule,$message);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }

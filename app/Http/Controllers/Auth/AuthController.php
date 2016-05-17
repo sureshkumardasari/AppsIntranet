@@ -34,5 +34,14 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
-
+	/*public function show()
+	{
+		return Redirect::to('homes');
+	}*/
+	public function logout() {
+        Auth::logout(); // logout user
+        Session::flush();
+        Redirect::back();
+        return Redirect::to('homes'); //redirect back to login
+}
 }

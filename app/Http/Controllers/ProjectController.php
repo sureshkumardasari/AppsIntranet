@@ -34,9 +34,9 @@ class ProjectController extends Controller
 
 		$postData = Input::all();
 		$messages = [
-			'name.required' => 'Enter name of the project',
-			'description.required' => 'You need a description',
-			'user_depart_name.required' => 'Department name is required',
+			'name.required' => 'Enter Name of the Project',
+			'description.required' => 'Please give a Description',
+			'user_depart_name.required' => 'Please choose a Department  ',
 		];
 		$rules = [
 			'name' => 'required|min:2|unique:projects',
@@ -122,14 +122,22 @@ class ProjectController extends Controller
 	public function update($id)
 	{
 
+		
 		$projects = Project::find($id);
 		//dd("lkhj");
 		//Update Query
+
 		$post=Input::all();
-		$validator=Validator::make($post,[
-				'description' => 'required|min:10',
-				'user_depart_name' => 'required']
-		);
+		$messages = [
+			'description.required' => 'Please give a Description',
+			'user_depart_name.required' => 'Please choose a Department ',
+		];
+		$rules = [
+			'description' => 'required|min:10',
+			'user_depart_name' => 'required'
+		];
+
+		$validator = Validator::make($post, $rules, $messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}

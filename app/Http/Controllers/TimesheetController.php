@@ -35,10 +35,26 @@ class TimesheetController extends Controller {
     }
     public function add(){
         $data= Input::except('_token');
+        $messages = [
+             'project_id.required'=>'Please select a project',
+            
+            'task_id.required'=>'Please select a task',
+            'comment.required'=>'Please give a comment',
+            'status.required'=>'Please select status of the project',
+            'hours.required'=>'Mention Time spent on project',
+            'minutes.required'=>'Mention Time spent on project',
+        ];
+        $rules = [
+            'project_id'=>'required',
+            
+            'task_id'=>'required',
+            'comment'=>'required',
+            'status'=>'required',
+            'hours'=>'required',
+            'minutes'=>'required',
+        ];
 
-
-        $validator=Validator::make($data,[
-            'project_id'=>'required','module_id'=>'required','task_id'=>'required','comment'=>'required','status'=>'required','hours'=>'required','minutes'=>'required']);
+       $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
@@ -174,10 +190,23 @@ if($data==null) {
     //update  task timesheet
     public function update(){
         $data= Input::except('_token');
+         $messages = [
+            
+            'comment.required'=>'Please give a comment',
+            'status.required'=>'Please select status of the project',
+            'hours.required'=>'Mention Time spent on project',
+            'minutes.required'=>'Mention Time spent on project',
+        ];
+        $rules = [
+            
+            'comment'=>'required',
+            'status'=>'required',
+            'hours'=>'required',
+            'minutes'=>'required',
+        ];
 
+       $validator = Validator::make($data, $rules, $messages);
 
-        $validator=Validator::make($data,[
-            'comment'=>'required','status'=>'required','hours'=>'required','minutes'=>'required']);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
@@ -355,4 +384,7 @@ $task="";
             ->select('name','id')->get();
         return($projects);
     }
+
+
+
 }

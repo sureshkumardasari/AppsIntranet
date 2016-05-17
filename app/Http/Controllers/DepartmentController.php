@@ -27,10 +27,16 @@ class DepartmentController extends Controller {
 	public function departmentSubmit()
 	{
 		$depart_list=Input::All();
- 		$validator=Validator::make($depart_list,[
-						'name'=>'required|unique:departments|max:50',
-						'depart_description'=>'required|min:5']
-		);
+		$messages = [
+			'name.required' => 'Enter Name of the Department',
+			'depart_description.required' => 'Please give a Description',
+		];
+		$rules = [
+			'name'=>'required|unique:departments|max:50',
+						'depart_description'=>'required|min:5'
+			
+		];
+ 		$validator=Validator::make($depart_list,$rules,$messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
@@ -81,9 +87,16 @@ class DepartmentController extends Controller {
 	{
 		$department=Department::find($id);
 		$post=Input::all();
-		$validator=Validator::make($post,[
-						'depart_description'=>'required|min:5']
-		);
+		$messages = [
+			
+			'depart_description.required' => 'Please give a Description',
+		];
+		$rules = [
+			
+						'depart_description'=>'required|min:5'
+			
+		];
+ 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}

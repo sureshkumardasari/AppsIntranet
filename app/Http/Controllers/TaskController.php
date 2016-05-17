@@ -89,11 +89,17 @@ class TaskController extends Controller {
 	{
 		$task=Tasks::find($id);
 		$post=Input::all();
-		$validator=Validator::make($post,[
-						'task_description'=>'required|min:5',
-						'user_id'=>'required'
-				]
-		);
+		$messages=[
+					
+						'task_description.required'=>'Task Description is required',
+						'user_id.required'=>'Please choose a User',
+		];
+		$rules=[
+						
+						'task_description'=>'required',
+						'user_id'=>'required','date'=>'required'
+		];
+		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
@@ -158,13 +164,22 @@ class TaskController extends Controller {
 	}
 	public function add(){
 		$data=Input::All();
-
-
-		$validator=Validator::make($data,[
-						'project_id'=>'required','module_id'=>'required','task_title'=>'required|unique:tasks','task_description'=>'required'
-					,'user_id'=>'required','date'=>'required'
-				]
-		);
+		$messages=[
+					'project_id.required'=>'Please choose a project',
+						'module_id.required'=>'Please choose a module',
+						'task_title.required'=>'Please give  a task title',
+						'task_description.required'=>'Task Description is required',
+						'user_id.required'=>'Please choose a User',
+						'date.required'=>'Please mention Date',
+		];
+		$rules=[
+						'project_id'=>'required',
+						'module_id'=>'required',
+						'task_title'=>'required|unique:tasks',
+						'task_description'=>'required',
+						'user_id'=>'required','date'=>'required'
+		];
+		$validator=Validator::make($data,$rules,$messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
