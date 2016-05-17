@@ -87,6 +87,7 @@
 								<label class="col-md-4 control-label">Date of Birth</label>
 								<div class="col-md-6">
 									<input  class="dobpicker" name="dob" value="{{old('dob')}}" placeholder="YY-MM-DD">
+									<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
  								</div>
 								<br><br>
 							</div>
@@ -96,6 +97,7 @@
 								<label class="col-md-4 control-label">Joining Date</label>
 								<div class="col-md-6">
 									<input  class="jodpicker" name="jod" value="{{old('jod')}}" placeholder="YY-MM-DD">
+									<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
  								</div>
 								<br><br>
 							</div>

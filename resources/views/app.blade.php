@@ -222,6 +222,8 @@
         $('#userview').DataTable();
 	   $('#timesheet').DataTable();
         $('#clientview').DataTable();
+        $('#task_tbl').DataTable();
+
     });
 </script>
 </body>

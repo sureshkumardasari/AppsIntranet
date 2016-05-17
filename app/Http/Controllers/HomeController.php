@@ -112,7 +112,7 @@ class HomeController extends Controller {
 		]
 	);
  	if ($auth) {
- 		return Redirect::to('completedtask');
+ 		return Redirect::to('/');
 	} else {
 		return "NOT REGISTER USER" ;
 	}

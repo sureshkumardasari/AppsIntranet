@@ -1,6 +1,6 @@
 @extends('app')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
@@ -48,12 +48,13 @@
 
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Date:</label>
-                                <div class="col-md-2">
-                                    <input  class="form-control datepicker" name="date" value="{{$task->date}}" placeholder="select date">
+                            <div>
+                                <label class="col-md-4 control-label">Date:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <div class="col-md-6">
+                                    <input  class="datepicker" name="date" value="{{$task->date}}" placeholder="YY-MM-DD">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                 </div>
-
+                                <br><br>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

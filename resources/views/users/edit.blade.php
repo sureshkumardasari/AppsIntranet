@@ -78,15 +78,18 @@
                             <div>
                                 <label class="col-md-4 control-label">Date of Birth</label>
                                 <div class="col-md-6">
-                                    <input type="date" name="dob" class="dobpicker" value="{{ $users->date_of_birth}}">
+                                    <input  class="dobpicker" name="dob" value="{{ $users->date_of_birth}}" placeholder="YY-MM-DD">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                 </div>
                                 <br><br>
                             </div>
+
                             <div>
                                 <br>
                                 <label class="col-md-4 control-label">Joining Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" name="jod" class="jodpicker" value="{{ $users->joining_date }}">
+                                    <input  class="jodpicker" name="jod" value="{{ $users->joining_date }}" placeholder="YY-MM-DD">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                 </div>
                                 <br><br>
                             </div>
