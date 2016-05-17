@@ -9,6 +9,9 @@
         <th>
             Description
         </th>
+        <th>
+            Action
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +20,12 @@
             <tr>
                 <td> {{$a->task_title}} </td>
                 <td> {{$a->task_description}}</td>
+                <td>
+
+                    <a href="{{ url('task/'.$a->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{{ url('task/'.$a->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{{ url('task/'.$a->id.'/edit') }}" >Viewlog</a>&nbsp;&nbsp;
+                </td>
             </tr>
         @endforeach
 

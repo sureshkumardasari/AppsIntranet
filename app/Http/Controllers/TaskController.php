@@ -181,7 +181,7 @@ class TaskController extends Controller {
 	public function display()
 	{
 		$tasks=Tasks::get();
-		return view('task_display',compact('tasks'));
+		return view('dashboard_taskdisplay',compact('tasks'));
 	}
 
 	public function completedtask()
@@ -192,7 +192,7 @@ class TaskController extends Controller {
 	{
 		if($id==4)
 		{
-			$user_data_task=Tasks::get();
+			$user_data_task=Tasks::select('task_title','task_description','id')->get();
 			return view('Dashboard',compact('user_data_task'));
 		}
 		else
@@ -206,7 +206,7 @@ class TaskController extends Controller {
 			$user_data_task=TimeSheet::join('tasks','time_sheets.task_id','=','tasks.id')
 					->wherein('time_sheets.task_id',$c)
 					->where('tasks.user_id','=',$z)
-					->select('task_title','task_description')->get();
+					->select('task_title','task_description','tasks.id')->get();
 
 			return view('Dashboard',compact('tasks','user_data_task'));
 		}
@@ -232,7 +232,10 @@ class TaskController extends Controller {
 	        });
 		})->download($type);
 	}
+public function viewlog($id)
+{
 
+}
 
 
 

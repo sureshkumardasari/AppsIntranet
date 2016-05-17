@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Select Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <label class="col-md-4 control-label">Select Module:</label>
 
                                 <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='module form-control' onchange="refresh_task();">

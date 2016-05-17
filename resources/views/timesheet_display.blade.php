@@ -73,18 +73,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div>
                                 <label class="col-md-1 control-label">From:</label>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <input class="form-control date" name="from_date" placeholder="From date" id="from_date">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">To:</label>
-                                <div class="col-md-2">
-                                    <input class="form-control date" name="to_date" placeholder="To date" id="to_date">
+                                <div class="col-md-1">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                 </div>
                             </div>
+
+                            <div >
+                                <label class="col-md-1 control-label">To:</label>
+                                <div class="col-md-1">
+                                    <input class="form-control date" name="to_date" placeholder="To date" id="to_date">
+                                </div>
+                                <div class="col-md-1">
+                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-1"></div>
                                 <button onclick="filter();">Filter</button>

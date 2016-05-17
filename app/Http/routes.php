@@ -66,6 +66,7 @@ Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modul
 Route::post('taskupdate/{id}','TaskController@update');
 Route::get('task/{id}','TaskController@destroy');
 Route::get('task/{id}/edit','TaskController@edit');
+Route::get('task/{id}/viewlog','TaskController@viewlog');
 
 /*for getting the timesheet of the user...*/
 
