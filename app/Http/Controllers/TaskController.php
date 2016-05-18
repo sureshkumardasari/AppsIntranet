@@ -162,11 +162,16 @@ class TaskController extends Controller {
 		$task_list=Tasks::select('id','task_title')->where('project_id',$projectid)->where('module_id',$moduleid)->get();
 		return $task_list;
 	}
+
+    public function task_List($projectid=null){
+        $task_list=Tasks::select('id','task_title')->where('project_id',$projectid)->get();
+        return $task_list;
+    }
+
 	public function add(){
 		$data=Input::All();
 		$messages=[
-					'project_id.required'=>'Please choose a project',
-						'module_id.required'=>'Please choose a module',
+					    'project_id.required'=>'Please choose a project',
 						'task_title.required'=>'Please give  a task title',
 						'task_description.required'=>'Task Description is required',
 						'user_id.required'=>'Please choose a User',
@@ -174,7 +179,6 @@ class TaskController extends Controller {
 		];
 		$rules=[
 						'project_id'=>'required',
-						'module_id'=>'required',
 						'task_title'=>'required|unique:tasks',
 						'task_description'=>'required',
 						'user_id'=>'required','date'=>'required'

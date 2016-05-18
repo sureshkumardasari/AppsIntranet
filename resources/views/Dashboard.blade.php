@@ -24,7 +24,7 @@
 
                     <a href="{{ url('task/'.$a->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                     <a href="{{ url('task/'.$a->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                    <a class="js-open-modal" data-modal-id="popup" href="{{ url('task/'.$a->id.'/edit') }}" >Viewlog</a>&nbsp;&nbsp;
+                    <a class="js-open-modal" data-modal-id="popup"  >Viewlog</a>&nbsp;&nbsp;
                 </td>
             </tr>
         @endforeach
@@ -34,7 +34,7 @@
     </tbody>
 </table>
 <div id="popup" class="modal-box">  
-<form class="form-horizontal" role="form" method="POST" action="{{ url('view',$a->id) }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ url('view'.$a->id) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="id" value="{{ $a->id }}">
   <header>
@@ -49,17 +49,15 @@
     @if(!$user_data_task->isEmpty())
         @foreach($user_data_task as $a)
             <tr>
-            <td>Task name</td><td></td>
+            <td>Task name</td>
                 <td> {{$a->task_title}} </td>
-                </tr>
-                <tr>
-                <td>Description</td><td></td>
+            </tr>
+            <tr>
+                <td>Description</td>
                 <td> {{$a->task_description}}</td>
-                 </tr>
+            </tr>
 
         @endforeach
-
-
     @endif
     </tbody>
     </table> 
@@ -67,6 +65,7 @@
   <footer>
     <a href="#" class="js-modal-close">Close</a>
   </footer>
+</form>
 </div>
 <script>
     $(document).ready(function() {

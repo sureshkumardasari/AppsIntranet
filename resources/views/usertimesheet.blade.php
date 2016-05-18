@@ -51,14 +51,14 @@
 
                                 <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='module form-control' onchange="refresh_task();">
-                                        <option>--Select Module--</option>
+                                        <option value="0">--Select Module--</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
-                                    <select name="task_id" class='form-control' id="taskList">
+                                    <select name="task_id" class="task form-control" id="taskList">
                                         <option>--Select Task--</option>
                                     </select>
                                 </div>
@@ -122,7 +122,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#projectlist').empty();
-                            var opt=new Option('--Select project--','');
+                            var opt=new Option('--Select Project--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#projectlist').append(opt);
                             for(i=0;i<a;i++){
@@ -157,7 +157,26 @@
                         }
                     }
             )
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
 
+                        headers: {"X-CSRF-Token": csrf},
+                        url:'taskList/'+$('#projectlist').val(),
+                        type:'post',
+                        success:function(response){
+                            var a=response.length;
+                            $('#taskList').empty();
+                            var opt=new Option('--Select Task--','');
+                            //opt.addClass('selected','disabled','hidden');
+                            $('#taskList').append(opt);
+                            for(i=0;i<a;i++){
+                                var opt=new Option(response[i].task_title,response[i].id);
+                                $('#taskList').append(opt);
+                            }
+                        }
+                    }
+            )
 
         }
 
