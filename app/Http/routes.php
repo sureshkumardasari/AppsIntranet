@@ -12,7 +12,6 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-
 Route::get('home', 'HomeController@index');
 Route::get('homes', 'WelcomeController@userLogin');
 Route::post('login_check',['as'=>'login_check','uses'=>'HomeController@userLoginCheck']);
@@ -83,6 +82,7 @@ Route::get('module/{id}/edit','ProjectModuleController@edit');
 //getting task list based on project and module
 
 Route::post('tasklist/{project_id}/{module_id}','TaskController@taskList');
+Route::post('taskList/{project_id}','TaskController@task_List');
 Route::post('timesheetsubmit','TimeSheetController@add');
 Route::get('timesheet_display',['as'=>'timesheet_display','uses'=>'TimeSheetController@display_timesheet']);
 Route::post('gettimesheetfilterdata','TimeSheetController@filter');
