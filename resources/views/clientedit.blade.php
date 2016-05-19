@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Client Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="clientname" value="{{  $client->clientname}}" readonly>
+                                    <input type="text" class="form-control" name="clientname" value="{{  $client->clientname}}" >
                                 </div>
                             </div>
                           <div class="form-group">

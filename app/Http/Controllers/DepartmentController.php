@@ -92,11 +92,12 @@ class DepartmentController extends Controller {
 			'depart_description.required' => 'Please give a Description',
 		];
 		$rules = [
-			
-						'depart_description'=>'required|min:5'
-			
+				'depart_description'=>'required|min:5',
+				'name'=>'required|max:255|unique:departments,name,' . $id
 		];
- 		$validator=Validator::make($post,$rules,$messages);
+
+
+		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
@@ -105,15 +106,7 @@ class DepartmentController extends Controller {
 				'name'=>$post['name'],
 				'description'=>$post['depart_description'],
 		]);
-		/*$record = $department->update($post);*/
 		return Redirect::to('department');
-
-		/*$department = Department::find($id);
-		$post = Input::all();
-		unset($post['_token']);
-		unset($post['_method']);
-		$record = Department::where('id', $id)->update($post);
-		return Redirect::to('department_display');*/
 	}
 
 	public function downloadExcel($type)

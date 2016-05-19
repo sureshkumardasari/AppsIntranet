@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">User Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" readonly>
+                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" >
                                 </div>
                             </div>
 
@@ -126,6 +126,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-4 control-label">client Name<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <div class="col-md-6">
+                                    <select id="clients" class="clientSelect" multiple name="user_client_name[]">
+                                        <?php $client_list=\App\Client::get();
+                                        foreach($client_list as $client){?>
+                                        <option  value="{{$client->id}}">
+                                            {{$client->clientname}}
+                                        </option>
+                                        <?php }
+                                        ?>
+                                    </select>
+                                    <script>
+                                        $('.clientSelect').multiselect();
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">Update</button>
                                     <button type="reset" class="btn btn-default">Reset</button>
@@ -152,6 +170,12 @@ $list=Array();
                 echo "0]"?>);
 
         $("#departments").multiselect("refresh");
+        $('#clients').val(<?php echo "[";
+                foreach($clients as $client)
+                    echo $client->client_id.",";
+                echo "0]"?>);
+
+        $("#clients").multiselect("refresh");
        // $("#departments").selectmenu('refresh');
         $( ".departSelect" ).on( "click", function() {
             alert('l');

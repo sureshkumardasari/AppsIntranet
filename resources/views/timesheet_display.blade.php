@@ -172,7 +172,6 @@
         $('.date').datepicker({ dateFormat: 'yy-mm-dd' });
         //project filter
         function refresh_projects_users(){
-
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -238,7 +237,7 @@
                             var a=response.length;
                             // alert(a);
                             $('#moduleList').empty();
-                            $('#task').empty();
+           //                 $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
                             var opt=new Option('-Select-','0');
@@ -252,6 +251,7 @@
                     }
             );
             users();
+            refresh_task();
 
         }
         //function for filtering tasks
@@ -297,28 +297,7 @@ users();
             if(department==0&&(project==0||project==null) ){
                 var url="timesheet_display";
                 ajax(url,data,csrf);
-//                $.ajax(
-//                        {
-//                            url:'timesheet_display',
-//                            headers:{"X-CSRF-Token":csrf},
-//                            type:"post",
-//                            success:function(response){
-//                                //alert(response);
-//                                var length=response.length;
-//                                //alert(length);
-//                                var data;
-//                                if(length==0){
-//                                    $('#data').html("--no data to display---");
-//                                }
-//                                else {
-//                                    for (i = 0; i < length; i++) {
-//                                        data += "<tr><td>" + response[i].project_name + "</td><td>" + response[i].module_name + "</td><td>" + response[i].task_title + "</td><td>" + response[i].created_at + "</td><td>" + response[i].updated_at + "</td><td>"+response[i].hours+":"+response[i].minutes+"</td><td>"+response[i].status+"</td><td></td></tr>";
-//                                    }
-//                                    $('#data').html(data);
-//                                }
-//                            }
-//                        }
-//                );
+//
             }
             else {
                 var url="gettimesheetfilterdata";

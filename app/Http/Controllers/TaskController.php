@@ -93,11 +93,12 @@ class TaskController extends Controller {
 					
 						'task_description.required'=>'Task Description is required',
 						'user_id.required'=>'Please choose a User',
-		];
+        ];
 		$rules=[
 						
 						'task_description'=>'required',
-						'user_id'=>'required','date'=>'required'
+						'user_id'=>'required','date'=>'required',
+                        'task_title'=>'required|max:255|unique:tasks,task_title,' . $id
 		];
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails()){
@@ -159,8 +160,13 @@ class TaskController extends Controller {
 
 	/*----------getting the list of the tasks that are assosciated with the specified project and the module-------*/
 	public function taskList($projectid=null,$moduleid=null){
-		$task_list=Tasks::select('id','task_title')->where('project_id',$projectid)->where('module_id',$moduleid)->get();
-		return $task_list;
+        if($moduleid > 0 ) {
+            $task_list = Tasks::select('id', 'task_title')->where('project_id', $projectid)->where('module_id', $moduleid)->get();
+        }
+        else {
+            $task_list = Tasks::select('id', 'task_title')->where('project_id', $projectid)->get();
+        }
+        return $task_list;
 	}
 
     public function task_List($projectid=null){
@@ -253,7 +259,14 @@ class TaskController extends Controller {
 	}
 public function viewlog($id)
 {
-
+    $task=Tasks::find($id);
+    $timesheet = TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
+        ->join('project_modules','project_modules.id','=','time_sheets.module_id','left')
+        ->join('tasks','tasks.id','=','time_sheets.task_id')
+        ->where('tasks.id','=',$id)
+        ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes')
+        ->get();
+    return view('task_view',compact('task','timesheet'));
 }
 
 

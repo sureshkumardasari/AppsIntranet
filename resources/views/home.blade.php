@@ -136,6 +136,23 @@
 									</script>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">client Name<span style="color: red" >&nbsp; <b>*</b></span></label>
+								<div class="col-md-6">
+									<select  class="clientSelect" multiple name="user_client_name[]" id="client">
+										<?php $client_list=\App\Client::get();
+										foreach($client_list as $client){?>
+										<option value="{{$client->id}}">
+											{{$client->clientname}}
+										</option>
+										<?php }
+										?>
+									</select>
+									<script>
+										$('.clientSelect').fastselect();
+									</script>
+								</div>
+							</div>
 
 							<div class="form-group">
 								<div class="col-md-6 col-md-offset-4">
@@ -156,6 +173,7 @@
 	<script>
   		$(".dobpicker").datepicker({ dateFormat: 'yy-mm-dd' });
   		$(".jodpicker").datepicker({ dateFormat: 'yy-mm-dd' });
+		$('#client').val();
 
 	</script>
 

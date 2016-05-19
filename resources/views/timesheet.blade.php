@@ -39,7 +39,7 @@
 
                                     <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='col-md-6 form-control' onchange="refresh_task();">
-                                        <option>--Select Module--</option>
+                                        <option value="0">--Select Module--</option>
                                     </select>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                         success:function(response){
                             var a=response.length;
                              $('#moduleList').empty();
-                            var opt=new Option('--Select Module--','');
+                            var opt=new Option('--Select Module--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){

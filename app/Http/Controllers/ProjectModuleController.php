@@ -77,7 +77,10 @@ class ProjectModuleController extends Controller {
        $module=projectModules::find($id);
         $post=Input::all();
         $message=['description.required'=>'Please give a description'];
-        $rule=['description'=>'required|min:5'];
+        $rule=[
+            'description'=>'required|min:5',
+            'name'=>'required|max:255|unique:project_modules,name,' . $id
+        ];
         $validator=Validator::make($post,$rule,$message);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);

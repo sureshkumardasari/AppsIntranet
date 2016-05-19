@@ -6,14 +6,23 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Editing module</div>
                     <div class="panel-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form-horizontal" role="form" method="post" action="{{url('module',$module->id)}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Module Title:</label>
                                 <div class="col-md-6">
-                                    <input class="form-control" name="name" type="text" value="{{ $module-> name }}" readonly>
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                    <input class="form-control" name="name" type="text" value="{{ $module-> name }}" >
 
                                 </div>
                             </div>
@@ -21,7 +30,6 @@
                                 <label class="col-md-4 control-label">Module Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class=" col-md-6">
                                     <textarea class="form-control" name="description" value="">{{ $module-> description }}</textarea>
-                                    <span class="text-danger">{{ $errors->first('description') }}</span>
 
                                 </div>
                             </div>

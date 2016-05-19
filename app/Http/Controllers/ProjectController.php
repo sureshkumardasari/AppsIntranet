@@ -134,7 +134,9 @@ class ProjectController extends Controller
 		];
 		$rules = [
 			'description' => 'required|min:10',
-			'user_depart_name' => 'required'
+			'user_depart_name' => 'required',
+			'name'=>'required|max:255|unique:projects,name,' . $id
+
 		];
 
 		$validator = Validator::make($post, $rules, $messages);

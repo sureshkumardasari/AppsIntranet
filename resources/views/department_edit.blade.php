@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Department Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="name" value="{{ $department-> name }}" readonly>
+                                    <input type="text" class="form-control" name="name" value="{{ $department-> name }}">
                                 </div>
                             </div>
 

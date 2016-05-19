@@ -147,9 +147,10 @@ class UserController extends Controller {
 	public function edit($id)
 	{
 		$users=User::find($id);
+		$clients=User::select('client_id')->where('id',$id)->get();
 		$userdeparts=UserDepartments::select('depart_id')->where('user_id','=',$users->id)->get();
 		//dd($userdeparts);
-		return view('users.edit',compact('users','userdeparts'));
+		return view('users.edit',compact('users','userdeparts','clients'));
 
 	}
 
@@ -173,8 +174,11 @@ class UserController extends Controller {
 		$rules = [
 				'first_name' => 'required|max:255',
 				'last_name' => 'required|max:255',
-				'user_depart_name' =>'required',];
-		$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
+				'user_depart_name' =>'required',
+				'email'=>'required|max:255|unique:users,email,'.$id,
+				'username'=>'required|max:255|unique:users,username,' . $id
+		];
+
 
 		if($post['password'] != NULL)
 		{

@@ -147,7 +147,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#moduleList').empty();
-                            var opt=new Option('--Select Module--','');
+                            var opt=new Option('--Select Module--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){
