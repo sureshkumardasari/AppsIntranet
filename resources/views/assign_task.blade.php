@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Module:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <label class="col-md-4 control-label">Module:</label>
                                 <div class="col-md-6">
                                     <select class="form-control" name="module_id" id="moduleList">
                                         <option disabled selected hidden>--Select Module--</option>

@@ -121,7 +121,26 @@
                         }
                     }
             )
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
 
+                        headers: {"X-CSRF-Token": csrf},
+                        url:'taskList/'+$('.project').val(),
+                        type:'post',
+                        success:function(response){
+                            var a=response.length;
+                            $('#taskList').empty();
+                            var opt=new Option('--Select Task--','');
+                            //opt.addClass('selected','disabled','hidden');
+                            $('#taskList').append(opt);
+                            for(i=0;i<a;i++){
+                                var opt=new Option(response[i].task_title,response[i].id);
+                                $('#taskList').append(opt);
+                            }
+                        }
+                    }
+            )
 
         }
 
