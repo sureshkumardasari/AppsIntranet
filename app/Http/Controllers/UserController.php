@@ -205,6 +205,8 @@ class UserController extends Controller {
 			'first_name'=>$post['first_name'],
 			'last_name'=>$post['last_name'],
 			'email'=>$post['email'],
+            'client_id'=> isset($post['client'])?$post['client']:"",
+            'department_id'=>isset($post['depart'])?$post['depart']:"",
 			'role_id'=>$post['roles'],
 			'gender'=>$post['gender'],
 			'date_of_birth'=>$post['dob'],

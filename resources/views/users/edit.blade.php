@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">User Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" >
+                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" readonly>
                                 </div>
                             </div>
 
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">client Name<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <label class="col-md-4 control-label">client Name</label>
                                 <div class="col-md-6">
                                     <select id="clients" class="clientSelect" multiple name="user_client_name[]">
                                         <?php $client_list=\App\Client::get();
