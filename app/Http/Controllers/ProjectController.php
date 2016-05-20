@@ -147,7 +147,8 @@ class ProjectController extends Controller
 
 		$record = Project::where('id',$id)->update([
 				'description'=>$post['description'],
-			'client_id'=>$post['client']
+			'client_id'=> isset($post['client'])?$post['client']:""
+
 
 		]);
 
@@ -196,8 +197,9 @@ class ProjectController extends Controller
 	public function destroy($id)
 	{
 		$users = ProjectUser::where('project_id', $id)->count();
+		$dept = ProjectDepartment::where('project_id',$id)->count();
 
-		if ($users == 0) {
+		if ($users == 0 && $dept == 0) {
 			Project::find($id)->delete();
 			\Session::flash('flash_message', 'Deleted.');
 			return redirect('project_view');
