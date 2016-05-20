@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Client;
+use App\Project;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -32,14 +33,14 @@ class ClientController extends Controller {
 						'email.required'=>'Email can\'t leave as blank!',
 						'phone1.required'=>'Phone1 can\'t leave as blank!',
 						'phone2.required'=>'Phone2  can\'t leave as blank!',
-						'fax.required'=>'Fax can\'t leave as blank!',		
+						/*'fax.required'=>'Fax can\'t leave as blank!',	*/	
 		];
 		$rules=[
 				'clientname' => 'required|max:255|unique:clients',
                 'email' => 'required|email|max:255|unique:clients',
-                'phone1'=>array('required','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'phone2'=>array('required','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),
+               'phone1'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
+                 'phone2'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
+                /* 'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),*/
                
 		];
 		$validator=Validator::make($post,$rules,$messages);
@@ -113,14 +114,14 @@ class ClientController extends Controller {
 						'email.required'=>'Email can\'t leave as blank!',
 						'phone1.required'=>'Phone1 can\'t leave as blank!',
 						'phone2.required'=>'Phone2 can\'t leave as blank!',
-						'fax.required'=>'Fax can\'t leave as blank!',		
+						/*'fax.required'=>'Fax can\'t leave as blank!',*/		
 		];
 		$rules=[
 				'clientname'=>'required|max:255|unique:clients,clientname,' . $id,
-				'email' => 'required|max:255|unique:clients,email'.$id,
-                'phone1'=>array('required','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'phone2'=>array('required','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),
+				'email' => 'required|max:255|'/*unique:clients,email'*/,
+                'phone1'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
+                 'phone2'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
+                 /*'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),*/
                
 		];
 		$validator=Validator::make($post,$rules,$messages);
@@ -151,9 +152,21 @@ class ClientController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		Client::find($id)->delete();
+		$project=Project::where('client_id',$id)->count();
+		if ($project == null) {
+			Client::find($id)->delete();
+		
 		\Session::flash('flash_message', 'Deleted.');
 		return Redirect::to('clientview');
+
+	}
+	else
+		{
+			\Session::flash('flash_message_failed', 'Cannot Delete this Client');
+		
+		return Redirect::back();
+
+		}
 	}
 
 }

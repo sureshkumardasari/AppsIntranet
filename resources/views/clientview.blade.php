@@ -45,7 +45,7 @@
                                         
                                             <td><a href="{{ url('client/'.$clients->id.'/edit') }}" >Edit</a>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <a href="{{ url('/delete/'.$clients->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>
+                                                <a href="{{ url('/deleted/'.$clients->id) }}" onclick="return confirm('Are you sure you want delete this Client ?');">Delete</a>
                                             
                                             </td>
                                         </tr>

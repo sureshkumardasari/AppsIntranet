@@ -48,7 +48,7 @@
                             <td><?php echo $row->name;?></td>
                             <td><?php echo $row->description; ?>
                             <td><a href="{{ url('edit/'.$row->id) }}" >Edit</a>
-                                &nbsp;&nbsp;|&nbsp;&nbsp; <a href="{{ url('delete/'.$row->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a></td>
+                                &nbsp;&nbsp;|&nbsp;&nbsp; <a href="{{ url('delete/'.$row->id) }}" onclick="return confirm('Are you sure you want delete this Project ?');">Delete</a></td>
 
 
                         </tr>

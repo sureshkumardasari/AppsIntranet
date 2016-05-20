@@ -160,5 +160,5 @@ Route::post('client','ClientController@create');
 Route::get('clientcreate','ClientController@index');
 Route::get('clientview', 'ClientController@display');
 Route::get('client/{id}/edit','ClientController@edit');
-Route::get('delete/{id}','ClientController@destroy');
+Route::get('deleted/{id}','ClientController@destroy');
 Route::post('update_client/{id}','ClientController@update');
