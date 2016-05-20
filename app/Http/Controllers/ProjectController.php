@@ -146,6 +146,7 @@ class ProjectController extends Controller
 		unset($projects['_token']);
 
 		$record = Project::where('id',$id)->update([
+				'name'=>$post['name'],
 				'description'=>$post['description'],
 			'client_id'=> isset($post['client'])?$post['client']:""
 

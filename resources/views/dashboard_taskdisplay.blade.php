@@ -16,12 +16,12 @@
                      <div class="panel-heading"><b>Please Select Task Status In the Drop-Down</b>
 
                         <select name="status" id="status"  class='form-control' onchange="status_change()">
-                            <option selected disabled hidden>--please select status--</option>
+                            <option value="4">Select All</option>
                             <option value="0">Completed task</option>
                             <option value="1">Pending Task</option>
                             <option value="2">Started Task</option>
                             <option value="3">Need Clarification</option>
-                            <option value="4">Select All</option>
+
                         </select>
 
                     </div>
@@ -40,7 +40,7 @@
 
                     </div>
                         <div id="taskList">
-
+                            {!! $tasklist !!}
                         </div>
 
                  </form>

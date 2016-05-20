@@ -53,6 +53,9 @@
 								</div>
 							</div>
 						</form>
+							@if(Session::has('Failed'))
+								<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('Failed') }}</p>
+							@endif
 					</div>
 				</div>
 			</div>

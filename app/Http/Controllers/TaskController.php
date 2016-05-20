@@ -205,15 +205,16 @@ class TaskController extends Controller {
 
 	public function display()
 	{
+        $user_data_task=Tasks::select('task_title','task_description','id')->get();
 		$tasks=Tasks::get();
-		return view('dashboard_taskdisplay',compact('tasks'));
+		return view('dashboard_taskdisplay',compact('tasks'))->nest("tasklist","Dashboard",compact('user_data_task') );
 	}
 
 	public function completedtask()
 	{
-		return view('dashboard_taskdisplay');
+        return view('dashboard_taskdisplay');
 	}
-	public function task($id)
+	public function task($id=0)
 	{
 		if($id==4)
 		{
@@ -259,16 +260,18 @@ class TaskController extends Controller {
 	}
 public function viewlog($id)
 {
-    $task=Tasks::find($id);
-    $timesheet = TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
-        ->join('project_modules','project_modules.id','=','time_sheets.module_id','left')
-        ->join('tasks','tasks.id','=','time_sheets.task_id')
-        ->where('tasks.id','=',$id)
-        ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes')
+    //$task=Tasks::find($id);
+    $creat=Tasks::join('projects','Tasks.project_id','=','projects.id')
+        ->join('project_modules','Tasks.module_id','=','project_modules.id','left')
+        ->select('projects.name as project_name','project_modules.name as module_name','Tasks.task_title','Tasks.task_description')
+        ->where('Tasks.id','=',$id)
         ->get();
-    return view('task_view',compact('task','timesheet'));
+    //dd($creat);
+    $timesheet = TimeSheet::join('users','time_sheets.user_id','=','users.id')
+        ->select('users.username','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status','time_sheets.comment')
+        ->where('time_sheets.task_id','=',$id)
+        ->get();
+    //dd($timesheet);
+    return view('task_view',compact('timesheet','creat'));
 }
-
-
-
 }

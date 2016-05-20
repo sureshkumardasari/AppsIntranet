@@ -7,64 +7,86 @@
                 <a class="btn btn-success pull-right" name="back" href="{{  url('task') }}">Back</a>
                     <div class="panel-heading" >Task View</div>
                     
-                        <form class="form-horizontal" role="form" method="post" action="{{url('task/{id}/viewlog',$task->id)}}">
+                        <form class="form-horizontal" role="form" method="post" action="{{url('task/{id}/viewlog',$creat[0]->id)}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Project Name:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="project_name" value="{{$creat[0]->project_name}}" readonly/>
+                                </div>
+                            </div>
 
-
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Module Name:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="module_name" value="{{$creat[0]->module_name}}" readonly/>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Task Title:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="task_title" value="{{$task->task_title}}" readonly/>
+                                    <input type="text" class="form-control" name="task_title" value="{{$creat[0]->task_title}}" readonly/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Description:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <label class="col-md-4 control-label">Task Description:</label>
                                 <div class="col-md-6">
-                                    <textarea class="form-control" name="task_description" >{{$task->task_description}}</textarea>
+                                    <textarea class="form-control" name="task_description" readonly>{{$creat[0]->task_description}}</textarea>
                                 </div>
                             </div>
-                            <table class="table" id="timesheet1">
-                        <thead>
-                        <tr>
-                            <th>Project Name</th>
-                            <th>Module Name</th>
-                            <th>Task Title</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                            <th>Hours Spent</th>
-                          
-                        </tr>
-
-                        </thead>
-                        <tbody id="data">
                         @foreach($timesheet as $time)
-                            <tr><td>
-                                    {{$time->project_name}}
-                                </td>
-                                <td>
-                                    {{$time->module_name}}
-                                </td>
-                                <td>
-                                    {{$time->task_title}}
-                                </td>
-                                <td>
-                                    {{$time->created_at}}
-                                </td>
-                                <td>
-                                    {{$time->updated_at}}
-                                </td>
-                                <td>
-                                    {{$time->hours.":".$time->minutes}}
-                                </td>
-                              
-                            </tr>
+                        <div class="panel panel-default">
+                            <div class="container">
+                                    <br>
+                                    <label class="col-md-1 control-label">User:</label>
+                                    <div class="col-md-2">
+                                        <label class="form-control" name="task_description" value="">{{$time->username}}</label>
+                                    </div>
+
+
+
+                                    <label class="col-md-2 control-label">Updated At:</label>
+                                    <div class="col-md-2">
+                                        <label class="form-control" name="task_description" value="">{{$time->updated_at}}</label>
+                                    </div>
+
+
+
+                                    <label class="col-md-1 control-label">Status:</label>
+                                    <div class="col-md-2">
+                                        <label class="form-control" name="task_description" value="">{{
+                                        <?php
+                                    @if($time->status==0)
+                                        completed
+                                    @elseif($time->status==1)
+                                        pending
+                                    @elseif($time->status==2)
+                                        started
+                                    @elseif($time->status==3)
+                                        need clarification
+                                    @endif
+                                    ?>
+                                    }}
+                                        </label>
+                                    </div>
+
+                            </div>
+                            <br>
+                            <br>
+                            <div class="container">
+                                <label class="col-md-1 control-label">Comment:</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="task_description" readonly>{{$time->comment}}</textarea>
+                                </div>
+                                <label class="col-md-1 control-label">Time Spent:</label>
+                                <div class="col-md-2">
+                                    <label class="form-control" name="task_description" value="">{{$time->hours.":".$time->minutes}}</label>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
                         @endforeach
-                        </tbody>
-                    </table>
-
-
-
                         </form>
                     </div>
                 </div>

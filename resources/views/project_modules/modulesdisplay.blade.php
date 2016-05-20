@@ -50,7 +50,7 @@
                                             <td> {{$mod->name}} </td>
                                             <td> {{$mod->description}}</td>
                                             <td><a href="{{ url('module/'.$mod->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <a href="{{ url('module/'.$mod->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>
+                                                <a href="{{ url('module/'.$mod->id) }}" onclick="return confirm('Are you sure you want delete this module ?');">Delete</a>
                                             </td>
 
                                         </tr>
