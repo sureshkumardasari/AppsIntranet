@@ -22,6 +22,41 @@ Route::controllers([
 ]);
 
 
+// home page
+Route::get('validate', array('before' => 'auth', function()
+{
+ 	if(Entrust::hasRole('User')) {
+		return View::make('home_user');
+	}
+	else if(Entrust::hasRole('Admin')) {
+		return View::make('home_admin');
+	}
+	else if(Entrust::hasRole('Project Lead')) {
+		return View::make('home_project_lead');
+	}
+	else if(Entrust::hasRole('Project Manager')) {
+		return View::make('home_project_manager');
+	}
+	else {
+		Auth::logout();
+		return Redirect::to('/homes')
+			->with('errors', 'You don\'t have access!');
+	}
+
+	return App::abort(403);
+}));
+
+// logout route
+Route::get('logout', array('before' => 'auth', function()
+{
+	dd('logout');
+	Auth::logout();
+	return Redirect::to('/')
+		->with('flash_notice', 'You are successfully logged out.');
+}));
+
+
+Route::group(array('middleware' => 'auth'), function() {
 // for adding tasks to the candidate by admin.
 
 Route::get('addtask','TaskController@index');
@@ -99,38 +134,6 @@ Route::post('user_profile',['as'=>'user_profile','uses'=>'HomeController@userPro
 Route::get('user_profile',['as'=>'user_profile','uses'=>'HomeController@userDetails']);
 
 
-// home page
-Route::get('validate', array('before' => 'auth', function()
-{
- 	if(Entrust::hasRole('User')) {
-		return View::make('home_user');
-	}
-	else if(Entrust::hasRole('Admin')) {
-		return View::make('home_admin');
-	}
-	else if(Entrust::hasRole('Project Lead')) {
-		return View::make('home_project_lead');
-	}
-	else if(Entrust::hasRole('Project Manager')) {
-		return View::make('home_project_manager');
-	}
-	else {
-		Auth::logout();
-		return Redirect::to('/homes')
-			->with('errors', 'You don\'t have access!');
-	}
-
-	return App::abort(403);
-}));
-
-// logout route
-Route::get('logout', array('before' => 'auth', function()
-{
-	dd('logout');
-	Auth::logout();
-	return Redirect::to('/')
-		->with('flash_notice', 'You are successfully logged out.');
-}));
 
 Route::post('task/{id}','TaskController@task');
 Route::get('completedtask','TaskController@completedtask');
@@ -162,3 +165,5 @@ Route::get('clientview', 'ClientController@display');
 Route::get('client/{id}/edit','ClientController@edit');
 Route::get('deleted/{id}','ClientController@destroy');
 Route::post('update_client/{id}','ClientController@update');
+
+});
