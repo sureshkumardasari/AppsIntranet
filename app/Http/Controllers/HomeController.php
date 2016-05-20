@@ -105,16 +105,26 @@ class HomeController extends Controller {
 		return view('Usersview',compact('users'));
 	}
 	public function userLoginCheck(){
+//		$status=User::get('status');
   	$auth = Auth::attempt(
 		[
 			'username'  => strtolower(Input::get('username')),
-			'password'  => Input::get('password')
-		]
+			'password'  => Input::get('password'),
+ 		]
 	);
- 	if ($auth) {
- 		return Redirect::to('/');
-	} else {
-		return "NOT REGISTER USER" ;
+ 	if ($auth ) {
+		$user=Input::get('username');
+		$getstatus=User::select('status')->where('username','=',$user)->get();
+		$status=$getstatus[0]['status'];
+			if($status==1) {
+			return Redirect::to('/');
+			}
+			else{
+				return Redirect::back()->with('Failed','Admin denied Permission');
+			}
+	}
+	else {
+		return Redirect::back()->with('Failed','Not Registered User') ;
 	}
 	}
  public function status($id)
