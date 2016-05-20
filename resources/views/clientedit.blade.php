@@ -36,14 +36,14 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Phone1<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="phone1" value="{{ $client->phone1 }}">
+                                    <input type="text" class="form-control" name="phone1" value="{{ $client->phone1 }}" maxlength="10">
                                 </div>
                             </div>
 
                           <div class="form-group">
                                 <label class="col-md-4 control-label">Phone2<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="phone2" value="{{ $client->phone2 }}">
+                                    <input type="text" class="form-control" name="phone2" value="{{ $client->phone2 }}" maxlength="10">
                                 </div>
                             </div>
                              <div class="form-group">
