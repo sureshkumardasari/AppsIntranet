@@ -10,53 +10,59 @@
                         <form class="form-horizontal" role="form" method="post" action="{{url('task/{id}/viewlog',$creat[0]->id)}}">
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Project Name:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="project_name" value="{{$creat[0]->project_name}}" readonly/>
+                                <div class="col-md-6" align="right">
+                                    Project Name:
+                                </div>
+                                <div class="col-md-6" >
+                                    {{$creat[0]->project_name}}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Module Name:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="module_name" value="{{$creat[0]->module_name}}" readonly/>
+                                <div class="col-md-6" align="right">
+                                    Module Name:
+                                </div>
+                                <div class="col-md-6" >
+                                    {{$creat[0]->module_name}}
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Title:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="task_title" value="{{$creat[0]->task_title}}" readonly/>
+                                <div class="col-md-6" align="right">
+                                    Task Title:
+                                </div>
+                                <div class="col-md-6" >
+                                    {{$creat[0]->task_title}}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Description:</label>
-                                <div class="col-md-6">
-                                    <textarea class="form-control" name="task_description" readonly>{{$creat[0]->task_description}}</textarea>
+                                <div class="col-md-6" align="right">
+                                    Task Description:
+                                </div>
+                                <div class="col-md-6" >
+                                    {{$creat[0]->task_description}}
                                 </div>
                             </div>
                         @foreach($timesheet as $time)
                         <div class="panel panel-default">
                             <div class="container">
                                     <br>
-                                    <label class="col-md-1 control-label">User:</label>
+                                    <label class="col-md-1 " align="right">User:</label>
                                     <div class="col-md-2">
-                                        <label class="form-control" name="task_description" value="">{{$time->username}}</label>
+                                        {{$time->username}}
                                     </div>
 
 
 
-                                    <label class="col-md-2 control-label">Updated At:</label>
+                                    <label class="col-md-2 " align="right">Updated At:</label>
                                     <div class="col-md-2">
-                                        <label class="form-control" name="task_description" value="">{{$time->updated_at}}</label>
+                                       {{$time->updated_at}}
                                     </div>
 
 
 
-                                    <label class="col-md-1 control-label">Status:</label>
+                                    <label class="col-md-1 " align="right">Status:</label>
                                     <div class="col-md-2">
-                                        <label class="form-control" name="task_description" value="">{{
-                                        <?php
                                     @if($time->status==0)
                                         completed
                                     @elseif($time->status==1)
@@ -66,22 +72,19 @@
                                     @elseif($time->status==3)
                                         need clarification
                                     @endif
-                                    ?>
-                                    }}
-                                        </label>
                                     </div>
 
                             </div>
                             <br>
                             <br>
                             <div class="container">
-                                <label class="col-md-1 control-label">Comment:</label>
+                                <label class="col-md-1 " align="right">Comment:</label>
                                 <div class="col-md-6">
-                                    <textarea class="form-control" name="task_description" readonly>{{$time->comment}}</textarea>
+                                   <i>{{$time->comment}}</i>
                                 </div>
-                                <label class="col-md-1 control-label">Time Spent:</label>
+                                <label class="col-md-1 " align="right">Time Spent:</label>
                                 <div class="col-md-2">
-                                    <label class="form-control" name="task_description" value="">{{$time->hours.":".$time->minutes}}</label>
+                                   {{$time->hours.":".$time->minutes}}
                                 </div>
                             </div>
                             <br>
