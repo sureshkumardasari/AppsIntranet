@@ -137,7 +137,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-4 control-label">client Name<span style="color: red" >&nbsp; <b>*</b></span></label>
+								<label class="col-md-4 control-label">client Name</label>
 								<div class="col-md-6">
 									<select  class="clientSelect" multiple name="user_client_name[]" id="client">
 										<?php $client_list=\App\Client::get();

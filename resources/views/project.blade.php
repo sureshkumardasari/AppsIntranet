@@ -70,6 +70,7 @@
 
 								<div class="col-md-6">
 									<select  id="client" class="clientSelect"  name="client">
+										<option value="0">--Select Client--</option>
 										<?php $clients=\App\Client::get();
 										foreach($clients as $client){?>
 										<option value="{{$client->id}}">
