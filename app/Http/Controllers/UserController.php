@@ -201,13 +201,14 @@ class UserController extends Controller {
 		unset($post['_token']);
 
 		$update = [
+			'username'=>$post['username'],
 			'first_name'=>$post['first_name'],
 			'last_name'=>$post['last_name'],
 			'email'=>$post['email'],
 			'role_id'=>$post['roles'],
 			'gender'=>$post['gender'],
 			'date_of_birth'=>$post['dob'],
-			'joining_date'=>$post['jod']
+			'joining_date'=>$post['jod'],
 		];
 		if($post['password'] != "")
 		{

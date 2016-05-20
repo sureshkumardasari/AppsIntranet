@@ -32,14 +32,14 @@ class ClientController extends Controller {
 					'clientname.required'=>'Client Name can\'t leave as blank!',
 						'email.required'=>'Email can\'t leave as blank!',
 						'phone1.required'=>'Phone1 can\'t leave as blank!',
-						'phone2.required'=>'Phone2  can\'t leave as blank!',
+						'phone2.reNamequired'=>'Phone2  can\'t leave as blank!',
 						/*'fax.required'=>'Fax can\'t leave as blank!',	*/	
 		];
 		$rules=[
 				'clientname' => 'required|max:255|unique:clients',
                 'email' => 'required|email|max:255|unique:clients',
-               'phone1'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'phone2'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
+				'phone1'=>array('required','numeric','regex: /^\d{10}$/'),
+				'phone2'=>array('required','numeric','regex: /^\d{10}$/'),
                 /* 'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),*/
                
 		];
@@ -111,18 +111,18 @@ class ClientController extends Controller {
 		$client=Client::find($id);
 		$post=Input::all();
 		$messages=[
-						'email.required'=>'Email can\'t leave as blank!',
-						'phone1.required'=>'Phone1 can\'t leave as blank!',
-						'phone2.required'=>'Phone2 can\'t leave as blank!',
-						/*'fax.required'=>'Fax can\'t leave as blank!',*/		
+				'email.required'=>'Email can\'t leave as blank!',
+				'phone1.required'=>'Phone1 can\'t leave as blank!',
+				'phone2.required'=>'Phone2 can\'t leave as blank!',
+			/*'fax.required'=>'Fax can\'t leave as blank!',*/
 		];
 		$rules=[
 				'clientname'=>'required|max:255|unique:clients,clientname,' . $id,
 				'email' => 'required|max:255|'/*unique:clients,email'*/,
-                'phone1'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 'phone2'=>array('required','numeric','regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/'),
-                 /*'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),*/
-               
+				'phone1'=>array('required','numeric','regex: /^\d{10}$/'),
+				'phone2'=>array('required','numeric','regex: /^\d{10}$/'),
+			/*'fax'=>array('required','regex: /\+[0-9]{1,2}-[0-9]{3}-[0-9]{7}/'),*/
+
 		];
 		$validator=Validator::make($post,$rules,$messages);
 		
