@@ -23,7 +23,7 @@
                 <td>
 
                     <a href="{{ url('task/'.$a->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                    <a href="{{ url('task/'.$a->id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{{ url('task/'.$a->id) }}" onclick="return confirm('Are you sure you want delete this Task ?');">Delete</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                     <a href="{{ url('task/'.$a->id.'/viewlog') }}" >Viewlog</a>&nbsp;&nbsp;
                 </td>
             </tr>

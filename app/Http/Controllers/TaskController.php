@@ -229,10 +229,9 @@ class TaskController extends Controller {
 			$c=array();
 			foreach($tasks as $task)
 				array_push($c,$task->task_id);
-			$user_data_task=TimeSheet::join('tasks','time_sheets.task_id','=','tasks.id')
-					->wherein('time_sheets.task_id',$c)
-					->where('tasks.user_id','=',$z)
-					->select('task_title','task_description','tasks.id')->get();
+			$user_data_task=Tasks::select('task_title','task_description','id')
+					->wherein('id',$c)
+					->get();
 
 			return view('Dashboard',compact('tasks','user_data_task'));
 		}

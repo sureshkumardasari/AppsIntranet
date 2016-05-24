@@ -60,6 +60,11 @@ class TimesheetController extends Controller {
         }
 
         TimeSheet::create($data);
+        $status=$data['status'];
+        $taskid=$data['task_id'];
+        $tasks = Tasks::find($taskid);
+        $tasks->status=$status;
+        $tasks->save();
         return Redirect::back()->with('success','Timesheet Created Successfully');
     }
 
