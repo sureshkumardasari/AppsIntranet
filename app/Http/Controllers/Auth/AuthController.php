@@ -52,6 +52,7 @@ class AuthController extends Controller {
 		
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
+			$this->redirectTo='/';
 			return redirect()->intended($this->redirectPath());
 		}
 
