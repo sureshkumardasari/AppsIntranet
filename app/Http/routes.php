@@ -59,18 +59,21 @@ Route::get('logout', array('before' => 'auth', function()
 Route::group(array('middleware' => 'auth'), function() {
 // for adding tasks to the candidate by admin.
 
-Route::get('addtask','TaskController@index');
-Route::post('addtask','TaskController@add');
+
 Route::post('projectlist/{id}',['as'=>'project_list','uses'=>'TaskController@projectList']);
 
 
 /*..... Department Routs  ....*/
+Route::group(array('middleware' => 'permissions'), function() {
+
 Route::get('department', 'DepartmentController@display');
 Route::post('department_submit',['as'=>'department_submit','uses'=>'DepartmentController@departmentSubmit']);
 Route::get('department_create','DepartmentController@index');
 Route::post('department_update/{id}','DepartmentController@update');
 Route::get('department/{id}','DepartmentController@destroy');
 Route::get('department/{id}/edit','DepartmentController@edit');
+Route::get('downloadExcelfordepartment/{type}', 'DepartmentController@downloadExcel');
+
 
 /*..... Project Routs  ....*/
 Route::get('project', 'ProjectController@index');
@@ -81,6 +84,8 @@ Route::get('delete/{id}','ProjectController@destroy');
 Route::get('user_list',['as'=>'user_list','uses'=>'ProjectController@userList']);
 Route::post('userlist_project/{id}',['as'=>'userlist_project','uses'=>'ProjectController@userListProject']);
 Route::get('project_view',['as'=>'project_view','uses'=>'ProjectController@show']);
+Route::get('downloadExcelforproject/{type}', 'ProjectController@downloadExcel');
+
 
 /*...... User Routs ......*/
 Route::get('users', 'UserController@show');
@@ -89,18 +94,26 @@ Route::get('users/delete/{id}','UserController@destroy');
 Route::post('users/update/{id}','UserController@update');
 Route::get('users/profile/{id}','UserController@profile');
 Route::post('create','UserController@create');
+Route::get('downloadExcelforusers/{type}', 'UserController@downloadExcel');
+});
+
 
 
 // for adding tasks to the candidate by admin.
+//Route::get('addtask','TaskController@index');
 Route::get('task','TaskController@display');
 Route::get('addtask','TaskController@index');
 Route::post('addtask','TaskController@add');
 Route::post('project_list/{id}',['as'=>'project_list','uses'=>'TaskController@project_List']);
 Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modulelist']);
 Route::post('taskupdate/{id}','TaskController@update');
-Route::get('task/{id}','TaskController@destroy');
+Route::get('task/{id}/delete','TaskController@destroy');
 Route::get('task/{id}/edit','TaskController@edit');
 Route::get('task/{id}/viewlog','TaskController@viewlog');
+Route::post('tasklist/{project_id}/{module_id}','TaskController@taskList');
+Route::post('taskList/{project_id}','TaskController@task_List');
+Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
+
 
 /*for getting the timesheet of the user...*/
 
@@ -113,19 +126,22 @@ Route::post('addmodule',['as'=>'addmodule','uses'=>'ProjectModuleController@add'
 Route::post('module/{id}','ProjectModuleController@update');
 Route::get('module/{id}','ProjectModuleController@destroy');
 Route::get('module/{id}/edit','ProjectModuleController@edit');
+Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@downloadExcel');
+
+
 
 //getting task list based on project and module
 
-Route::post('tasklist/{project_id}/{module_id}','TaskController@taskList');
-Route::post('taskList/{project_id}','TaskController@task_List');
+
 Route::post('timesheetsubmit','TimeSheetController@add');
 Route::get('timesheet_display',['as'=>'timesheet_display','uses'=>'TimeSheetController@display_timesheet']);
 Route::post('gettimesheetfilterdata','TimeSheetController@filter');
 Route::get('timesheet_edit/{timesheet_id}','TimeSheetController@edit');
 Route::post('timesheet_display','TimeSheetController@display_timesheet');
 Route::post('timesheet_update','TimeSheetController@update');
-Route::get('UsersTimesheet','TimeSheetController@usertimesheet');
-Route::post('UsersTimesheet/{id}','TimeSheetController@projectlist');
+Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
+
+
 
 /*Roles*/
 Route::get('home_project_lead', 'WelcomeController@projectLead');
@@ -143,21 +159,18 @@ Route::get('profile','HomeController@profile_view');
 Route::post('profileupdate/{id}','HomeController@profile_update');
 
 //Excel Routes....
-Route::get('downloadExcelfordepartment/{type}', 'DepartmentController@downloadExcel');
 
-Route::get('downloadExcelforproject/{type}', 'ProjectController@downloadExcel');
 
-Route::get('downloadExcelforusers/{type}', 'UserController@downloadExcel');
 
-Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@downloadExcel');
+
 
 Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 
-Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
-Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
+Route::group(array('before' => 'admin'), function() {
 
-
-
+//user timesheet for admin
+Route::get('UsersTimesheet','TimeSheetController@usertimesheet');
+Route::post('UsersTimesheet/{id}','TimeSheetController@projectlist');
 //Client Routes
 Route::post('client','ClientController@create');
 Route::get('clientcreate','ClientController@index');
@@ -166,4 +179,12 @@ Route::get('client/{id}/edit','ClientController@edit');
 Route::get('deleted/{id}','ClientController@destroy');
 Route::post('update_client/{id}','ClientController@update');
 
+});
+});
+
+Route::filter('admin',function(){
+    if(Entrust::hasRole('Admin')){
+
+    }
+    else return view('app')->with('permissionerror',"You don't have permission to access this page");
 });
