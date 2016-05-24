@@ -207,6 +207,14 @@
         </div>
     </div>
 </nav>
+@if(isset($permissionerror))
+<div class="row">
+        <div class="span12" style="margin-top:200px;margin-left:500px;">
+            <h1 style="color:red">{{$permissionerror}}</h1>
+        </div>
+    </div>
+@endif
+
 
 @yield('content')
 
