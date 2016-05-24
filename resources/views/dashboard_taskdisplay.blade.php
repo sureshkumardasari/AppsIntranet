@@ -13,9 +13,22 @@
 
                     <form class="form-horizontal" role="form" method="get" action="{{ url('task/{id}/edit') }}">
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                     <div class="panel-heading"><b>Please Select Task Status In the Drop-Down</b>
 
-                        <select name="status" id="status"  class='form-control' onchange="status_change()">
+                        <div class="panel-heading col-md-6"><b>Please Select a Project</b>
+                            <select name="status" id="projectlist"  class='form-control' onchange="project_change()">
+                                <option value="0">--Select All--</option>
+                                <?php $projects=\App\Project::get();
+                                foreach($projects as $project){?>
+                                <option value="{{$project->id}}">
+                                    {{$project->name}}
+                                </option>
+                                <?php }
+                                ?>
+                            </select>
+                        </div>
+
+                     <div class="panel-heading col-md-6"><b>Please Select Task Status In the Drop-Down</b>
+                         <select name="status" id="status"  class='form-control' onchange="status_change()">
                             <option value="4">Select All</option>
                             <option value="0">Completed task</option>
                             <option value="1">Pending Task</option>
@@ -23,8 +36,7 @@
                             <option value="3">Need Clarification</option>
 
                         </select>
-
-                    </div>
+                     </div>
                     <div class="panel-body">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
@@ -57,7 +69,7 @@
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:'task/'+$('#status').val(),
+                        url:'task/'+$('#projectlist').val()+'/'+$('#status').val(),
                         type:'post',
                          success:function(response){
                             $('#taskList').empty();
@@ -68,6 +80,25 @@
 
                     }
             )
+        }
+
+        function project_change(){
+
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:'taskList_project/'+$('#projectlist').val(),
+                        type:'post',
+                        success:function(response){
+                            $('#taskList').empty();
+                            $('#taskList').append(response);
+
+                        }
+                    }
+            )
+
         }
 
     </script>
