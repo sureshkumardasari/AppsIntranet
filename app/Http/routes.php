@@ -151,12 +151,14 @@ Route::get('user_profile',['as'=>'user_profile','uses'=>'HomeController@userDeta
 
 
 
-Route::post('task/{id}','TaskController@task');
+Route::post('task/{projectid}/{statusid}','TaskController@task');
 Route::get('completedtask','TaskController@completedtask');
 Route::get('status/{id}','HomeController@status');
 Route::post('userlist/{department_id}/{project_id}/{task_id}','UserController@userlist');
 Route::get('profile','HomeController@profile_view');
 Route::post('profileupdate/{id}','HomeController@profile_update');
+Route::post('taskList_project/{id}','TaskController@project_task');
+
 
 //Excel Routes....
 

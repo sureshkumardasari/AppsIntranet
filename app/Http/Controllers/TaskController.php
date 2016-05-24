@@ -209,29 +209,45 @@ class TaskController extends Controller {
 	{
         return view('dashboard_taskdisplay');
 	}
-	public function task($id=0)
+	public function task($projectid,$statusid)
 	{
-		if($id==4)
+		if($statusid==4 && $projectid==0)
 		{
 			$user_data_task=Tasks::select('task_title','task_description','id')->get();
 			return view('Dashboard',compact('user_data_task'));
 		}
+        elseif($statusid==4 && $projectid !=0)
+        {
+            $user_data_task=Tasks::select('task_title','task_description','id')
+                ->where('project_id',$projectid)
+                ->get();
+            return view('Dashboard',compact('user_data_task'));   
+        }
 		else
 		{
 			$users=Auth::user();
 			$z=$users->id;
-			$tasks=TimeSheet::where('status','=',$id)->get();
+			$tasks=TimeSheet::where('status','=',$statusid)->get();
 			$c=array();
 			foreach($tasks as $task)
 				array_push($c,$task->task_id);
 			$user_data_task=Tasks::select('task_title','task_description','id')
 					->wherein('id',$c)
+                    ->where('project_id',$projectid)
 					->get();
-
 			return view('Dashboard',compact('tasks','user_data_task'));
 		}
 
 	}
+
+    public function project_task($id)
+    {
+        $user_data_task=Tasks::select('task_title','task_description','id')
+            ->where('project_id',$id)
+            ->get();
+        return view('Dashboard',compact('user_data_task'));
+    }
+
 	public function project_list($id=null){
 		$projects=	ProjectDepartment::join('projects','projects_depart.project_id','=','projects.id')
 			->where('projects_depart.depart_id','=',$id)
