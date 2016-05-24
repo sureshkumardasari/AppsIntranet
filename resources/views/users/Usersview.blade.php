@@ -81,14 +81,14 @@
                                                 {
                                                 ?>
                                                 <a href="{{url('/status/'.$user->user_id)}}"
-                                                   class="act" onclick="return confirm('Activate <?php echo $user->user_name?>');"> Deactivate </a>
+                                                   class="act" onclick="return confirm('Are you Sure Activate <?php echo $user->username?>');"> Deactivated </a>
                                                 <?php
                                                 }
                                                 if(($user->user_status)=='1')
                                                 {
                                                 ?>
                                                 <a href="{{url('/status/'.$user->user_id)}}"
-                                                   class="deact" onclick="return confirm('De-activate <?php echo $user->user_name?>');"> Activate</a>
+                                                   class="deact" onclick="return confirm('Are you Sure De-activate <?php echo $user->username?>');"> Active</a>
                                                 <?php
                                                 }
                                                 ?></td>
