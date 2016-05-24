@@ -98,7 +98,7 @@ Route::post('addtask','TaskController@add');
 Route::post('project_list/{id}',['as'=>'project_list','uses'=>'TaskController@project_List']);
 Route::post('modulelist/{id}',['as'=>'module_list','uses'=>'TaskController@modulelist']);
 Route::post('taskupdate/{id}','TaskController@update');
-Route::get('task/{id}','TaskController@destroy');
+Route::get('task/{id}/delete','TaskController@destroy');
 Route::get('task/{id}/edit','TaskController@edit');
 Route::get('task/{id}/viewlog','TaskController@viewlog');
 
