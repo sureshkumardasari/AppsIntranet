@@ -217,6 +217,11 @@ if($data==null) {
         }
         TimeSheet::where('id',Input::get('timesheet_id'))
             ->update(['comment'=>Input::get('comment'),'status'=>Input::get('status'),'hours'=>Input::get('hours'),'minutes'=>Input::get('minutes')]);
+        $status=$data['status'];
+        $taskid=$data['task_id'];
+        $tasks = Tasks::find($taskid);
+        $tasks->status=$status;
+        $tasks->save();
         return Redirect::route('timesheet_display');
 
     }

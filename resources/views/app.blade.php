@@ -136,7 +136,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="{{ url('/modulecreation') }}">Module</a></li>
-                <li><a href="{{ url('/addtask') }}">Task</a></li>
+                <li><a href="{{ url('/task') }}">Task</a></li>
             </ul>
             <div class="dropdown"  style="z-index: 1">
                 <ul class="nav navbar-nav"><li><a href="#">Timesheet</a></li>

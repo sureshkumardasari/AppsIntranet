@@ -17,7 +17,7 @@
                         <div class="panel-heading col-md-6"><b>Please Select a Project</b>
                             <select name="status" id="projectlist"  class='form-control' onchange="project_change()">
                                 <option value="0">--Select All--</option>
-                                <?php $projects=\App\Project::get();
+                                <?php
                                 foreach($projects as $project){?>
                                 <option value="{{$project->id}}">
                                     {{$project->name}}
