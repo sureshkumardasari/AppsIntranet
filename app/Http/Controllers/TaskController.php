@@ -17,6 +17,7 @@ use Session;
 use App\Project;
 use Auth;
 use Excel;
+use Entrust;
 
 
 
@@ -200,55 +201,98 @@ class TaskController extends Controller {
 
 	public function display()
 	{
-        $user_data_task=Tasks::select('task_title','task_description','id')->get();
 		$tasks=Tasks::get();
-		return view('dashboard_taskdisplay',compact('tasks'))->nest("tasklist","Dashboard",compact('user_data_task') );
+		$users=Auth::user();
+		$uid=$users->id;
+
+		if(Entrust::hasRole('Admin')){
+			$projects=Project::get();
+			$user_data_task=Tasks::select('task_title','task_description','id')->get();
+		}
+
+		else{
+			$projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
+			$c=array();
+			foreach($projectid as $id)
+				array_push($c,$id->project_id);
+			$projects=Project::wherein('id',$c)->get();
+			$user_data_task=Tasks::select('task_title','task_description','id')
+					->wherein('project_id',$c)
+                    ->where('user_id',$uid)
+					->get();
+		}
+
+		return view('dashboard_taskdisplay',compact('tasks','projects'))->nest("tasklist","Dashboard",compact('user_data_task') );
 	}
 
 	public function completedtask()
 	{
-        return view('dashboard_taskdisplay');
+
+        return view('dashboard_taskdisplay','$projects');
 	}
 	public function task($projectid,$statusid)
 	{
-		if($statusid==4 && $projectid==0)
+		$users=Auth::user();
+		$uid=$users->id;
+
+		if($statusid==4 && $projectid==0 )
 		{
 			$user_data_task=Tasks::select('task_title','task_description','id')->get();
 			return view('Dashboard',compact('user_data_task'));
 		}
-        elseif($statusid==4 && $projectid !=0)
+        elseif($statusid==4 && $projectid !=0 )
         {
             $user_data_task=Tasks::select('task_title','task_description','id')
                 ->where('project_id',$projectid)
+					->where('user_id',$uid)
                 ->get();
-            return view('Dashboard',compact('user_data_task'));   
+            return view('Dashboard',compact('user_data_task'));
         }
 		else
 		{
-			$users=Auth::user();
-			$z=$users->id;
+
 			$tasks=Tasks::where('status','=',$statusid)
 					->get();
 			$c=array();
 			foreach($tasks as $task)
 				array_push($c,$task->id);
-			$user_data_task=Tasks::select('task_title','task_description','id')
-					->wherein('id',$c)
-                    ->where('project_id',$projectid)
-					->get();
-			return view('Dashboard',compact('tasks','user_data_task'));
+			if(Entrust::hasRole('Admin')) {
+				$user_data_task = Tasks::select('task_title', 'task_description', 'id')
+						->wherein('id', $c)
+						->where('project_id', $projectid)
+						->get();
+			}
+			else{
+				$user_data_task = Tasks::select('task_title', 'task_description', 'id')
+						->wherein('id', $c)
+						->where('project_id', $projectid)
+						->where('user_id',$uid)
+						->get();
+			}
+			return view('Dashboard',compact('user_data_task'));
 		}
 
 	}
 
     public function project_task($id)
-    {
-        $user_data_task=Tasks::select('task_title','task_description','id')
-            ->where('project_id',$id)
-            ->get();
-        return view('Dashboard',compact('user_data_task'));
-    }
+	{
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$user_data_task = Tasks::select('task_title', 'task_description', 'id')
+					->where('project_id', $id)
+					->get();
+			return view('Dashboard', compact('user_data_task'));
 
+		}
+		else{
+			$user_data_task= Tasks::select('task_title', 'task_description', 'id')
+					->where('project_id', $id)
+					->where('user_id',$uid)
+					->get();
+			return view('Dashboard', compact('user_data_task'));
+		}
+	}
 	public function project_list($id=null){
 		$projects=	ProjectDepartment::join('projects','projects_depart.project_id','=','projects.id')
 			->where('projects_depart.depart_id','=',$id)
