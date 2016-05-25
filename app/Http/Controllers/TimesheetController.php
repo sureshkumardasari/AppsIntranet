@@ -189,7 +189,7 @@ if($data==null) {
         $project=Project::select('name')->where('id',$project_id)->first();
         $module=projectModules::select('name')->where('id',$module_id)->first();
         $task=Tasks::select('task_title')->where('id',$task_id)->first();
-        return view('timesheet_edit',compact('data','project','module','task'));
+        return view('timesheet_edit',compact('data','project','module','task','task_id'));
     }
 
     //update  task timesheet
@@ -218,7 +218,7 @@ if($data==null) {
         TimeSheet::where('id',Input::get('timesheet_id'))
             ->update(['comment'=>Input::get('comment'),'status'=>Input::get('status'),'hours'=>Input::get('hours'),'minutes'=>Input::get('minutes')]);
         $status=$data['status'];
-        $taskid=$data['task_id'];
+        $taskid=$data['taskid'];
         $tasks = Tasks::find($taskid);
         $tasks->status=$status;
         $tasks->save();
