@@ -266,6 +266,10 @@ if($data==null) {
         if($filter_data['project']) {
             $client_data = Project::where('id', $filter_data['project'])->select('client_id')->first();
             $client_name = Client::where('id', $client_data->client_id)->first();
+            if($client_name==null){
+                $client_name=['clientname'=>"not mentioned",'email'=>"not mentioned",'address'=>"not mentioned"];
+                $client_name=json_decode(json_encode( $client_name));
+            }
            }
         else  {
             $client_name=['clientname'=>"",'email'=>"",'address'=>""];
