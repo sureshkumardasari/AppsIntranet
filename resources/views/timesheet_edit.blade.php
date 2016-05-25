@@ -37,6 +37,7 @@
                                 <label class="col-md-4 control-label">Task:</label>
                                 <div class="col-md-4">
                                     <input type="text" name="task_id" class='form-control' id="taskList" value={{$task->task_title}} readonly>
+                                    <input type="hidden" name="taskid" value={{$task_id}}>
                                 </div>
                             </div>
                             <div class="form-group">
