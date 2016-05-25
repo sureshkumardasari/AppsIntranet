@@ -227,10 +227,11 @@ class TaskController extends Controller {
 		{
 			$users=Auth::user();
 			$z=$users->id;
-			$tasks=TimeSheet::where('status','=',$statusid)->get();
+			$tasks=Tasks::where('status','=',$statusid)
+					->get();
 			$c=array();
 			foreach($tasks as $task)
-				array_push($c,$task->task_id);
+				array_push($c,$task->id);
 			$user_data_task=Tasks::select('task_title','task_description','id')
 					->wherein('id',$c)
                     ->where('project_id',$projectid)
@@ -280,6 +281,7 @@ public function viewlog($id)
     $timesheet = TimeSheet::join('users','time_sheets.user_id','=','users.id')
         ->select('users.username','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status','time_sheets.comment')
         ->where('time_sheets.task_id','=',$id)
+		->orderBy('time_sheets.updated_at','desc')
         ->get();
     //dd($timesheet);
     return view('task_view',compact('timesheet','creat'));
