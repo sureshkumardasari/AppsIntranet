@@ -47,8 +47,8 @@
 
 
                                             {{--<td> {{$dept->id}}</td>--}}
-                                            <td> {{$task->task_title}} </td>
-                                            <td> {{$task->task_description}}</td>
+                                            <td style="word-break: break-all ; max-width: 100px"> {{$task->task_title}} </td>
+                                            <td style="word-break: break-all ; max-width: 100px"> {{$task->task_description}}</td>
                                             <td><a href="{{ url('task/'.$task->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <a href="{{ url('task/'.$task->id.'/delete') }}" onclick="return confirm('Are you sure you want delete this Task ?');">Delete</a>
                                             </td>
