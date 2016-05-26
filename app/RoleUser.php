@@ -11,6 +11,7 @@ class RoleUser extends Model {
 	 * @var string
 	 */
 	protected $table = 'role_user';
+	public $timestamps = false;
 
 
 	/**
