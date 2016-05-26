@@ -22,7 +22,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Department Name</label>
+                                <label class="col-md-4 control-label">Department Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="name" value="{{ $department-> name }}">
                                 </div>

@@ -25,13 +25,11 @@
 
                                     <div class="col-md-4">
                                     <select name="project_id" class="project form-control" onchange="refresh_module();">
-                                        <option>--Select Project--</option>
+                                        <option value="0">--Select Project--</option>
                                         @foreach($projects as $project)
                                             <option value={{$project->id}}>{{$project->name}}</option>
                                         @endforeach
                                     </select>
-                                        <span class="text-danger">{{ $errors->first('project_id') }}</span>
-
                                     </div>
                             </div>
                             <div class="form-group">
@@ -47,7 +45,7 @@
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                 <select name="task_id" class='form-control' id="taskList">
-                                    <option>--Select Task--</option>
+                                    <option value="0">--Select Task--</option>
                                 </select>
 
                             </div>
@@ -131,7 +129,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#taskList').empty();
-                            var opt=new Option('--Select Task--','');
+                            var opt=new Option('--Select Task--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){
@@ -155,7 +153,7 @@
                         success:function(response){
                             var a=response.length;
                              $('#taskList').empty();
-                            var opt=new Option('--Select Task--','');
+                            var opt=new Option('--Select Task--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){

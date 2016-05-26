@@ -38,17 +38,21 @@ class UserController extends Controller {
 			  'username.required'=>'Please Give a User Name ',
                 'first_name.required'=>'Please Give a First Name ',
                 'last_name.required'=>'Please Give a Last Name ',
+				'gender.required'=>'Please Select a Gender',
                 'email.required'=>'Please Give an Email ',
                 'password.required'=>'Please Give a Password ',
 				'user_depart_name.required'=>'Please choose Department ',
+				'gender.required'=>'Please choose Gender'
 		];
 		$rules = [ 
-				 'username' => 'required|max:255|unique:users',
+				'username' => 'required|max:255|unique:users',
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
+				'gender'=>'required',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
-				'user_depart_name'=>'required'
+				'user_depart_name'=>'required',
+				'gender'=>'required'
 		];
  		$validator=Validator::make($post,$rules,$messages);
         if ($validator->fails()){
@@ -60,7 +64,6 @@ class UserController extends Controller {
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-				//'department_id'=>$ids,
 				'role_id'=>$post['roles'],
   				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
@@ -169,6 +172,7 @@ class UserController extends Controller {
                 'last_name.required'=>'Please Give a Last Name ',
                 'email.required'=>'Please Give an Email ',
    				'user_depart_name.required'=>'Please choose Department ',
+				'username.required'=>'Please Give a User Name'
 		];
 
 		$rules = [
@@ -177,6 +181,7 @@ class UserController extends Controller {
 				'user_depart_name' =>'required',
 				'email'=>'required|max:255|unique:users,email,'.$id,
 				'username'=>'required|max:255|unique:users,username,' . $id
+
 		];
 
 

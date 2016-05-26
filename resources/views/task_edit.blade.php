@@ -21,7 +21,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Task Title:</label>
+                                <label class="col-md-4 control-label">Task Title:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="task_title" value="{{$task->task_title}}" />
                                 </div>

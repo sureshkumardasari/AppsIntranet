@@ -20,7 +20,7 @@
                             <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Module Title:</label>
+                                <label class="col-md-4 control-label">Module Title:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
                                     <input class="form-control" name="name" type="text" value="{{ $module-> name }}" >
 

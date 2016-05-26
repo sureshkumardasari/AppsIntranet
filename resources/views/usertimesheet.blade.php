@@ -21,17 +21,15 @@
 
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Select Users:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <label class="col-md-4 control-label">Select User:<span style="color: red" >&nbsp; <b>*</b></span></label>
 
                                 <div class="col-md-4">
                                     <select name="user_id" id="user" class="user form-control" onchange="status_change();">
-                                        <option>--Select Users--</option>
+                                        <option value="0">--Select User--</option>
                                         @foreach($users as $user)
                                             <option value={{$user->id}}>{{$user->username}}</option>
                                         @endforeach
                                     </select>
-                                    <span class="text-danger">{{ $errors->first('user_id') }}</span>
-
                                 </div>
                             </div>
 
@@ -42,7 +40,7 @@
 
                                 <div class="col-md-4">
                                     <select name="project_id" id="projectlist" class="project form-control" onchange="refresh_project();">
-                                        <option>--Select Project--</option>
+                                        <option value="0">--Select Project--</option>
                                     </select>
                                 </div>
                             </div>
@@ -59,7 +57,7 @@
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <select name="task_id" class="task form-control" id="taskList">
-                                        <option>--Select Task--</option>
+                                        <option value="0">--Select Task--</option>
                                     </select>
                                 </div>
                             </div>
@@ -122,7 +120,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#projectlist').empty();
-                            var opt=new Option('--Select Project--','');
+                            var opt=new Option('--Select Project--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#projectlist').append(opt);
                             for(i=0;i<a;i++){
@@ -167,7 +165,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#taskList').empty();
-                            var opt=new Option('--Select Task--','');
+                            var opt=new Option('--Select Task--','0');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){

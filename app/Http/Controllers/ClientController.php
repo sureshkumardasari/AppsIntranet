@@ -32,7 +32,7 @@ class ClientController extends Controller {
 					'clientname.required'=>'Client Name can\'t leave as blank!',
 						'email.required'=>'Email can\'t leave as blank!',
 						'phone1.required'=>'Phone1 can\'t leave as blank!',
-						'phone2.reNamequired'=>'Phone2  can\'t leave as blank!',
+						'phone2.required'=>'Phone2  can\'t leave as blank!',
 						/*'fax.required'=>'Fax can\'t leave as blank!',	*/	
 		];
 		$rules=[
