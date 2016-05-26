@@ -25,7 +25,7 @@
 
                                     <div class="col-md-4">
                                     <select name="project_id" class="project form-control" onchange="refresh_module();">
-                                        <option value="0">--Select Project--</option>
+                                        <option disabled selected hidden>--Select Project--</option>
                                         @foreach($projects as $project)
                                             <option value={{$project->id}}>{{$project->name}}</option>
                                         @endforeach
@@ -37,7 +37,7 @@
 
                                     <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='col-md-6 form-control' onchange="refresh_task();">
-                                        <option value="0">--Select Module--</option>
+                                        <option disabled selected hidden>--Select Module--</option>
                                     </select>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
                                 <select name="task_id" class='form-control' id="taskList">
-                                    <option value="0">--Select Task--</option>
+                                    <option disabled selected hidden>--Select Task--</option>
                                 </select>
 
                             </div>
@@ -109,7 +109,7 @@
                         success:function(response){
                             var a=response.length;
                              $('#moduleList').empty();
-                            var opt=new Option('--Select Module--','0');
+                            var opt=new Option('--Select Module--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){
@@ -129,7 +129,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#taskList').empty();
-                            var opt=new Option('--Select Task--','0');
+                            var opt=new Option('--Select Task--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){
@@ -153,7 +153,7 @@
                         success:function(response){
                             var a=response.length;
                              $('#taskList').empty();
-                            var opt=new Option('--Select Task--','0');
+                            var opt=new Option('--Select Task--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){

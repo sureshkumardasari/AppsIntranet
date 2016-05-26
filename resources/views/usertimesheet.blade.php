@@ -25,7 +25,7 @@
 
                                 <div class="col-md-4">
                                     <select name="user_id" id="user" class="user form-control" onchange="status_change();">
-                                        <option value="0">--Select User--</option>
+                                        <option disabled selected hidden>--Select User--</option>
                                         @foreach($users as $user)
                                             <option value={{$user->id}}>{{$user->username}}</option>
                                         @endforeach
@@ -40,7 +40,7 @@
 
                                 <div class="col-md-4">
                                     <select name="project_id" id="projectlist" class="project form-control" onchange="refresh_project();">
-                                        <option value="0">--Select Project--</option>
+                                        <option disabled selected hidden>--Select Project--</option>
                                     </select>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
 
                                 <div class="col-md-4">
                                     <select name="module_id" id="moduleList"  class='module form-control' onchange="refresh_task();">
-                                        <option value="0">--Select Module--</option>
+                                        <option disabled selected hidden>--Select Module--</option>
                                     </select>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                 <label class="col-md-4 control-label">Select Task:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-4">
                                     <select name="task_id" class="task form-control" id="taskList">
-                                        <option value="0">--Select Task--</option>
+                                        <option disabled selected hidden>--Select Task--</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#projectlist').empty();
-                            var opt=new Option('--Select Project--','0');
+                            var opt=new Option('--Select Project--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#projectlist').append(opt);
                             for(i=0;i<a;i++){
@@ -145,7 +145,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#moduleList').empty();
-                            var opt=new Option('--Select Module--','0');
+                            var opt=new Option('--Select Module--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){
@@ -165,7 +165,7 @@
                         success:function(response){
                             var a=response.length;
                             $('#taskList').empty();
-                            var opt=new Option('--Select Task--','0');
+                            var opt=new Option('--Select Task--','');
                             //opt.addClass('selected','disabled','hidden');
                             $('#taskList').append(opt);
                             for(i=0;i<a;i++){
