@@ -3,8 +3,10 @@
 use App\Client;
 use App\Department;
 use App\ProjectDepartment;
+use App\projectModules;
 use App\ProjectUser;
 use App\Http\Requests\ProjectRequest;
+use App\Tasks;
 use Illuminate\Support\Facades\Input;
 use App\Project;
 use App\User;
@@ -198,9 +200,10 @@ class ProjectController extends Controller
 	public function destroy($id)
 	{
 		$users = ProjectUser::where('project_id', $id)->count();
-		$dept = ProjectDepartment::where('project_id',$id)->count();
+		$tasks = Tasks::where('project_id',$id)->count();
+		$module=projectModules::where('project_id',$id)->count();
 
-		if ($users == 0 && $dept == 0) {
+		if ($users == 0 && $tasks == 0 && $module == 0) {
 			Project::find($id)->delete();
 			\Session::flash('flash_message', 'Deleted.');
 			return redirect('project_view');

@@ -126,9 +126,9 @@ class TaskController extends Controller {
 	public function destroy($id)
 	{
 		/*dd($id);*/
-		$users=User::select('id')->count();
-		$projects=Project::select('id')->count();
-		if($projects == null && $users == null)
+
+		$timesheets=TimeSheet::where('task_id',$id)->count();
+		if($timesheets == null )
 		{
 		Tasks::find($id)->delete();
 		 \Session::flash('message', 'Deleted!');
