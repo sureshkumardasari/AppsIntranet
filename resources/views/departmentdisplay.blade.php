@@ -47,8 +47,8 @@
 
 
                                                     {{--<td> {{$dept->id}}</td>--}}
-                                                    <td> {{$dept->name}} </td>
-                                                    <td> {{$dept->description}}</td>
+                                                    <td style="word-break: break-all ; max-width: 100px"> {{$dept->name}} </td>
+                                                    <td style="word-break: break-all ; max-width: 100px" >  {{$dept->description}}</td>
                                                     <td><a href="{{ url('department/'.$dept->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                                                         <a href="{{ url('department/'.$dept->id) }}" onclick="return confirm('Are you sure you want delete this Department ?');">Delete</a>
                                                     </td>
