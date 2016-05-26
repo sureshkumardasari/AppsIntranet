@@ -222,6 +222,9 @@ class UserController extends Controller {
 			$update['password'] = bcrypt($post['password']);
 		}
 		$record = User::where('id',$id)->update($update);
+		if($record){
+			RoleUser::where('user_id',$id)->update(['role_id'=>$post['roles']]);
+		}
 
 		if(isset($post['user_depart_name'])){
 		if($record){
