@@ -72,7 +72,7 @@ class DepartmentController extends Controller {
         } else {
         	
             \Session::flash('alert-class', 'Cannot Delete this Department');
-            // \Session::flash('flash_message', 'Cannot delete this user.');
+
             return Redirect::back();
         }
 	}

@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Tasks;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
@@ -53,8 +54,8 @@ class ProjectModuleController extends Controller {
     public function destroy($id)
     {
         /*$project = Project::where('id')->count();*/
-        $projects=Project::select('id')->count();
-        if($projects == null){
+        $tasks=Tasks::where('module_id',$id)->count();
+        if($tasks == null){
         projectModules::find($id)->delete();
          \Session::flash('message', 'Deleted!');
          return Redirect::to('module');
