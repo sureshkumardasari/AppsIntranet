@@ -36,18 +36,18 @@ class TimesheetController extends Controller {
     public function add(){
         $data= Input::except('_token');
         $messages = [
-             'project_id.required'=>'Please select a project',
-            
+            'user_id.required'=>'please select a user',
+            'project_id.required'=>'Please select a project',
             'task_id.required'=>'Please select a task',
             'comment.required'=>'Please give a comment',
             'status.required'=>'Please select status of the project',
-            'hours.required'=>'Mention Time spent on project',
-            'minutes.required'=>'Mention Time spent on project',
+            'hours.required'=>'Mention Hours spent on project',
+            'minutes.required'=>'Mention Minutes spent on project',
         ];
         $rules = [
-            'project_id'=>'required',
-            
-            'task_id'=>'required',
+            'user_id'=>'required|not_in:0',
+            'project_id'=>'required|not_in:0',
+            'task_id'=>'required|not_in:0',
             'comment'=>'required',
             'status'=>'required',
             'hours'=>'required',

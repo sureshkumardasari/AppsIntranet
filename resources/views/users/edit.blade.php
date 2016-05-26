@@ -22,9 +22,9 @@
                             <input type="hidden" name="id" value="{{ $users->id }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">User Name</label>
+                                <label class="col-md-4 control-label">User Name<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" readonly>
+                                    <input type="text" class="form-control" name="username" value="{{  $users->username}}" >
                                 </div>
                             </div>
 
