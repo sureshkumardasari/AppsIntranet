@@ -95,7 +95,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-1"></div>
-                                <button onclick="filter();">Filter</button>   
+                                <button onclick="filter();">Filter</button>
                             </div>
                         </div>
                         <div class="form-group" id="advanced_filter_group">
@@ -256,7 +256,11 @@
         function refresh_projects_users(){
             if($('#department').val()!=0){
                 $('#advanced_filter_group').show();}
-            else  $('#advanced_filter_group').hide();
+            else {
+                $('#advanced_filter').attr('checked', false);
+                $('#advancedfiltersdiv').hide();
+                $('#advanced_filter_group').hide();
+            }
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
