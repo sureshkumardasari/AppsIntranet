@@ -137,13 +137,13 @@
                                 </td>
                                 <input type="hidden" id="url" value="{{url('timesheet_edit/')}}">
                                 <td>@if($time->status==0)
-                                        completed
+                                        Open
                                     @elseif($time->status==1)
-                                        pending
+                                        In progress
                                     @elseif($time->status==2)
-                                        started
+                                        Need Clarification
                                     @elseif($time->status==3)
-                                        need clarification
+                                        Completed
                                     @endif
                                 </td>
                                 <td>
