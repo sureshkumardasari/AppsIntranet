@@ -77,15 +77,15 @@ class TimesheetController extends Controller {
         $department_list=Department::distinct('name')->get();
         if (\Request::isMethod('post'))
         {
-            return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+            return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
                 ->get();
         }
         else{
-            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
                 ->get();
             return view('timesheet_display',compact('timesheet','department_list'));}
         }
-        else return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+        else return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
            ->orderBy('projects.id')->orderBy('tasks.task_title')
             ->get();
     }
@@ -94,7 +94,10 @@ class TimesheetController extends Controller {
 if($data==null) {
     $data = Input::all();
 }
-
+$adv_filter_type=$data['adv_filter_type'];
+        $adv_year=$data['adv_year'];
+        $adv_month=$data['adv_month'];
+        $adv_week=$data['adv_week'];
         $department=$data['department'];
         if(isset($data['project'])){
             $project=$data['project'];
@@ -140,19 +143,56 @@ if($data==null) {
             if($user!=0 && $user!=null){
                 $timesheet->where('users.id',$user);
             }
-            if($from_date!=null) {
+            if($adv_filter_type==null){
+                if($from_date!=null) {
 
-                if ($to_date != null) {
-                    $timesheet->whereBetween('tasks.created_at',[$from_date, $to_date]);
-                } else {
+                    if ($to_date != null) {
+                        $timesheet->whereBetween('tasks.created_at',[$from_date, $to_date]);
+                    } else {
 
-                    $timesheet->where('tasks.created_at','>=', $from_date);
+                        $timesheet->where('tasks.created_at','>=', $from_date);
+                    }
                 }
+            }
+            else {
+                if($adv_filter_type=="monthly"){
+                    //dd($adv_year.",".$adv_month);
+                    $from=date('Y-m-d',strtotime($adv_year."-".$adv_month));
+                    $to=$adv_year."-".$adv_month."-28";
+                    $to=date('Y-m-d',strtotime($to));
+                    //dd($from.','.$to);
+                    $timesheet->whereBetween('tasks.created_at',[$from, $to]);
+                }
+                else{
+                    $date_from=01;
+                    $date_to=07;
+                    if($adv_week==1){
+                        $date_from=01;
+                        $date_to=07;
+                    }
+                    elseif($adv_week==2){
+                        $date_from=8;
+                        $date_to=14;
+                    }
+                    elseif($adv_week==3){
+                        $date_from=15;
+                        $date_to=21;
+                    }
+                    elseif($adv_week==4){
+                        $date_from=22;
+                        $date_to=28;
+                    }
+                    $from=date('Y-m-d',strtotime($adv_year."-".$adv_month."-".$date_from));
+                    $to=date('Y-m-d',strtotime($adv_year."-".$adv_month."-".$date_to));
+                    //dd($from.','.$to);
+                    $timesheet->whereBetween('tasks.created_at',[$from, $to]);
+                }
+
             }
             if(isset($data['from_method'])){
                 $timesheet->orderBy('projects.id')->orderBy('tasks.task_title');
             }
-            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')->get();
+            $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')->get();
         }
         return $timesheet;
 //        if($data['module']==0){
@@ -260,6 +300,10 @@ if($data==null) {
         $filter_data['user']=$data->user;
         $filter_data['from_date']=$data->from_date;
         $filter_data['to_date']=$data->to_date;
+        $filter_data['adv_filter_type']=$data->adv_filter_type;
+        $filter_data['adv_month']=$data->adv_month;
+        $filter_data['adv_week']=$data->adv_week;
+        $filter_data['adv_year']=$data->adv_year;
         if( $filter_data['user']){
         $user_data=User::where('id',$filter_data['user'])->first();
         }

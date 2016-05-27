@@ -62,6 +62,7 @@
     </tr>
       </thead>
     <tbody>
+    @if($report_data[0]!=null)
     @foreach($report_data as $timesheets)
         <tr>
             <td width="20px">{{$timesheets['project_name']}}</td>
@@ -90,6 +91,10 @@
         <td style="background-color: #969696;">{{$totalhoursspent}}:{{$totalminutesspent}}</td>
     </tr>
 
-
+@else
+        <tr>
+            <td colspan="5">NO DATA TO DISPLAY</td>
+        </tr>
+    @endif
     </tbody>
 </table>
