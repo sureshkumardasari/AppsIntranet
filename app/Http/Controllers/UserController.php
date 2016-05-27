@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App;
 use Excel;
+use App\Tasks;
 use App\User;
 use App\UserDepartments;
 use Illuminate\Support\Facades\Input;
@@ -67,7 +68,6 @@ class UserController extends Controller {
 				'role_id'=>$post['roles'],
   				'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
-				'status'=>'active',
 				'gender'=> input::get('gender'),
 				'date_of_birth'=>$post['dob'],
 				'joining_date'=>$post['jod'],
@@ -210,7 +210,8 @@ class UserController extends Controller {
 			'first_name'=>$post['first_name'],
 			'last_name'=>$post['last_name'],
 			'email'=>$post['email'],
-            'client_id'=> isset($post['client'])?$post['client']:"",
+
+
             'department_id'=>isset($post['depart'])?$post['depart']:"",
 			'role_id'=>$post['roles'],
 			'gender'=>$post['gender'],
@@ -256,17 +257,19 @@ class UserController extends Controller {
 	public function destroy($id)
 	{
 		
-		$user_department = Department::select('id');
+		$user_task =Tasks::where('user_id',$id)->count();
+
 		//return $users;
        /* $user_dependency=Department::find($user_department->department_id);*/
        // dd($user_dependency);
-		if ($user_department == null) {
+		if ($user_task == null) {
 			User::find($id)->delete();
 			\Session::flash('flash_message', 'Deleted.');
+
 			return redirect('users');
 
 		} else {
-			\Session::flash('flash_message_failed', 'Cannot Delete this user.');
+			\Session::flash('flash_message_failed', 'Cannot Delete this user Please Make Sure that there are no Tasks assigned to this user.');
 			return Redirect::back();
 
 		}
