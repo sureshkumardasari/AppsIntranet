@@ -59,14 +59,22 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Status:<span style="color: red" >&nbsp; <b>*</b></span></label>
                             <div class="col-md-4">
-                                    <select name="status" class='form-control'>
-                                        <option selected disabled hidden>--Select Status--</option>
-                                        <option value="0">Completed</option>
-                                        <option value="1">Pending</option>
-                                        <option value="2">Started</option>
-                                        <option value="3">Need Clarification</option>
-                                    </select>
+                                <select name="status" class='form-control'>
+                                    <option selected disabled hidden>--Select Status--</option>
+                                    <option value="0">Open</option>
+                                    <option value="1">In progress</option>
+                                    <option value="2">Need Clarification</option>
+                                    <option value="3">Completed</option>
+                                </select>
                             </div>
+                            </div>
+                            <div>
+                                <label class="col-md-4 control-label">Date:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <div class="col-md-6">
+                                    <input  class="datepicker" name="date" value="{{old('date')}}" placeholder="YY-MM-DD">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                </div>
+                                <br><br>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Time Spent:<span style="color: red" >&nbsp; <b>*</b></span></label>
@@ -98,7 +106,7 @@
     </div>
 
     <script>
-
+        $('.datepicker').datepicker();
         function refresh_module(){
             var csrf=$('Input#csrf_token').val();
             $.ajax(

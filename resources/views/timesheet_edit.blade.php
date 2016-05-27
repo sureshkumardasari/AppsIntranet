@@ -52,13 +52,22 @@
                                 <div class="col-md-4">
                                     <select name="status" id="status" class='form-control'>
                                         <option selected disabled hidden>--please select status--</option>
-                                        <option value="0">complete</option>
-                                        <option value="1">Pending</option>
-                                        <option value="2">Started</option>
-                                        <option value="3">Need Clarification</option>
+                                        <option value="0">Open</option>
+                                        <option value="1">In progress</option>
+                                        <option value="2">Need Clarification</option>
+                                        <option value="3">Completed</option>
                                     </select>
 
+
                                 </div>
+                            </div>
+                            <div>
+                                <label class="col-md-4 control-label">Date:<span style="color: red" >&nbsp; <b>*</b></span></label>
+                                <div class="col-md-6">
+                                    <input  class="datepicker" name="date" value="{{$data->date}}" placeholder="YY-MM-DD">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                </div>
+                                <br><br>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Time Spent:<span style="color: red" >&nbsp; <b>*</b></span></label>
@@ -99,6 +108,7 @@
         </div>
     </div>
 <script>
+    $('.datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     $(document).ready(function(){
                 $('#status').val({{$data->status }});
             }

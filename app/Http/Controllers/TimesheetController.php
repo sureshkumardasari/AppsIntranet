@@ -35,14 +35,15 @@ class TimesheetController extends Controller {
     }
     public function add(){
         $data= Input::except('_token');
+
         $messages = [
-            'user_id.required'=>'please select a user',
+            'user_id.required'=>'Please select a user',
             'project_id.required'=>'Please select a project',
             'task_id.required'=>'Please select a task',
             'comment.required'=>'Please give a comment',
             'status.required'=>'Please select status of the project',
             'hours.required'=>'Mention Hours spent on project',
-            'minutes.required'=>'Mention Minutes spent on project',
+            'date.required' =>'Please Select Date'
         ];
         $rules = [
             'user_id'=>'required|not_in:0',
@@ -51,14 +52,15 @@ class TimesheetController extends Controller {
             'comment'=>'required',
             'status'=>'required',
             'hours'=>'required',
-            'minutes'=>'required',
+            'date'=>'required'
         ];
 
        $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
-
+        $data['date']=date('y-m-d',strtotime($data
+        ['date']));
         TimeSheet::create($data);
         $status=$data['status'];
         $taskid=$data['task_id'];
@@ -215,8 +217,10 @@ if($data==null) {
         if ($validator->fails()){
             return Redirect::back()->withInput()->withErrors($validator);
         }
+
         TimeSheet::where('id',Input::get('timesheet_id'))
-            ->update(['comment'=>Input::get('comment'),'status'=>Input::get('status'),'hours'=>Input::get('hours'),'minutes'=>Input::get('minutes')]);
+            ->update(['comment'=>Input::get('comment'),'date'=>date('y-m-d',strtotime($data['date'])),'status'=>Input::get('status'),'hours'=>Input::get('hours'),'minutes'=>Input::get('minutes')]);
+
         $status=$data['status'];
         $taskid=$data['taskid'];
         $tasks = Tasks::find($taskid);

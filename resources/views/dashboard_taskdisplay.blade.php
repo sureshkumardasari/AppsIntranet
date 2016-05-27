@@ -30,11 +30,10 @@
                      <div class="panel-heading col-md-6"><b>Please Select Task Status In the Drop-Down</b>
                          <select name="status" id="status"  class='form-control' onchange="status_change()">
                             <option value="4">Select All</option>
-                            <option value="0">Completed task</option>
-                            <option value="1">Pending Task</option>
-                            <option value="2">Started Task</option>
-                            <option value="3">Need Clarification</option>
-
+                             <option value="0">Open</option>
+                             <option value="1">In progress</option>
+                             <option value="2">Need Clarification</option>
+                             <option value="3">Completed</option>
                         </select>
                      </div>
                     <div class="panel-body">
