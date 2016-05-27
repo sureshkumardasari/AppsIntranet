@@ -95,7 +95,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-1"></div>
-                                <button onclick="filter();">Filter</button>
+                                <button onclick="filter();">Filter</button>   ////
                             </div>
                         </div>
                         <div class="form-group" id="advanced_filter_group">
