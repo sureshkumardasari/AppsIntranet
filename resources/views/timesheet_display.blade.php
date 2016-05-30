@@ -75,7 +75,7 @@
                             </div>
                             <div>
                                 <label class="col-md-1 control-label">From:</label>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <input class="form-control date" name="from_date" placeholder="From date" id="from_date">
                                 </div>
                                 <div class="col-md-1">
@@ -85,7 +85,7 @@
 
                             <div >
                                 <label class="col-md-1 control-label">To:</label>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <input class="form-control date" name="to_date" placeholder="To date" id="to_date">
                                 </div>
                                 <div class="col-md-1">

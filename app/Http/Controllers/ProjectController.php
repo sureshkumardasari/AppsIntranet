@@ -12,6 +12,8 @@ use App\Project;
 use App\User;
 use Validator;
 use Redirect;
+use Auth;
+use Entrust;
 use App\UserDepartments;
 use Excel;
 class ProjectController extends Controller
@@ -224,8 +226,21 @@ class ProjectController extends Controller
 	}
 	public function show()
 	{
-		$projects=Project::get();
-		return view('project_view',compact('projects'));
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$projects = Project::get();
+			return view('project_view', compact('projects'));
+		}
+		else{
+			$projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
+			$c=array();
+			foreach($projectid as $id)
+				array_push($c,$id->project_id);
+			$projects=Project::wherein('id',$c)->get();
+			return view('project_view', compact('projects'));
+		}
+
 	}
 
 	public function userListProject($id)

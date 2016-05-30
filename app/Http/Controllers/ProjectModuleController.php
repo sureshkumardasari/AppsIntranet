@@ -11,6 +11,8 @@ use Validator;
 use Session;
 use App\ProjectModules;
 use Excel;
+use Auth;
+use Entrust;
 use App\ProjectUser;
 
 class ProjectModuleController extends Controller {
@@ -47,9 +49,21 @@ class ProjectModuleController extends Controller {
     }
 
     public  function display(){
-        $module=projectModules::get();
-        return view('project_modules.modulesdisplay',compact('module'));
-
+        $users=Auth::user();
+        $uid=$users->id;
+        if (Entrust::hasRole('Admin')) {
+            $module = projectModules::get();
+            return view('project_modules.modulesdisplay', compact('module'));
+        }
+        else{
+            $projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
+            /*$c=array();
+            foreach($projectid as $id)
+                array_push($c,$id->project_id);*/
+            $module=projectModules::where('project_id',$projectid)
+                ->get();
+            return view('project_modules.modulesdisplay', compact('module'));
+        }
     }
     public function destroy($id)
     {

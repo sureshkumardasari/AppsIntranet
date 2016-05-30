@@ -3,10 +3,13 @@
 use App\Department;
 use App\User;
 use App\Projectdepartment;
+use App\UserDepartments;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Excel;
+use Auth;
+use Entrust;
 class DepartmentController extends Controller {
 
 	/*
@@ -49,8 +52,21 @@ class DepartmentController extends Controller {
 	}
 
 	public  function display(){
-		$department=Department::get();
-		return view('departmentdisplay',compact('department'));
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$department = Department::get();
+			return view('departmentdisplay', compact('department'));
+		}
+		else{
+			$departmentid=UserDepartments::where('user_id',$uid)->select('depart_id')->get();
+			$c=array();
+			foreach($departmentid as $id)
+				array_push($c,$id->project_id);
+			$department=Department::wherein('id',$c)->get();
+			return view('departmentdisplay', compact('department'));
+
+		}
 
 	}
 
