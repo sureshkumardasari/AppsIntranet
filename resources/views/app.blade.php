@@ -85,6 +85,10 @@
         .dropdown:hover .dropbtn {
             background-color: #3e8e41;
         }
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
 
     </style>
 
@@ -223,13 +227,87 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $('#dept_tbl').DataTable();
         $('#users').DataTable();
         $('#userview').DataTable();
-	   $('#timesheet').DataTable();
+	   $('#timesheet').DataTable({
+          // var table = $('#example').DataTable({
+//               columns: [
+//                   {
+//                      name: 'second',
+//                       title: 'Project Name',
+//                   },
+//                   {
+//
+//                       title: 'Module Name',
+//                   },
+//                   {
+//                       title: 'Task Title',
+//                   },
+//                   {
+//                       title: 'Task Created At',
+//                   },
+//                   {
+//                       title: 'Task Updated At',
+//                   },
+//                   {
+//                       title: 'Hours Spent',
+//                   },
+//                   {
+//                       title: 'Status',
+//                   },
+//                   {
+//                       title: 'Action',
+//                   },
+//               ],
+               //data: data,
+               rowsGroup: [// Always the array (!) of the column-selectors in specified order to which rows groupping is applied
+                   // (column-selector could be any of specified in https://datatables.net/reference/type/column-selector)
+                   //'second:name',
+                   0,
+                   1,2
+
+
+               ],
+               pageLength: '20',
+           });
+   // } );
+
+//        "columnDefs": [
+//               { "visible": false, "targets": 0 }
+//           ],
+//           "order": [[ 0, 'asc' ]],
+//           "displayLength": 25,
+//           "drawCallback": function ( settings ) {
+//               var api = this.api();
+//               var rows = api.rows( {page:'current'} ).nodes();
+//               var last=null;
+//
+//               api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+//                   if ( last !== group ) {
+//                       $(rows).eq( i ).before(
+//                               '<tr class="group"><td colspan="7"  style="color:red;font-weight: bold;">'+group+'</td></tr>'
+//                       );
+//
+//                       last = group;
+//                   }
+//               } );
+//           }
+//       });
+//        $('#timesheet tbody').on( 'click', 'tr.group', function () {
+//            var currentOrder = table.order()[0];
+//            if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
+//                table.order( [ 2, 'desc' ] ).draw();
+//            }
+//            else {
+//                table.order( [ 2, 'asc' ] ).draw();
+//            }
+//        } );
+//
         $('#clientview').DataTable();
         $('#task_tbl').DataTable();
 

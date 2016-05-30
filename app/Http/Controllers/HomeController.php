@@ -164,10 +164,21 @@ class HomeController extends Controller {
 				'username'=>$post['username'],
 				'first_name'=>$post['first_name'],
 				'last_name'=>$post['last_name'],
-				'password'=>$post['password'],
+				//'password'=>bcrypt($post['password']),
 				'email'=>$post['email'],
 
 		]);
+		if(isset($post['password'])){
+			$validator=Validator::make($post,['password' => 'required|confirmed|min:6'],['password'=>'password details do not match']);
+			if($validator->fails()){
+				//dd($validator);
+				return Redirect::back()->withInput()->withErrors($validator);
+			}
+			User::where('id',$id)->update([
+				'password'=>bcrypt($post['password'])
+			]);
+
+		}
 		return Redirect::back()->with('success','updated successfully');
 	}
 }

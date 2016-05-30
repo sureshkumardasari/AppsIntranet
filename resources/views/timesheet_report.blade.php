@@ -7,7 +7,7 @@
 </head>
 <body>
 <table>
-     <thead>
+    <thead>
     <tr>
         <th  colspan="10" align="center" style="font-family: Arial;color: #0066cc;"><strong>AppsTek Weekly Timesheet</strong><img width="20%" height="50%" class="logo-img" src="../public/images/logo.png"></th>
     </tr>
