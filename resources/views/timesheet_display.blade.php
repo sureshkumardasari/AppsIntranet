@@ -269,14 +269,12 @@
                         type:'post',
                         success:function(response){
                             var a=response.length;
-                            // alert(a);
                             $('#project').empty();
                             $('#moduleList').empty();
                             $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
                             var opt=new Option('-Select-','0');
-                            //opt.addClass('selected','disabled','hidden');
                             $('#project').append(opt);
                             for(i=0;i<a;i++){
                                 var opt=new Option(response[i].name,response[i].id);
@@ -284,7 +282,7 @@
                             }
                         }
                     }
-            )
+            );
             users();
 
         }
@@ -304,7 +302,6 @@
                             $('#from_date').val('');
                             $('#to_date').val('');
                             var opt=new Option('-Select-','0');
-                            //opt.addClass('selected','disabled','hidden');
                             $('#user').append(opt);
                             for(i=0;i<a;i++){
                                 var opt=new Option(response[i].first_name,response[i].id);
@@ -324,13 +321,10 @@
                         type:'post',
                         success:function(response){
                             var a=response.length;
-                            // alert(a);
                             $('#moduleList').empty();
-                            //                 $('#task').empty();
                             $('#from_date').val('');
                             $('#to_date').val('');
                             var opt=new Option('-Select-','0');
-                            //opt.addClass('selected','disabled','hidden');
                             $('#moduleList').append(opt);
                             for(i=0;i<a;i++){
                                 var opt=new Option(response[i].name,response[i].id);
@@ -474,20 +468,6 @@
             //array_data.push(object);
             array_data=JSON.stringify(object);
             window.location =""+url+"?data="+array_data;
-//            $.ajax(
-//                    {
-//                url:url,
-//                        headers: {"X-CSRF-Token": csrf},
-//                        type:"get",
-//                        data:data,
-//                        success:function(response){
-//
-//                        }
-//
-//
-//
-//            }
-//            );
         }
     </script>
 
