@@ -242,11 +242,19 @@ class TaskController extends Controller {
 		}
         elseif($statusid==4 && $projectid !=0 )
         {
-            $user_data_task=Tasks::select('task_title','task_description','id')
-                ->where('project_id',$projectid)
-					->where('user_id',$uid)
-                ->get();
-            return view('Dashboard',compact('user_data_task'));
+			if(Entrust::hasRole('Admin')) {
+				$user_data_task = Tasks::select('task_title', 'task_description', 'id')
+						->where('project_id', $projectid)
+						->get();
+				return view('Dashboard', compact('user_data_task'));
+			}
+			else{
+				$user_data_task = Tasks::select('task_title', 'task_description', 'id')
+						->where('project_id', $projectid)
+						->where('user_id',$uid)
+						->get();
+				return view('Dashboard', compact('user_data_task'));
+			}
         }
 		else
 		{

@@ -47,7 +47,7 @@
 
                             <td style="word-break: break-all ; max-width: 100px"><?php echo $row->name;?></td>
                             <td style="word-break: break-all ; max-width: 100px"><?php echo $row->description; ?>
-                            <td><a href="{{ url('edit/'.$row->id) }}" >Edit</a>
+                            <td style="word-break: break-all ; max-width: 100px"><a href="{{ url('edit/'.$row->id) }}" >Edit</a>
                                 &nbsp;&nbsp;|&nbsp;&nbsp; <a href="{{ url('delete/'.$row->id) }}" onclick="return confirm('Are you sure you want delete this Project ?');">Delete</a></td>
 
 

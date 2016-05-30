@@ -64,13 +64,13 @@
                                     <label class="col-md-1 " align="right">Status:</label>
                                     <div class="col-md-2">
                                     @if($time->status==0)
-                                        completed
+                                        Open
                                     @elseif($time->status==1)
-                                        pending
+                                        In progress
                                     @elseif($time->status==2)
-                                        started
+                                        Need Clarification
                                     @elseif($time->status==3)
-                                        need clarification
+                                        Completed
                                     @endif
                                     </div>
 

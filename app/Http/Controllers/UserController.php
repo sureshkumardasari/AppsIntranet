@@ -10,6 +10,9 @@ use App;
 use Excel;
 use App\Tasks;
 use App\User;
+use Auth;
+use Entrust;
+use App\ProjectUser;
 use App\UserDepartments;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -111,11 +114,29 @@ class UserController extends Controller {
 	 */
 	public function show()
 	{
-		$users=User::join('roles','roles.id','=','users.role_id')
-			->whereNotIn('users.id',['1','2','3','4'])
-			//->join('departments','departments.id','=','users.department_id')
-			->select('users.id as user_id','users.username as username','users.email','users.status as user_status','roles.display_name as role_name')
-			->get();
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$users = User::join('roles', 'roles.id', '=', 'users.role_id')
+					->whereNotIn('users.id', ['1', '2', '3', '4'])
+					//->join('departments','departments.id','=','users.department_id')
+					->select('users.id as user_id', 'users.username as username', 'users.email', 'users.status as user_status', 'roles.display_name as role_name')
+					->get();
+		}
+		else{
+			$projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
+			$c=array();
+			foreach($projectid as $id)
+				array_push($c,$id->project_id);
+			$userid=ProjectUser::wherein('project_id',$c)->select('user_id')->get();
+			$users = User::join('roles', 'roles.id', '=', 'users.role_id')
+					->where('users.id',$userid)
+					->whereNotIn('users.id', ['1', '2', '3', '4'])
+					//->join('departments','departments.id','=','users.department_id')
+					->select('users.id as user_id', 'users.username as username', 'users.email', 'users.status as user_status', 'roles.display_name as role_name')
+					->get();
+		}
+
 		//dd($userr);
 		////$departments=Departments::join('user_departments','user_departments.depart_id','=','departments.id')
 		//->where('user_departments.user_id',)

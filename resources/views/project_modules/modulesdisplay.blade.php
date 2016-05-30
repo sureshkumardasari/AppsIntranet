@@ -49,7 +49,7 @@
                                             {{--<td> {{$dept->id}}</td>--}}
                                             <td style="word-break: break-all ; max-width: 100px"> {{$mod->name}} </td>
                                             <td style="word-break: break-all ; max-width: 100px"> {{$mod->description}}</td>
-                                            <td><a href="{{ url('module/'.$mod->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            <td style="word-break: break-all ; max-width: 100px"><a href="{{ url('module/'.$mod->id.'/edit') }}" >Edit</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                                                 <a href="{{ url('module/'.$mod->id) }}" onclick="return confirm('Are you sure you want delete this module ?');">Delete</a>
                                             </td>
 
