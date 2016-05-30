@@ -93,7 +93,7 @@
                                                 ?></td>
                                             <td><a href="{{ url('/users/edit/'.$user->user_id) }}" >Edit</a>
                                                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <a href="{{ url('users/delete/'.$user->user_id) }}" onclick="return confirm('Are you sure you want delete this user ?');">Delete</a>
+                                                <a class="confirm" href="javascript:;" data-ref="{{ url('users/delete/'.$user->user_id) }}">Delete</a>
                                                 {{--  <a href="{{ url('/users/profile/'.$users->id) }}" >Profile</a>--}}
                                             </td>
                                         </tr>
@@ -146,4 +146,5 @@
             }
         });
     </script>
+     <script type="text/javascript" src="{{asset('/js/confirm.js')}}"></script>
 @endsection
