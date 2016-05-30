@@ -62,7 +62,7 @@ class DepartmentController extends Controller {
 			$departmentid=UserDepartments::where('user_id',$uid)->select('depart_id')->get();
 			$c=array();
 			foreach($departmentid as $id)
-				array_push($c,$id->project_id);
+				array_push($c,$id->depart_id);
 			$department=Department::wherein('id',$c)->get();
 			return view('departmentdisplay', compact('department'));
 
