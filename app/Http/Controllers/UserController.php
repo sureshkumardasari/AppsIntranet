@@ -128,7 +128,8 @@ class UserController extends Controller {
 			$c=array();
 			foreach($projectid as $id)
 				array_push($c,$id->project_id);
-			$userid=ProjectUser::wherein('project_id',$c)->select('user_id')->get();
+			$userid=ProjectUser::wherein('project_id',$c)->lists('user_id');
+/*dd($userid);*/
 			$users = User::join('roles', 'roles.id', '=', 'users.role_id')
 					->where('users.id',$userid)
 					->whereNotIn('users.id', ['1', '2', '3', '4'])

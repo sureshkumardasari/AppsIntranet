@@ -56,10 +56,8 @@ class ProjectModuleController extends Controller {
             return view('project_modules.modulesdisplay', compact('module'));
         }
         else{
-            $projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
-            /*$c=array();
-            foreach($projectid as $id)
-                array_push($c,$id->project_id);*/
+            $projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
+            /*dd($projectid);*/
             $module=projectModules::where('project_id',$projectid)
                 ->get();
             return view('project_modules.modulesdisplay', compact('module'));
