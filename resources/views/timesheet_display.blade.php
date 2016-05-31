@@ -1,8 +1,10 @@
 @extends('app')
 @section('content')
     <?php $now=date('Y-m-d');
-    // dd($now);
     ?>
+   <style> #commenting_div {display:none;opacity:0.9; background: darkgrey; height: 100%;z-index:1 }</style>
+    <div id="commenting_div" style="position:fixed; top:0px; left:30px; bottom:0px; right:0px;">
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -190,7 +192,7 @@
                         <th>Task Updated At</th>
                         <th>Hours Spent</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Comment</th>
                     </tr>
 
                     </thead>
@@ -215,7 +217,7 @@
                                 {{$time->hours.":".$time->minutes}}
                             </td>
                             <input type="hidden" id="url" value="{{url('timesheet_edit/')}}">
-                            <td>@if($time->status==0)
+                            <td><p>@if($time->status==0)
                                     completed
                                 @elseif($time->status==1)
                                     pending
@@ -224,8 +226,7 @@
                                 @elseif($time->status==3)
                                     need clarification
                                 @endif
-                            </td>
-                            <td>
+                                    </p><span>
                                 <?php
                                 $date=date('Y-m-d',strtotime($time->created_at));
                                 ?>
@@ -233,6 +234,10 @@
                                     <a href="{{url('timesheet_edit/'.$time->timesheet_id) }}">edit</a>
 
                                 @endif
+                                </span>
+                            </td>
+                            <td>
+                                <a href="#" class="comment_link" id="{{$time->task_id}}">{{$time->task_title}}...</a>
 
                             </td>
                         </tr>
@@ -241,12 +246,12 @@
                 </table>
             </div>
             @if(!$timesheet->isEmpty())
-                <a href="#"><button class="btn btn-info" onclick="download_excel();">Download Excel</button></a>
+                <a><button class="btn btn-info" onclick="download_excel();">Download Excel</button></a>
             @endif
         </div>
     </div>
-    </div>
-    </div>
+
+
     <script>
         $('#advanced_filter_group').hide();
         $('#advancedfiltersdiv').hide();
@@ -469,6 +474,27 @@
             array_data=JSON.stringify(object);
             window.location =""+url+"?data="+array_data;
         }
+        $(document).ready(function(){
+            $('commenting_div').hide();
+            var csrf=$('Input#csrf_token').val();
+            $('.comment_link').click(function(){
+                var id=$(this).prop('id');
+                $.ajax({
+                   url:"commenting/"+id,
+                    headers: {"X-CSRF-Token": csrf},
+                    type:"post",
+                    success:function(response){
+                        $('#commenting_div').css('display:block');
+                        $('#commenting_div').empty();
+                        $('#commenting_div').append("<p>"+JSON.stringify(response)+"</p>");
+                        $('#commenting_div').show();
+
+                    }
+
+                });
+            });
+        });
     </script>
+
 
 @stop

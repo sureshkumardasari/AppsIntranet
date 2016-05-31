@@ -274,7 +274,7 @@
                    // (column-selector could be any of specified in https://datatables.net/reference/type/column-selector)
                    //'second:name',
                    0,
-                   1,2
+                   1,2,7
 
 
                ],

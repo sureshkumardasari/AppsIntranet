@@ -17,6 +17,7 @@ use Response;
 use App\Department;
 use App\ProjectUser;
 use App\Client;
+use App\comment;
 
 class TimesheetController extends Controller {
 
@@ -59,34 +60,51 @@ class TimesheetController extends Controller {
             return Redirect::back()->withInput()->withErrors($validator);
         }
 
-        TimeSheet::create($data);
+        $record=TimeSheet::create($data);
         $status=$data['status'];
         $taskid=$data['task_id'];
         $tasks = Tasks::find($taskid);
         $tasks->status=$status;
         $tasks->save();
+        if($record){
+            comment::create(['task_id'=>$record->task_id,'comment'=>$record->comment]);
+        }
+
+
+
         return Redirect::back()->with('success','Timesheet Created Successfully');
     }
 
     public function display_timesheet($data=null){
         $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
             ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
-            ->join('tasks','tasks.id','=','time_sheets.task_id');
+            ->join('tasks','tasks.id','=','time_sheets.task_id')
+        ->join('comments','tasks.id','=','comments.task_id');
 
         if($data==null){
             $department_list=Department::distinct('name')->get();
             if (\Request::isMethod('post'))
             {
-                return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                    //->groupBy('tasks.id')
+                    ->orderBy('projects.id')->orderBy('tasks.task_title')->orderBy('Updated_at','desc')
+                    //->orderBy('Updated_at','asc')
+
                     ->get();
             }
             else{
-                $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                $timesheet=$timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+                    //->groupBy('tasks.id')
+                    ->orderBy('projects.id')->orderBy('tasks.task_title')->orderBy('Updated_at','desc')
+                   // ->orderBy('Updated_at','asc')
+
                     ->get();
                 return view('timesheet_display',compact('timesheet','department_list'));}
         }
-        else return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','tasks.created_at','tasks.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
-            ->orderBy('projects.id')->orderBy('tasks.task_title')
+        else return $timesheet->select('projects.id as project_id','projects.name as project_name','project_modules.id as module_id','project_modules.name as module_name','tasks.task_title','time_sheets.id as timesheet_id','time_sheets.task_id as task_id','time_sheets.created_at','time_sheets.updated_at','time_sheets.hours','time_sheets.minutes','time_sheets.status')
+            //->groupBy('tasks.id')
+            ->orderBy('projects.id')->orderBy('tasks.task_title')->orderBy('Updated_at','desc')
+
             ->get();
     }
 
@@ -292,18 +310,20 @@ class TimesheetController extends Controller {
         $data=Input::all();
         $data=($data['data']);
         $data=json_decode($data);
+        $filter_data=(array)$data;
         $filter_data['from_method']="downloadExcel";
-        $filter_data['department']=$data->department;
-        $filter_data['project']=$data->project;
-        $filter_data['module']=$data->module;
-        $filter_data['task']=$data->task;
-        $filter_data['user']=$data->user;
-        $filter_data['from_date']=$data->from_date;
-        $filter_data['to_date']=$data->to_date;
-        $filter_data['adv_filter_type']=$data->adv_filter_type;
-        $filter_data['adv_month']=$data->adv_month;
-        $filter_data['adv_week']=$data->adv_week;
-        $filter_data['adv_year']=$data->adv_year;
+        //dd($filter_data);
+//        $filter_data['department']=$data->department;
+//        $filter_data['project']=$data->project;
+//        $filter_data['module']=$data->module;
+//        $filter_data['task']=$data->task;
+//        $filter_data['user']=$data->user;
+//        $filter_data['from_date']=$data->from_date;
+//        $filter_data['to_date']=$data->to_date;
+//        $filter_data['adv_filter_type']=$data->adv_filter_type;
+//        $filter_data['adv_month']=$data->adv_month;
+//        $filter_data['adv_week']=$data->adv_week;
+//        $filter_data['adv_year']=$data->adv_year;
         if( $filter_data['user']){
             $user_data=User::where('id',$filter_data['user'])->first();
         }
@@ -424,7 +444,7 @@ class TimesheetController extends Controller {
             });
         })->download($type);
     }
-    public function usertimesheet()/////
+    public function usertimesheet()
     {
         $users=User::get();
         return view('usertimesheet',compact('users'));
@@ -443,6 +463,11 @@ class TimesheetController extends Controller {
         return($projects);
     }
 
+public function comment($id){
 
+    $comments=comment::where("task_id",$id)->orderBy('updated_at','desc')->get();
+
+    return $comments;
+}
 
 }
