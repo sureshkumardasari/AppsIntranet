@@ -190,3 +190,8 @@ Route::filter('admin',function(){
     }
     else return view('app')->with('permissionerror',"You don't have permission to access this page");
 });
+
+
+// route for getting comments of the task.
+
+Route::post('commenting/{id}','TimeSheetController@comment');
