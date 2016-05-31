@@ -53,6 +53,11 @@
                         <div id="taskList">
                             {!! $tasklist !!}
                         </div>
+                         <div>
+ @if(!$tasks->isEmpty())
+                <a href="#"><button class="btn btn-info" onclick="download_excel();">Download Excel</button></a>
+            @endif
+            </div>
 
                  </form>
                 </div>
@@ -68,8 +73,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
+        </div>
+       
     <script>
 
         function status_change(){
