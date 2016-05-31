@@ -127,12 +127,37 @@ class DepartmentController extends Controller {
 
 	public function downloadExcel($type)
 	{
-		$data = Department::select('Name','Description','Created_At','Updated_At')->get()->toArray();
+
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$data = Department::select('Name','Description','Created_At','Updated_At')->get()->toArray();
+			return Excel::create('departmentlist', function($excel) use ($data) {
+				$excel->sheet('mySheet', function($sheet) use ($data)
+				{
+					$sheet->fromArray($data);
+				});
+			})->download($type);
+		}
+		else{
+			$departmentid=UserDepartments::where('user_id',$uid)->select('depart_id')->get();
+			$c=array();
+			foreach($departmentid as $id)
+				array_push($c,$id->depart_id);
+			$data=Department::wherein('id',$c)->select('Name','Description','Created_At','Updated_At')->get()->toArray();
+			return Excel::create('departmentlist', function($excel) use ($data) {
+				$excel->sheet('mySheet', function($sheet) use ($data)
+				{
+					$sheet->fromArray($data);
+				});
+			})->download($type);
+		}
+		/*$data = Department::select('Name','Description','Created_At','Updated_At')->get()->toArray();
 		return Excel::create('departmentlist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {
 				$sheet->fromArray($data);
 	        });
-		})->download($type);
+		})->download($type);*/
 	}
 }

@@ -111,13 +111,38 @@ class ProjectModuleController extends Controller {
 
     public function downloadExcel($type)
     {
-        $data = projectModules::select('Name','Description')->get()->toArray();
+        $users=Auth::user();
+        $uid=$users->id;
+        if (Entrust::hasRole('Admin')) {
+            $data = projectModules::select('Name','Description')->get()->toArray();
+            return Excel::create('ProjectModules', function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->download($type);
+        }
+        else{
+            $projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
+            /*dd($projectid);*/
+            $data=projectModules::select('Name','Description')
+                ->where('project_id',$projectid)
+                ->get()->toArray();
+            return Excel::create('ProjectModules', function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->download($type);
+        }
+
+      /*  $data = projectModules::select('Name','Description')->get()->toArray();
         return Excel::create('ProjectModules', function($excel) use ($data) {
             $excel->sheet('mySheet', function($sheet) use ($data)
             {
                 $sheet->fromArray($data);
             });
-        })->download($type);
+        })->download($type);*/
     }
 
 }

@@ -261,12 +261,37 @@ class ProjectController extends Controller
 
 	public function downloadExcel($type)
 	{
-		$data = Project::select('Name','Description')->get()->toArray();
+		$users=Auth::user();
+		$uid=$users->id;
+		if (Entrust::hasRole('Admin')) {
+			$data = Project::select('Name','Description')->get()->toArray();
+			return Excel::create('projecttlist', function($excel) use ($data) {
+				$excel->sheet('mySheet', function($sheet) use ($data)
+				{
+					$sheet->fromArray($data);
+				});
+			})->download($type);
+		}
+		else{
+			$projectid=ProjectUser::where('user_id',$uid)->select('project_id')->get();
+			$c=array();
+			foreach($projectid as $id)
+				array_push($c,$id->project_id);
+			$data=Project::wherein('id',$c)->select('Name','Description')->get()->toArray();
+			return Excel::create('projecttlist', function($excel) use ($data) {
+				$excel->sheet('mySheet', function($sheet) use ($data)
+				{
+					$sheet->fromArray($data);
+				});
+			})->download($type);
+		}
+
+		/*$data = Project::select('Name','Description')->get()->toArray();
 		return Excel::create('projecttlist', function($excel) use ($data) {
 			$excel->sheet('mySheet', function($sheet) use ($data)
 	        {
 				$sheet->fromArray($data);
 	        });
-		})->download($type);
+		})->download($type);*/
 	}
 }
