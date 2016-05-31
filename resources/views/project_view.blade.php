@@ -48,7 +48,8 @@
                             <td style="word-break: break-all ; max-width: 100px"><?php echo $row->name;?></td>
                             <td style="word-break: break-all ; max-width: 100px"><?php echo $row->description; ?>
                             <td style="word-break: break-all ; max-width: 100px"><a href="{{ url('edit/'.$row->id) }}" >Edit</a>
-                                &nbsp;&nbsp;|&nbsp;&nbsp; <a href="{{ url('delete/'.$row->id) }}" onclick="return confirm('Are you sure you want delete this Project ?');">Delete</a></td>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                 <a class="confirm"  href="javascript:;" data-ref="{{ url('delete/'.$row->id) }}" >Delete</a></td>
 
 
                         </tr>
@@ -79,4 +80,5 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{ asset('/js/confirm.js')}}"></script>
 @endsection
