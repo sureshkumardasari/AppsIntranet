@@ -201,31 +201,23 @@ class TaskController extends Controller {
 
 	public function display()
 	{
-		$user=Auth::user();
-		if(Entrust::hasRole('User')){
-
-		}
 		$tasks=Tasks::get();
 		$users=Auth::user();
 		$uid=$users->id;
 
-		if(Entrust::hasRole('User')){
-			$projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
-//			$c=array();
-//			foreach($projectid as $id)
-//				array_push($c,$id->project_id);
-			$projects=Project::wherein('id',$projectid)->get();
-			$user_data_task=Tasks::select('task_title','task_description','id')
-				->wherein('project_id',$projectid)
-				->where('user_id',$uid)
-				->groupBy('project_id')
-				->get();
-
-		}
-
-		else{
+		if(Entrust::hasRole('Admin')){
 			$projects=Project::get();
 			$user_data_task=Tasks::select('task_title','task_description','id')->get();
+		}
+		else{
+			$projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
+			$projects=Project::wherein('id',$projectid)->get();
+			$user_data_task=Tasks::select('task_title','task_description','id')
+					->wherein('project_id',$projectid)
+					->where('user_id',$uid)
+					->groupBy('project_id')
+					->get();
+
 		}
 
 		return view('dashboard_taskdisplay',compact('tasks','projects'))->nest("tasklist","Dashboard",compact('user_data_task') );
