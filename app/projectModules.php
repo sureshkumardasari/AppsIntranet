@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class projectModules extends Model {
+class ProjectModules extends Model {
 
 	//
 protected $table='project_modules';
