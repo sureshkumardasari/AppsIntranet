@@ -133,13 +133,13 @@ Route::get('downloadExcelforprojectmodule/{type}', 'ProjectModuleController@down
 //getting task list based on project and module
 
 
-Route::post('timesheetsubmit','TimeSheetController@add');
-Route::get('timesheet_display',['as'=>'timesheet_display','uses'=>'TimeSheetController@display_timesheet']);
-Route::post('gettimesheetfilterdata','TimeSheetController@filter');
-Route::get('timesheet_edit/{timesheet_id}','TimeSheetController@edit');
-Route::post('timesheet_display','TimeSheetController@display_timesheet');
-Route::post('timesheet_update','TimeSheetController@update');
-Route::get('downloadExcelfortimesheet/{type}','TimeSheetController@downloadExcel');
+Route::post('timesheetsubmit','TimesheetController@add');
+Route::get('timesheet_display',['as'=>'timesheet_display','uses'=>'TimesheetController@display_timesheet']);
+Route::post('gettimesheetfilterdata','TimesheetController@filter');
+Route::get('timesheet_edit/{timesheet_id}','TimesheetController@edit');
+Route::post('timesheet_display','TimesheetController@display_timesheet');
+Route::post('timesheet_update','TimesheetController@update');
+Route::get('downloadExcelfortimesheet/{type}','TimesheetController@downloadExcel');
 
 
 
@@ -171,8 +171,8 @@ Route::get('downloadExcelfortask/{type}', 'TaskController@downloadExcel');
 Route::group(array('before' => 'admin'), function() {
 
 //user timesheet for admin
-Route::get('UsersTimesheet','TimeSheetController@usertimesheet');
-Route::post('UsersTimesheet/{id}','TimeSheetController@projectlist');
+Route::get('UsersTimesheet','TimesheetController@usertimesheet');
+Route::post('UsersTimesheet/{id}','TimesheetController@projectlist');
 //Client Routes
 Route::post('client','ClientController@create');
 Route::get('clientcreate','ClientController@index');
@@ -194,4 +194,4 @@ Route::filter('admin',function(){
 
 // route for getting comments of the task.
 
-Route::post('commenting/{id}','TimeSheetController@comment');
+Route::post('commenting/{id}','TimesheetController@comment');
