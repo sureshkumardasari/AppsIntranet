@@ -79,7 +79,7 @@ class ProjectModuleController extends Controller {
         }
     }
 
-    public function edit($id)
+    public function edit($id) 
     {
         $module=ProjectModules::find($id);
         return view('project_modules.module_edit',compact('module'));
