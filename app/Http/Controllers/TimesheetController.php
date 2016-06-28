@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Tasks;
 use App\User;
 use App\Project;
-use App\projectModules;
+use App\ProjectModules;
 use Illuminate\Support\Facades\Input;
 use App\TimeSheet;
 use Validator;
@@ -245,7 +245,7 @@ class TimesheetController extends Controller {
         $module_id=$data->module_id;
         $task_id=$data->task_id;
         $project=Project::select('name')->where('id',$project_id)->first();
-        $module=projectModules::select('name')->where('id',$module_id)->first();
+        $module=ProjectModules::select('name')->where('id',$module_id)->first();
         $task=Tasks::select('task_title')->where('id',$task_id)->first();
         return view('timesheet_edit',compact('data','project','module','task','task_id'));
     }
