@@ -52,13 +52,13 @@ class ProjectModuleController extends Controller {
         $users=Auth::user();
         $uid=$users->id;
         if (Entrust::hasRole('Admin')) {
-            $module = projectModules::get();
+            $module = ProjectModules::get();
             return view('project_modules.modulesdisplay', compact('module'));
         }
         else{
             $projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
             /*dd($projectid);*/
-            $module=projectModules::where('project_id',$projectid)
+            $module=ProjectModules::where('project_id',$projectid)
                 ->get();
             return view('project_modules.modulesdisplay', compact('module'));
         }
@@ -68,7 +68,7 @@ class ProjectModuleController extends Controller {
         /*$project = Project::where('id')->count();*/
         $tasks=Tasks::where('module_id',$id)->count();
         if($tasks == null){
-        projectModules::find($id)->delete();
+        ProjectModules::find($id)->delete();
          \Session::flash('message', 'Deleted!');
          return Redirect::to('module');
         }
@@ -81,13 +81,13 @@ class ProjectModuleController extends Controller {
 
     public function edit($id)
     {
-        $module=projectModules::find($id);
+        $module=ProjectModules::find($id);
         return view('project_modules.module_edit',compact('module'));
     }
 
     public function update($id)
     {
-       $module=projectModules::find($id);
+       $module=ProjectModules::find($id);
         $post=Input::all();
         $message=['description.required'=>'Please give a description'];
         $rule=[
@@ -99,7 +99,7 @@ class ProjectModuleController extends Controller {
             return Redirect::back()->withInput()->withErrors($validator);
         }
         unset($post['_token']);
-        $record = projectModules::where('id',$id)->update([
+        $record = ProjectModules::where('id',$id)->update([
             'name'=>$post['name'],
             'description'=>$post['description'],
         ]);
@@ -114,7 +114,7 @@ class ProjectModuleController extends Controller {
         $users=Auth::user();
         $uid=$users->id;
         if (Entrust::hasRole('Admin')) {
-            $data = projectModules::select('Name','Description')->get()->toArray();
+            $data = ProjectModules::select('Name','Description')->get()->toArray();
             return Excel::create('ProjectModules', function($excel) use ($data) {
                 $excel->sheet('mySheet', function($sheet) use ($data)
                 {
@@ -125,7 +125,7 @@ class ProjectModuleController extends Controller {
         else{
             $projectid=ProjectUser::where('user_id',$uid)->lists('project_id');
             /*dd($projectid);*/
-            $data=projectModules::select('Name','Description')
+            $data=ProjectModules::select('Name','Description')
                 ->where('project_id',$projectid)
                 ->get()->toArray();
             return Excel::create('ProjectModules', function($excel) use ($data) {
