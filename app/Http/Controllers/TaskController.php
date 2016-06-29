@@ -150,7 +150,7 @@ class TaskController extends Controller {
 		return $projects;
 	}
 	public function moduleList($id){
-		$modules=projectModules::where('project_id',$id)->select('id','name')->get();
+		$modules=ProjectModules::where('project_id',$id)->select('id','name')->get();
 		return $modules;
 	}
 
