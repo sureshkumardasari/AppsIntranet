@@ -3,7 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\projectModules;
+use App\ProjectModules;
 use App\TimeSheet;
 use Illuminate\Http\Request;
 use App\User;
