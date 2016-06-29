@@ -21,6 +21,8 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('temp/errorlog','TestController@errorlog');
+
 
 // home page
 Route::get('validate', array('before' => 'auth', function()

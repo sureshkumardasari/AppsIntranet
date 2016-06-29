@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Project:<span style="color: red" >&nbsp; <b>*</b></span></label>
                                 <div class="col-md-6">
-                                    <select  class="form-control project" name="project_id" onchange="refresh_module();">
+                                    <select  class="form-control project" name="project_id" id="project" onchange="refresh_module();">
                                         <option disabled selected hidden>--Select Project--</option>
                                         @foreach($projects as $project_list)
                                             <option value={{$project_list->id}}>{{$project_list->name}}</option>

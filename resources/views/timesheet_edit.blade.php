@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Module:</label>
                                 <div class="col-md-4">
-                                    <input type="text" name="module_id" id="moduleList"  class='col-md-6 form-control' value={{$module->name}} readonly>
+                                    <input type="text" name="module_id" id="moduleList"  class='col-md-6 form-control' readonly value={{$module_name}}  >
                                 </div>
                             </div>
                             <div class="form-group">

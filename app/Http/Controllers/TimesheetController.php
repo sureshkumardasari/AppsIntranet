@@ -243,10 +243,21 @@ class TimesheetController extends Controller {
         $project_id=$data->project_id;
         $module_id=$data->module_id;
         $task_id=$data->task_id;
+    
+        if($module_id > 0)
+        {
+            $module=ProjectModules::select('name')->where('id',$module_id)->first();
+            $module_name=$module->name;
+        }
+        else {
+           
+            $module_name= '';
+        }
         $project=Project::select('name')->where('id',$project_id)->first();
-        $module=ProjectModules::select('name')->where('id',$module_id)->first();
+        
+        //dd($module);
         $task=Tasks::select('task_title')->where('id',$task_id)->first();
-        return view('timesheet_edit',compact('data','project','module','task','task_id'));
+        return view('timesheet_edit',compact('data','project','module_name','task','task_id'));
     }
 
     //update  task timesheet
