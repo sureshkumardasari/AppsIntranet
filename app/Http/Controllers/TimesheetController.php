@@ -77,10 +77,9 @@ class TimesheetController extends Controller {
 
     public function display_timesheet($data=null){
         $timesheet=TimeSheet::join('projects','projects.id','=','time_sheets.project_id')
-            ->join('project_modules',"project_modules.id",'=','time_sheets.module_id')
+            ->leftjoin('project_modules',"project_modules.id",'=','time_sheets.module_id')
             ->join('tasks','tasks.id','=','time_sheets.task_id')
         ->join('comments','tasks.id','=','comments.task_id');
-
         if($data==null){
             $department_list=Department::distinct('name')->get();
             if (\Request::isMethod('post'))

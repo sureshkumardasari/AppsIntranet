@@ -324,8 +324,8 @@ public function viewlog($id)
     //$task=Tasks::find($id);
     $creat=Tasks::join('projects','Tasks.project_id','=','projects.id')
         ->join('project_modules','Tasks.module_id','=','project_modules.id','left')
-        ->select('projects.name as project_name','project_modules.name as module_name','Tasks.task_title','Tasks.task_description')
-        ->where('Tasks.id','=',$id)
+        ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','tasks.task_description')
+        ->where('tasks.id','=',$id)
         ->get();
     //dd($creat);
     $timesheet = TimeSheet::join('users','time_sheets.user_id','=','users.id')
