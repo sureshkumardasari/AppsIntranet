@@ -322,8 +322,8 @@ class TaskController extends Controller {
 public function viewlog($id)
 {
     //$task=Tasks::find($id);
-    $creat=Tasks::join('projects','Tasks.project_id','=','projects.id')
-        ->join('project_modules','Tasks.module_id','=','project_modules.id','left')
+    $creat=Tasks::join('projects','tasks.project_id','=','projects.id')
+        ->join('project_modules','tasks.module_id','=','project_modules.id','left')
         ->select('projects.name as project_name','project_modules.name as module_name','tasks.task_title','tasks.task_description')
         ->where('tasks.id','=',$id)
         ->get();
